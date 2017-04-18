@@ -1,0 +1,73 @@
+body {
+	background-color: #E3DAC9;
+}
+h1 {
+	text-align: center;
+}
+fieldset {
+	border-radius: 10px; 
+}
+legend {
+	border-radius: 10px;
+	background-color: transparent;
+}
+input {
+	padding:1px;
+}
+table {
+	margin: 0px;
+	width: 100%;
+}
+.tests {
+     border: 1px solid;
+     border-radius: 10px
+}
+.console {
+     border: 1px solid;
+     border-radius: 7px;
+     height: 250px;
+     background-color:#B9BDB7;
+     overflow: scroll;
+}
+.float {
+     display: inline-block;
+}
+.button {
+	text-align: center;
+}
+.title-hr hr {
+    display: inline-block;
+    width: 30%;
+    margin: 5px 10px;
+    border-top: 1px solid #ed5d15;
+	text-align: center;
+}
+.buttonBox {
+	border: 1px solid medium;
+}
+.both {
+	background-color: #A3C1AD;
+}
+.onlyIOS {
+	background-color: #A8E4A0;
+}
+.onlyAndroid {
+	background-color: #A4C639;
+}
+.others {
+	background-color: #E9D66B;
+}
+.dennyAccess {
+	background-color: red;
+}
+.allowAccess {
+	background-color: green;
+}
+.unknownPermission {
+	background-color: gray;
+}
+.permissionsState {
+	border-radius: 4px;
+    padding: 3px 2px 3px 2px;
+    font-size: 12px;
+}

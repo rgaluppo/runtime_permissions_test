@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+ 	<head>
+  		<!--
+  			Customize this policy to fit your own app's needs. For more guidance, see:
+			https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+		   Some notes:
+				* gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+				* https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+				* Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+ 				* Enable inline JS: add 'unsafe-inline' to default-src
+  		-->
+		<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<meta name="format-detection" content="telephone=no">
+		<meta name="msapplication-tap-highlight" content="no">
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+		<script type="text/javascript" src="cordova.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript" src="js/utilities.js"></script>
+		<script type="text/javascript" src="js/testCalendar.js"></script>
+		<script type="text/javascript" src="js/testContacts.js"></script>
+		<script type="text/javascript" src="js/testLocation.js"></script>
+		<script type="text/javascript" src="js/testCamera.js"></script>
+		<script type="text/javascript" src="js/testMicrophone.js"></script>
+		<script type="text/javascript" src="js/testInternet.js"></script>
+
+	</head>
+	<body>
+		<h3 class="title-hr">Comprobador de permisos</h3>
+		<fieldset class="others">
+			<legend>Actions</legend>
+			<table align="center">
+				<tr>
+					<td><input type="button" id="settings" value="switchToSettings" style="width:100%"></input></td>
+					<td><input type="button" id="locationSettings" value="switchToLocationSettings" style="width:100%"></input></td>
+				</tr>
+				<tr>
+					<td><input type="button" id="wifiSettings" value="switchToWifiSettings" style="width:100%"></input></td>
+					<td><input type="button" id="mobileDataSettings" value="switchToMobileDataSettings" style="width:100%"></input></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="button" id="bluetoothSettings" value="switchToBluetoothSettings" style="width:100%"></input></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="button" id="refresh" value="Refresh Permissions" style="width:100%"></input></td>
+				</tr>
+			</table>
+		</fieldset>
+		<fieldset>
+			<legend>Tests</legend>
+			<table align="center">
+				<tr>
+					<td align="center"><input type="button" id="testCalendar" value="Test Calendar" style="width:100%"></td>
+					<td align="center"><input type="button" id="testContacts" value="Test Contacts" style="width:100%"></td>
+					<td align="center"><input type="button" id="testLocation" value="Test Localización" style="width:100%" disabled></td>
+				</tr>
+				<tr>
+					<td align="center"><input type="button" id="testCamera" value="Test Cámara" style="width:100%" disabled></td>
+					<td align="center"><input type="button" id="testMicrophone" value="Test Micrófono" style="width:100%" disabled></td>
+					<td align="center" style="width:100%"></td>
+				</tr>
+				<tr>
+					<td align="center"><input type="button" id="testInternet" value="Test Internet" style="width:100%"></td>
+					<td align="center"><input type="button" id="testBluetooth" value="Test Bluetooth" style="width:100%" disabled></td>
+					<td align="center" style="width:100%"></td>
+				</tr>
+				<tr>
+					<td colspan="3" align="center"><input type="button" id="clearResults" value="Clear" style="width:100%"></td>
+				</tr>
+				<tr>
+					<td colspan="3" align="center"><div class='console' id="results" style="width:100%"></div></td>
+				</tr>
+			</table>
+ 		</fieldset>
+		<fieldset class="both">
+			<legend>Permissions</legend>
+			<label><input type="radio" name="permission" value="calendar">Calendar Autorization</label><br>
+			<label><input type="radio" name="permission" value="camera">Camera Authorization</label><br>
+			<label><input type="radio" name="permission" value="contacts">Contacts Authorization</label><br>
+			<label><input type="radio" name="permission" value="location">Location Authorization</label><br>
+			<label><input type="radio" name="permission" value="microphone">Microphone Authorization</label><br>
+			<label><input type="radio" name="permission" value="phone">Phone Authorization</label><br>
+			<label><input type="radio" name="permission" value="sensors">Sensors Authorization</label><br>
+			<label><input type="radio" name="permission" value="sms">SMS Authorization</label><br>
+			<label><input type="radio" name="permission" value="storage">Storage Authorization</label><br>
+			<label><input type="radio" name="permission" value="homekit">HomeKit Authorization</label><br>
+			<label><input type="radio" name="permission" value="socialmedia">SocialMedia Authorization</label><br>
+			<label><input type="radio" name="permission" value="diagnostic">Diagnostics Authorization</label><br>
+			<label><input type="radio" name="permission" value="adversing">Adversing Authorization</label><br>
+			<p class="button"><input type="button" id="requestPermission" value="Request"></p>
+		</fieldset>
+		<fieldset class="onlyIOS">
+			<legend>Bluetooth</legend>
+			<p class="button">
+				<input type="button" id="sharing-bluetooth" value="GetBluetoothSharing"></input>
+				<input type="button" id="send-bluetooth" value="SendBluetooth"></input>
+				<input type="button" id="receive-bluetooth" value="ReceiveBluetooth"></input>
+			</p>
+			<p class="button">
+				 <input type="button" id="enable-bluetooth" value="Enable Bluetooth">
+				 <input type="button" id="disable-bluetooth" value="Disable Bluetooth">
+				<span id="request-bluetooth-state" class="unknownPermission permissionsState">UNKNOWN</span>
+			</p>
+		</fieldset>
+	</body>
+</html>
