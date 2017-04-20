@@ -1,28 +1,25 @@
 var testLocation = {
 	test: function() {
-		 testLocation.requestLocation();
+		testLocation.requestLocation();
   	},
-  	requestLocation: function() {
-		cordova.plugins.locationAccuracy.canRequest(function(canRequest){
-			if(canRequest){
-				cordova.plugins.locationAccuracy.request(function(){
-					testLocation.onSuccess({msg:"Request successful"});
-				}, function (error){
-					var message = "Request failed";
-						if(error){
-						// Android only
-							message += " :error code=" + error.code + "; error message=" + error.message;
-						}
-						testLocation.onError({msg:message});
-					}, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY // iOS will ignore this
-				);
-			}
-		});
+	requestLocation: function() {
+		var options = { timeout: 3000, enableHighAccuracy: true };
+		navigator.geolocation.getCurrentPosition(testLocation.onSuccess, testLocation.onError, options);
 	},
-	onError: function (info) {
-		utils.onError(info.msg);
+	onError: function (error) {
+		var message = 'code: ' + error.code + '\n' + 'message: ' + error.message + '\n';
+		utils.onError(message);
 	},
-	onSuccess: function (info) {
-		utils.log(info.msg);
+	onSuccess: function (position) {
+		var date = new Date(position.timestamp);
+		var msg = 'Latitude: ' + position.coords.latitude + '\n'
+			+ 'Longitude: ' + position.coords.longitude + '\n'
+			+ 'Altitude: ' + position.coords.altitude + '\n'
+			+ 'Accuracy: ' + position.coords.accuracy + '\n'
+			+ 'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '\n'
+			+ 'Heading: ' + position.coords.heading + '\n'
+			+ 'Speed: ' + position.coords.speed + '\n'
+			+ 'Timestamp: ' + date + '\n';
+		utils.onSuccess(msg);
 	}
 };

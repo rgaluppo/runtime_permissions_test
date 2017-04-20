@@ -56,6 +56,6 @@ var testContacts = {
 		contacts.forEach(function (contact) {
 			message += "Name: " + contact.displayName + "     LastName: " + contact.nickname + "\n";
 		});
-		utils.log(message);
+		utils.onSuccess(message);
 	}
 };

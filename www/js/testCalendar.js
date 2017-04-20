@@ -37,6 +37,6 @@ var testCalendar = {
 				 + ev.location + "\n Notes: " + ev.notes + " \n";
 			});
 		}
-		utils.log(processMessage);
+		utils.onSuccess(processMessage);
 	}
 };	

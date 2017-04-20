@@ -44,13 +44,13 @@
 		<script type="text/javascript" src="js/testCamera.js"></script>
 		<script type="text/javascript" src="js/testMicrophone.js"></script>
 		<script type="text/javascript" src="js/testInternet.js"></script>
-
+		<script type="text/javascript" src="js/testSMS.js"></script>
 	</head>
 	<body>
-		<h3 class="title-hr">Comprobador de permisos</h3>
+		<h3 class="title-hr" style="margin:15px">Comprobador de permisos</h3>
 		<fieldset class="others">
-			<legend>Actions</legend>
-			<table align="center">
+			<legend id="actions">Actions</legend>
+			<table id="actions_table" align="center">
 				<tr>
 					<td><input type="button" id="settings" value="switchToSettings" style="width:100%"></input></td>
 					<td><input type="button" id="locationSettings" value="switchToLocationSettings" style="width:100%"></input></td>
@@ -73,12 +73,15 @@
 				<tr>
 					<td align="center"><input type="button" id="testCalendar" value="Test Calendar" style="width:100%"></td>
 					<td align="center"><input type="button" id="testContacts" value="Test Contacts" style="width:100%"></td>
-					<td align="center"><input type="button" id="testLocation" value="Test Localización" style="width:100%" disabled></td>
+					<td align="center"><input type="button" id="testLocation" value="Test Localización" style="width:100%"></td>
 				</tr>
 				<tr>
 					<td align="center"><input type="button" id="testCamera" value="Test Cámara" style="width:100%" disabled></td>
 					<td align="center"><input type="button" id="testMicrophone" value="Test Micrófono" style="width:100%" disabled></td>
 					<td align="center" style="width:100%"></td>
+				</tr>
+				<tr>
+					<td align="center"><input type="button" id="testSMS" value="Test SMS" style="width:100%"></td>				
 				</tr>
 				<tr>
 					<td align="center"><input type="button" id="testInternet" value="Test Internet" style="width:100%"></td>

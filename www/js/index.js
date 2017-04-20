@@ -36,6 +36,9 @@ var app = {
 	// Update DOM on a Received Event
 	receivedEvent: function() {
 		//Settings buttons.
+		$('#actions').on("click", function () {
+			$('#actions_table').toggle();
+		});
 		$('#settings').on("click", function(){
 			cordova.plugins.diagnostic.switchToSettings(
 				function(){
@@ -81,6 +84,9 @@ var app = {
 		});
 		$('#testInternet').on("click", function (event) {
 			testInternet.test();			
+		});
+		$('#testSMS').on("click", function (event) {
+			testSMS.test();			
 		});
 		//Clear console button.
 		$('#clearResults').on("click", function (event) {
@@ -129,7 +135,12 @@ var app = {
 			case "sensors":
 				break;
 			case "sms":
-				break;
+				cordova.plugins.diagnostic.requestRuntimePermission(
+					function(){},
+					function(){},
+					cordova.plugins.diagnostic.permission.READ_SMS
+				);
+				return;
 			case "socialmedia":
 				break;
 			case "storage":

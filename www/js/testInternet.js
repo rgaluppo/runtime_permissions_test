@@ -46,6 +46,6 @@ var testInternet = {
     }
 		var imgur = 'data:image/jpeg;base64,' + base64Encode(data);
 		var img = "<img style='padding-top: 5px;' src='" + imgur + "'>";
-		utils.log(img);
+		utils.onSuccess(img);
 	}
 };
