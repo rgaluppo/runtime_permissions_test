@@ -26,7 +26,7 @@ var utils = {
 	onSuccess: function (argument) {
 		var _this = this;
 		clearTimeout(this.successTO);
-		this.successList.push(error);
+		this.successList.push(argument);
 		setTimeout(function () {
 			_this.log(_this.sucessList.join(), false);
 		}, 2000);
