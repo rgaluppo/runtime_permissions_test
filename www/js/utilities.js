@@ -26,9 +26,10 @@ var utils = {
 	onSuccess: function (argument) {
 		var _this = this;
 		clearTimeout(this.successTO);
+		this.successList = [];
 		this.successList.push(argument);
 		setTimeout(function () {
-			_this.log(_this.sucessList.join(), false);
+			_this.log(_this.successList.join(), false);
 		}, 2000);
 	},
 	failList: [],

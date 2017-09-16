@@ -6,7 +6,7 @@ var testCalendar = {
 		var eventLocation = "FCEIA-UNR";
 		var notes = "Some notes about this event.";
 		testCalendar.createEvent(startDate, endDate, title, eventLocation, notes);
-		testCalendar.findAllEvents(startDate, endDate, title, eventLocation, notes);
+		testCalendar.findAllEvents(startDate, endDate);
 	},
 	closeCalendar: function () {
 		window.plugins.calendar.closeCalendar();
@@ -15,12 +15,8 @@ var testCalendar = {
 		window.plugins.calendar.createEvent(title, eventLocation, notes, startDate, endDate, testCalendar.onSuccess,
 		 testCalendar.onError);
 	},
-	findAllEvents:function (startDate, endDate, title, eventLocation, notes) {
-		var calOptions = window.plugins.calendar.getCalendarOptions();
-		calOptions.calendarName = "MyCreatedCalendar"; // iOS only 
-		calOptions.id = "D9B1D85E-1182-458D-B110-4425F17819F1"; // if not found, we try matching against title, etc 
-		window.plugins.calendar.findEventWithOptions(title, eventLocation, notes, startDate, endDate, calOptions,
-		testCalendar.onSuccess, testCalendar.onError);
+	findAllEvents:function (startDate, endDate) {		
+		window.plugins.calendar.listEventsInRange(startDate, endDate, testCalendar.onSuccess, testCalendar.onError);
 	},
 	onError: function (contactError) {
 		utils.onError(contactError);

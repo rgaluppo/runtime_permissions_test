@@ -53,9 +53,13 @@ var testContacts = {
 	},
 	onSuccess: function (contacts) {
 		var message = 'Found ' + contacts.length + ' contacts.\n';
-		contacts.forEach(function (contact) {
-			message += "Name: " + contact.displayName + "     LastName: " + contact.nickname + "\n";
-		});
+		if(Object.prototype.toString.call(contacts) === '[object Array]') {
+			contacts.forEach(function (contact) {
+				message += "Name: " + contact.displayName + "     LastName: " + contact.nickname + "\n";
+			});
+		} else {
+			message += JSON.stringify(contacts);
+		}
 		utils.onSuccess(message);
 	}
 };
