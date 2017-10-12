@@ -23,14 +23,16 @@ var utils = {
 			_this.log(_this.failList.join(), true);
 		}, 2000);
      },
-	onSuccess: function (argument) {
+	onSuccess: function (message, notClean) {
 		var _this = this;
 		clearTimeout(this.successTO);
-		this.successList = [];
-		this.successList.push(argument);
+		if(!notClean) {
+			this.successList = [];
+		}
+		this.successList.push(message);
 		setTimeout(function () {
 			_this.log(_this.successList.join(), false);
-		}, 2000);
+		}, 1000);
 	},
 	failList: [],
 	successList: []

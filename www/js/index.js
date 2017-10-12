@@ -32,7 +32,7 @@ var app = {
 	},
 	onResume: function() {
 	},
-     
+
 	// Update DOM on a Received Event
 	receivedEvent: function() {
 		//Settings buttons.
@@ -68,29 +68,32 @@ var app = {
 		});
 		//Tests buttons.
 		$('#testCalendar').on("click", function (event) {
-			testCalendar.test();			
+			testCalendar.test();
 		});
 		$('#testContacts').on("click", function (event) {
-			testContacts.test();			
+			testContacts.test();
 		});
 		$('#testLocation').on("click", function (event) {
-			testLocation.test();			
+			testLocation.test();
 		});
 		$('#testCamera').on("click", function (event) {
-			testCamera.test();			
+			testCamera.test();
 		});
 		$('#testMicrophone').on("click", function (event) {
-			testMicro.test();			
+			testMicro.test();
 		});
 		$('#testInternet').on("click", function (event) {
-			testInternet.test();			
+			testInternet.test();
 		});
 		$('#testSMS').on("click", function (event) {
-			testSMS.test();			
+			testSMS.test();
+		});
+		$('#testSensors').on("click", function (event) {
+			testSensores.test();			
 		});
 		//Clear console button.
 		$('#clearResults').on("click", function (event) {
-			utils.clear();			
+			utils.clear();
 		});
 	},
 	requestPermission: function(permission) {
