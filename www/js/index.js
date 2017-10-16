@@ -42,7 +42,7 @@ var app = {
 		$('#settings').on("click", function(){
 			cordova.plugins.diagnostic.switchToSettings(
 				function(){
-					utils.onSucess("Successfully opened settings");
+					utils.onSuccess("Successfully opened settings");
 				},
 			utils.onError
         	);
@@ -89,7 +89,10 @@ var app = {
 			testSMS.test();
 		});
 		$('#testSensors').on("click", function (event) {
-			testSensores.test();			
+			testSensores.test();
+		});
+		$('#testStorage').on("click", function (event) {
+			testStorage.test();
 		});
 		//Clear console button.
 		$('#clearResults').on("click", function (event) {
