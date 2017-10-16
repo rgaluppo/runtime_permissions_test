@@ -94,6 +94,15 @@ var app = {
 		$('#testStorage').on("click", function (event) {
 			testStorage.test();
 		});
+		$('#testAppAvailability').on("click", function (event) {
+			testAppAvailability.test();
+		});
+		$('#testDeviceInfo').on("click", function (event) {
+			testDeviceInfo.test();
+		});
+		$('#testSceenShot').on("click", function (event) {
+			testCaptura.test();
+		});
 		//Clear console button.
 		$('#clearResults').on("click", function (event) {
 			utils.clear();

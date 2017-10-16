@@ -47,6 +47,8 @@
 		<script type="text/javascript" src="js/testSMS.js"></script>
     <script type="text/javascript" src="js/testSensors.js"></script>
     <script type="text/javascript" src="js/testStorage.js"></script>
+    <script type="text/javascript" src="js/testAppAvailability.js"></script>
+    <script type="text/javascript" src="js/testDeviceInfo.js"></script>
 	</head>
 	<body>
 		<h3 class="title-hr" style="margin:15px">Comprobador de permisos</h3>
@@ -60,9 +62,6 @@
 				<tr>
 					<td><input type="button" id="wifiSettings" value="switchToWifiSettings" style="width:100%"></input></td>
 					<td><input type="button" id="mobileDataSettings" value="switchToMobileDataSettings" style="width:100%"></input></td>
-				</tr>
-				<tr>
-					<td colspan="2"><input type="button" id="bluetoothSettings" value="switchToBluetoothSettings" style="width:100%"></input></td>
 				</tr>
 				<tr>
 					<td colspan="2"><input type="button" id="refresh" value="Refresh Permissions" style="width:100%"></input></td>
@@ -91,6 +90,11 @@
 					<td align="center"><input type="button" id="testInternet" value="Internet" style="width:100%"></td>
           <td align="center"><input type="button" id="testSMS" value="SMS" style="width:100%"></td>
 					<td align="center"><input type="button" id="testSensors" value="Sensores" style="width:100%"></td>
+				</tr>
+        <tr>
+					<td align="center"><input type="button" id="testAppAvailability" value="App disponibles" style="width:100%"></td>
+          <td align="center"><input type="button" id="testDeviceInfo" value="Info" style="width:100%"></td>
+          <td align="center" style="width:100%"></td>
 				</tr>
 				<tr>
 					<td colspan="3" align="center"><input type="button" id="clearResults" value="Clear" style="width:100%"></td>

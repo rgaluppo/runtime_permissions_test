@@ -9,12 +9,15 @@ var utils = {
 		$('#results').html(message);
 		$('#results').css('color', isAnError ? "red" : "green");
 	},
-	onError: function(error) {
+	onError: function(error, notClean) {
 		var _this = this;
 		clearTimeout(this.failTO);
+		if(!notClean) {
+			this.failList = [];
+		}
 		this.failList.push(error);
 		setTimeout(function () {
-			_this.log(_this.failList.join(), true);
+			_this.log(_this.failList.join("<br>"), true);
 		}, 2000);
      },
 	onSuccess: function (message, notClean) {
