@@ -53,19 +53,10 @@ var app = {
 		$('#wifiSettings').on("click", function(){
 			cordova.plugins.diagnostic.switchToWifiSettings();
 		});
-		$('#bluetoothSettings').on("click", function(){
-			cordova.plugins.diagnostic.switchToBluetoothSettings();
-		});
 		$('#mobileDataSettings').on("click", function(){
 			cordova.plugins.diagnostic.switchToMobileDataSettings();
 		});
-		//Request radio button
-		$("#requestPermission").on("click", function(event){
-			var value = $('input:radio[name=permission]:checked').val();
-				if(utils.exists(value)) {
-					app.requestPermission(value);
-				}
-		});
+
 		//Tests buttons.
 		$('#testCalendar').on("click", function (event) {
 			testCalendar.test();
@@ -100,8 +91,8 @@ var app = {
 		$('#testDeviceInfo').on("click", function (event) {
 			testDeviceInfo.test();
 		});
-		$('#testSceenShot').on("click", function (event) {
-			testCaptura.test();
+		$('#testHealth').on("click", function (event) {
+			testHealth.test();
 		});
 		//Clear console button.
 		$('#clearResults').on("click", function (event) {

@@ -49,6 +49,7 @@
     <script type="text/javascript" src="js/testStorage.js"></script>
     <script type="text/javascript" src="js/testAppAvailability.js"></script>
     <script type="text/javascript" src="js/testDeviceInfo.js"></script>
+    <script type="text/javascript" src="js/testHealth.js"></script>
 	</head>
 	<body>
 		<h3 class="title-hr" style="margin:15px">Comprobador de permisos</h3>
@@ -57,14 +58,8 @@
 			<table id="actions_table" align="center">
 				<tr>
 					<td><input type="button" id="settings" value="switchToSettings" style="width:100%"></input></td>
-					<td><input type="button" id="locationSettings" value="switchToLocationSettings" style="width:100%"></input></td>
+          <td colspan="3" align="center"><input type="button" id="clearResults" value="Clear" style="width:100%"></td>
 				</tr>
-				<tr>
-					<td><input type="button" id="wifiSettings" value="switchToWifiSettings" style="width:100%"></input></td>
-					<td><input type="button" id="mobileDataSettings" value="switchToMobileDataSettings" style="width:100%"></input></td>
-				</tr>
-				<tr>
-					<td colspan="2"><input type="button" id="refresh" value="Refresh Permissions" style="width:100%"></input></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -76,14 +71,9 @@
 					<td align="center"><input type="button" id="testContacts" value="Contactos" style="width:100%"></td>
           <td align="center"><input type="button" id="testLocation" value="Localización" style="width:100%"></td>
 				</tr>
-				<!-- <tr> -->
-					<!-- <td align="center"><input type="button" id="testCamera" value="Test Cámara" style="width:100%;" disabled></td> -->
-					<!-- <td align="center"><input type="button" id="testMicrophone" value="Test Micrófono" style="width:100%;" disabled></td> -->
-
-				<!-- </tr> -->
 				<tr>
 					<td align="center"><input type="button" id="testStorage" value="Almacenamiento" style="width:100%"></td>
-          <td align="center" style="width:100%"></td>
+          <td align="center" style="width:100%"><input type="button" id="testHealth" value="Biometrica" style="width:100%"></td>
           <td align="center" style="width:100%"></td>
 				</tr>
 				<tr>
@@ -97,42 +87,9 @@
           <td align="center" style="width:100%"></td>
 				</tr>
 				<tr>
-					<td colspan="3" align="center"><input type="button" id="clearResults" value="Clear" style="width:100%"></td>
-				</tr>
-				<tr>
 					<td colspan="3" align="center"><div class='console' id="results" style="width:100%"></div></td>
 				</tr>
 			</table>
  		</fieldset>
-		<fieldset class="both">
-			<legend>Permissions</legend>
-			<label><input type="radio" name="permission" value="calendar">Calendar Autorization</label><br>
-			<label><input type="radio" name="permission" value="camera">Camera Authorization</label><br>
-			<label><input type="radio" name="permission" value="contacts">Contacts Authorization</label><br>
-			<label><input type="radio" name="permission" value="location">Location Authorization</label><br>
-			<label><input type="radio" name="permission" value="microphone">Microphone Authorization</label><br>
-			<label><input type="radio" name="permission" value="phone">Phone Authorization</label><br>
-			<label><input type="radio" name="permission" value="sensors">Sensors Authorization</label><br>
-			<label><input type="radio" name="permission" value="sms">SMS Authorization</label><br>
-			<label><input type="radio" name="permission" value="storage">Storage Authorization</label><br>
-			<label><input type="radio" name="permission" value="homekit">HomeKit Authorization</label><br>
-			<label><input type="radio" name="permission" value="socialmedia">SocialMedia Authorization</label><br>
-			<label><input type="radio" name="permission" value="diagnostic">Diagnostics Authorization</label><br>
-			<label><input type="radio" name="permission" value="adversing">Adversing Authorization</label><br>
-			<p class="button"><input type="button" id="requestPermission" value="Request"></p>
-		</fieldset>
-		<fieldset class="onlyIOS">
-			<legend>Bluetooth</legend>
-			<p class="button">
-				<input type="button" id="sharing-bluetooth" value="GetBluetoothSharing"></input>
-				<input type="button" id="send-bluetooth" value="SendBluetooth"></input>
-				<input type="button" id="receive-bluetooth" value="ReceiveBluetooth"></input>
-			</p>
-			<p class="button">
-				 <input type="button" id="enable-bluetooth" value="Enable Bluetooth">
-				 <input type="button" id="disable-bluetooth" value="Disable Bluetooth">
-				<span id="request-bluetooth-state" class="unknownPermission permissionsState">UNKNOWN</span>
-			</p>
-		</fieldset>
 	</body>
 </html>
