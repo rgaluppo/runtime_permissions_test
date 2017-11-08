@@ -56,32 +56,33 @@ En esta sección se listaran todos los test que conforman al framework. Para cad
 	\end{algorithmic}
 	\caption{Test de los permisos del calendario}\label{alg:chap5:test_calendario}
 \end{algorithm}
-\begin{figure}[!ht]
-	\begin{subfigure}{.24\textwidth}
-	    \centering
-		\includegraphics[width=3.75cm]{chapter5/calendar_request_ios}
-		\label{fig:chapter05:allow_calendar_ios}
-	\end{subfigure}
-	\begin{subfigure}{.24\textwidth}
-	    \centering
-		\includegraphics[width=3.75cm]{chapter5/allow_calendar}
-		\label{fig:chapter05:allow_calendar_android}
-	\end{subfigure}	
-	\begin{subfigure}{.25\textwidth}
-	    \centering
-		\includegraphics[width=3.5cm]{chapter5/without_calendar}
-		\label{fig:chapter05:without_calendar}
-	\end{subfigure}
-	\begin{subfigure}{.25\textwidth}
-	    \centering
-		\includegraphics[width=3.5cm]{chapter5/with_calendar}
-		\label{fig:chapter05:with_calendar}
-	\end{subfigure}
-	\caption{Testeando el calendario}
-	\label{fig:chapter05:calendar_test}
+
+\begin{figure}[hbtp]
+    \centering
+    \begin{subfigure}{0.3\linewidth}
+        \includegraphics[width=\linewidth]{chapter5/calendar_request_ios}
+    \end{subfigure}
+    \begin{subfigure}{0.3\linewidth}
+        \includegraphics[width=\linewidth]{chapter5/allow_calendar}
+    \end{subfigure}
+    \caption{Captura del momento en que se requiere un permiso para las distintas plataformas.}
+	\label{fig:ch05:app-permissions-allow}
+\end{figure}
+\begin{figure}[hbtp]
+    \centering
+    \begin{subfigure}{0.3\linewidth}
+        \includegraphics[width=\linewidth]{chapter5/without_calendar}
+        \label{fig:chapter05:without_calendar}
+    \end{subfigure}
+    \begin{subfigure}{0.3\linewidth}
+        \includegraphics[width=\linewidth]{chapter5/with_calendar}
+        \label{fig:chapter05:with_calendar}
+    \end{subfigure}
+    \caption{Caso exitoso y caso fallido.}
+	\label{fig:ch05:calendar-cases}
 \end{figure}
 \newpage
-\subsection*{Contactos}
+\subsection{Contactos}
 \textbf{\emph{Plugin:}} \href{https://www.npmjs.com/package/cordova-plugin-contacts}{cordova-plugin-contacts v2.2.1}
 \begin{algorithm}
 	\begin{algorithmic}[1]
@@ -215,7 +216,7 @@ En iOS no fueron necesarios permisos para poder correr el test.
 	\caption{Testeando los mensajes SMS.}
 	\label{fig:chapter05:sms_test}
 \end{figure}
-En un principio, se quer\'ia agregar al test la funcionalidad de leer los mensajes. Se decidi\'o quitarla ya que a partir de iOS 8 no se pueden acceder a dichos mensajes desde una app instalada por el usuario cite{forumdeveloperapple}. En cambio, en Android si se pueden acceder, siempre que se tengan los permisos correspondientes.
+En un principio, se quer\'ia agregar al test la funcionalidad de leer los mensajes. Se decidi\'o quitarla ya que a partir de iOS 8 no se pueden acceder a dichos mensajes desde una app instalada por el usuario \cite{foda}. En cambio, en Android si se pueden acceder, siempre que se tengan los permisos correspondientes.
 \subsection*{Internet}
 \begin{algorithm}
 	\begin{algorithmic}[1]
