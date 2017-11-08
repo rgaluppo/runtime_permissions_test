@@ -5,7 +5,7 @@ h1 {
 	text-align: center;
 }
 fieldset {
-	border-radius: 10px; 
+	border-radius: 10px;
 }
 legend {
 	border-radius: 10px;
@@ -25,7 +25,7 @@ table {
 .console {
      border: 1px solid;
      border-radius: 7px;
-     height: 300px;
+     height: 320px;
      background-color:#B9BDB7;
      overflow: scroll;
 }
@@ -44,15 +44,6 @@ table {
 }
 .buttonBox {
 	border: 1px solid medium;
-}
-.both {
-	background-color: #A3C1AD;
-}
-.onlyIOS {
-	background-color: #A8E4A0;
-}
-.onlyAndroid {
-	background-color: #A4C639;
 }
 .others {
 	background-color: #E9D66B;

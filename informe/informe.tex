@@ -1,0 +1,48 @@
+\documentclass[11pt, a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage[table]{xcolor}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+%packages customizations
+\graphicspath{ {imgs/} }
+
+%prevent hyphenation
+ \hyphenpenalty=1000
+ \tolerance=500
+ \emergencystretch=2.5em
+
+%document
+\begin{document}
+    \include{title}
+    
+    \pagenumbering{roman}
+    \tableofcontents
+    %\listoffigures
+    %\listoftables
+    
+    
+    \pagenumbering{arabic}
+        
+    %\include{resumen}
+    %\include{introduccion}
+    %\include{chapter01}
+    %\include{chapter02}
+    %\include{chapter03}
+    %\include{chapter04}
+    \include{chapter05}
+    %\include{chapter06}
+    
+    \bibliographystyle{acm}
+    \bibliography{bibliografia}{}
+    
+\end{document}

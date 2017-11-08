@@ -41,50 +41,41 @@
 		<script type="text/javascript" src="js/testCalendar.js"></script>
 		<script type="text/javascript" src="js/testContacts.js"></script>
 		<script type="text/javascript" src="js/testLocation.js"></script>
-		<script type="text/javascript" src="js/testCamera.js"></script>
-		<script type="text/javascript" src="js/testMicrophone.js"></script>
 		<script type="text/javascript" src="js/testInternet.js"></script>
 		<script type="text/javascript" src="js/testSMS.js"></script>
     <script type="text/javascript" src="js/testSensors.js"></script>
     <script type="text/javascript" src="js/testStorage.js"></script>
     <script type="text/javascript" src="js/testAppAvailability.js"></script>
     <script type="text/javascript" src="js/testDeviceInfo.js"></script>
-    <script type="text/javascript" src="js/testHealth.js"></script>
 	</head>
 	<body>
-		<h3 class="title-hr" style="margin:15px">Comprobador de permisos</h3>
+		<h3 class="title-hr" style="text-align:center">Comprobador de permisos</h3>
 		<fieldset class="others">
 			<legend id="actions">Actions</legend>
 			<table id="actions_table" align="center">
 				<tr>
-					<td><input type="button" id="settings" value="switchToSettings" style="width:100%"></input></td>
-          <td colspan="3" align="center"><input type="button" id="clearResults" value="Clear" style="width:100%"></td>
+					<td><input type="button" id="settings" value="Switch to Settings" style="width:100%"></input></td>
+          <td colspan="3" align="center"><input type="button" id="ClearResults" value="Clear Results" style="width:100%"></td>
 				</tr>
 				</tr>
 			</table>
 		</fieldset>
-		<fieldset>
+		<fieldset class="others">
 			<legend>Tests</legend>
 			<table align="center">
 				<tr>
-					<td align="center"><input type="button" id="testCalendar" value="Calendario" style="width:100%"></td>
-					<td align="center"><input type="button" id="testContacts" value="Contactos" style="width:100%"></td>
-          <td align="center"><input type="button" id="testLocation" value="Localización" style="width:100%"></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="button" id="testStorage" value="Almacenamiento" style="width:100%"></td>
-          <td align="center" style="width:100%"><input type="button" id="testHealth" value="Biometrica" style="width:100%"></td>
-          <td align="center" style="width:100%"></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="button" id="testInternet" value="Internet" style="width:100%"></td>
-          <td align="center"><input type="button" id="testSMS" value="SMS" style="width:100%"></td>
-					<td align="center"><input type="button" id="testSensors" value="Sensores" style="width:100%"></td>
+          <td align="center"><input type="button" id="testContacts" value="Contacts" style="width:100%"></td>
+					<td align="center"><input type="button" id="testCalendar" value="Calendar" style="width:100%"></td>
+          <td align="center"><input type="button" id="testLocation" value="Localization" style="width:100%"></td>
 				</tr>
         <tr>
-					<td align="center"><input type="button" id="testAppAvailability" value="App disponibles" style="width:100%"></td>
-          <td align="center"><input type="button" id="testDeviceInfo" value="Info" style="width:100%"></td>
-          <td align="center" style="width:100%"></td>
+          <td align="center"><input type="button" id="testSMS" value="SMS" style="width:100%"></td>
+					<td align="center"><input type="button" id="testSensors" value="Sensors" style="width:100%"></td>
+          <td align="center"><input type="button" id="testStorage" value="Storage" style="width:100%"></td>
+				</tr>
+				<tr>
+					<td align="center"><input type="button" id="testDeviceInfo" value="Device Info" style="width:100%"></td>
+          <td align="center"><input type="button" id="testInternet" value="Internet" style="width:100%"></td>
 				</tr>
 				<tr>
 					<td colspan="3" align="center"><div class='console' id="results" style="width:100%"></div></td>
