@@ -95,7 +95,7 @@ var app = {
 			testHealth.test();
 		});
 		//Clear console button.
-		$('#clearResults').on("click", function (event) {
+		$('#ClearResults').on("click", function (event) {
 			utils.clear();
 		});
 	},

@@ -13,6 +13,6 @@ var testDeviceInfo = {
 	onError: function () {
 	},
 	onSuccess: function (message) {
-		utils.onSuccess(message, true);
+		utils.onSuccess(message);
 	}
 };
