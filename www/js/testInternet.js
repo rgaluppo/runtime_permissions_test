@@ -1,6 +1,7 @@
 var testInternet = {
 	test: function() {
 		testInternet.isConnected();
+		testInternet.sendPost();
   	},
   	isConnected: function () {
 		$.ajax({
@@ -12,7 +13,17 @@ var testInternet = {
 			mimeType: "text/plain; charset=x-user-defined"
 		});
 	},
-  	onError: function () {
+	sendPost: function () {
+		$.ajax({
+			url: 'http://httpbin.org/post',
+			method: 'POST',
+			success: testInternet.onSuccess,
+			error: testInternet.onError,
+			cache: false,
+			mimeType: "text/plain; charset=x-user-defined"
+		});
+	},
+  onError: function () {
   		var message = 'Ouch!\n';
 		utils.onError(message);
 	},
@@ -44,8 +55,12 @@ var testInternet = {
         }
         return out;
     }
-		var imgur = 'data:image/jpeg;base64,' + base64Encode(data);
-		var img = "<img style='padding-top: 5px;' src='" + imgur + "'>";
-		utils.onSuccess(img);
+		if(data.indexOf('PNG') > 0) {	// is an image encode.
+			var imgur = 'data:image/jpeg;base64,' + base64Encode(data);
+			var img = "<img style='padding-top: 5px;' src='" + imgur + "'>";
+			utils.onSuccess(img);
+		} else { // is a POST response.
+			utils.onSuccess(data, true);
+		}
 	}
 };

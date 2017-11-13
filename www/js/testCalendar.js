@@ -1,7 +1,7 @@
 var testCalendar = {
 	test: function() {
-		var startDate = new Date(2017,3,15,18,30,0,0,0); // beware: month 0 = january, 11 = december 
-		var endDate = new Date(2017,3,15,19,30,0,0,0);
+		var startDate = new Date(2017,11,15,18,30,0,0,0); // beware: month 0 = january, 11 = december
+		var endDate = new Date(2017,11,15,19,30,0,0,0);
 		var title = "Test event";
 		var eventLocation = "FCEIA-UNR";
 		var notes = "Some notes about this event.";
@@ -15,14 +15,11 @@ var testCalendar = {
 		window.plugins.calendar.createEvent(title, eventLocation, notes, startDate, endDate, testCalendar.onSuccess,
 		 testCalendar.onError);
 	},
-	findAllEvents:function (startDate, endDate) {		
+	findAllEvents:function (startDate, endDate) {
 		window.plugins.calendar.listEventsInRange(startDate, endDate, testCalendar.onSuccess, testCalendar.onError);
 	},
 	onError: function (contactError) {
 		utils.onError(contactError);
-	},
-	openCalendar: function () {
-		window.plugins.calendar.openCalendar();
 	},
 	onSuccess: function (message) {
 		var processMessage = message;
@@ -35,4 +32,4 @@ var testCalendar = {
 		}
 		utils.onSuccess(processMessage);
 	}
-};	
+};
