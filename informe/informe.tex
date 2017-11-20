@@ -17,28 +17,29 @@
 \graphicspath{ {imgs/} }
 
 %prevent hyphenation
- \hyphenpenalty=1000
- \tolerance=500
- \emergencystretch=2.5em
+\hyphenpenalty=1000
+\tolerance=500
+\emergencystretch=2.5em
+
+%contents with roman numeration
+\pagenumbering{roman}
 
 %document
 \begin{document}
     \include{title}
-    
-    \pagenumbering{roman}
+        
     \tableofcontents
-    %\listoffigures
+    \listoffigures
     %\listoftables
     %\listofalgorithms
-    
+    \cleardoublepage
     
     \pagenumbering{arabic}
-        
     %\include{resumen}
     %\include{introduccion}
     %\include{chapter01}
     %\include{chapter02}
-    %\include{chapter03}
+     %\include{chapter03}
     %\include{chapter04}
     \include{chapter05}
     %\include{chapter06}

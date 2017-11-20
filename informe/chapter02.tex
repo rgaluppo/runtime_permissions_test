@@ -1,4 +1,4 @@
-\chapter{Descripción de Seguridad de iOS}
+\chapter{Modelo de Seguridad de iOS}
 iOS es un sistema operativo móvil de la multinacional Apple Inc. diseñado para ser
 seguro \cite{asg}. Cada dispositivo combina hardware, software y servicios, diseñados para trabajar
 conjuntamente para proveer seguridad y al mismo tiempo, que la misma sea transparente para el
@@ -6,29 +6,17 @@ usuario.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.3\linewidth]{chapter2/ios_security_architecture}
-    \caption{Modelo de seguridad de iOS \cite{asg}} 
+    \caption{Modelo de seguridad de iOS \cite{asg}.} 
     \label{fig:ch02:security-architecture}
 \end{figure}
 Características como encriptación del sistema de archivos, asegurar un arranque seguro, asegurar
-KeyChain Data, vienen habilitadas por defecto. Como se puede observar en la figura \ref{fig:ch02:security-architecture}, la seguridad se extiende más allá del dispositivo, generando un ecosistema seguro.\\
-A lo largo de este capítulo se har\'a una descripci\'on de los principales aspectos del modelo de seguridad de iOS, basandose en la versión 9.3, lanzada en 2015.
-\section{Arranque seguro}\label{fig:ch02:arranque}
-Cada dispositivo es seguro desde el booteo, ya que la arquitectura del sistema fue pensada para integrar software y hardware de manera tal que se asegure que cada componente sea seguro, desde el booteo \cite{asg}. Cuando se prende un dispositivo iOS, se siguen los siguentes pasos para asegurar la integridad del arranque del sistema (\textit{Boot Chain}):
-\begin{enumerate}
-	\item Se ejecuta el código alojado en la \textit{BootROM}. Es inmutable y seguro por definición.
-	\item Se verifica la firma del \textit{bootloader} LLB (\textit{Low Level Bootloader}, por sus siglas en ingl\'es), ya que fue certificado por Apple con la clave pública \textit{Apple Root CA}. La misma está alojada en la \textit{BootROM}. 
-	\item Pasada la validación, empieza la carga del kernel de iOS mediante \textit{iBoot}.
-	\item El siguiente paso es asegurar la integridad del software. Los dispositivos con un procesador A7 o superior, cuentan con un co-procesador llamado \textit{Secure Enclave \footnote{\textit{Secure Enclave} es un co-procesador con memoria encriptada e incluye generación de números aleatoreos por hardware \cite{asg}.}} para verificar dicha integridad.
-\end{enumerate}
-Si fallan alguno de estos pasos, el dispositivo entra en Modo de Recuperación (\textit{recovery mode}) y se lo debe conectar a iTunes via USB para restaurar la configuración de fábrica.\\
-Nos detendremos en el componente llamado \textit{Secure Enclave}. Tiene dos funciones principales \cite{asg}: proveer todas la operaciones criptográficas para la manipulación de la clave de los datos (\textit{Data Protection Key}); y mantener la integridad de dichos datos inclusive si se haya violado la seguridad del \textit{kernel}.\\
-Dentro de las claves que almacena, se encuentra la clave única UID (\textit{Unique ID}, por sus siglas en ingl\'es), que fue creada en el momento de fabricación y que no es conocida por Apple ni por ningún otro componente del dispositivo. La misma es utilizada para generar una clave efímera cada vez que se prende el dispositivo, la cual se utiliza para encriptar la memoria del \textit{Secure Enclave} y para encriptar los datos del sistema de archivos.\\
-Por último, el \textit{Secure Enclave}, se encarga también de procesar los datos que llegan desde el lector de huellas (\textit{Touch ID}), determinando si se puede desbloquear el dispositivo.
+\textit{KeyChain Data}, vienen habilitadas por defecto. Como se puede observar en la figura \ref{fig:ch02:security-architecture}, la seguridad se extiende más allá del dispositivo, generando un ecosistema seguro.\\
+A lo largo de este capítulo se realizara una descripción de los principales aspectos del modelo de seguridad de iOS, basándose en la versión 9.3, lanzada en 2015.
 \section{Protección de los datos} \label{fig:ch02:data-protection}
-iOS tiene una protección especial para los archivos y los datos personales, la cual sigue intacta inclusive si algunas otras partes del sistema de seguridad fueron compromentidas \cite{asg}. La protección de los datos es implementada contruyendo varias claves criptográficas y generando con ellas una jerarquía.\\
-Las claves UID y GID (\textit{Group ID}, por sus siglas en ingl\'es) son AES-256, y fueron integradas al \textit{Secure Enclave} al momento de fabricación del dispositivo. Ningún firmware ni software pueden leerlas directamente, solamente las usa el \textit{Secure Enclave}.\\
-Además de UID y GID, exiten otras claves criptográficas, las cuales son generadas por el RNG (\textit{Random Number Generator}, por sus siglas en ingl\'es), usando un algoritmo basado en CTR-DRBG. La entropía es generada por la variación del tiempo transcurrido a partir del booteo \cite{asg}. Todo esto ocurre por hardware dentro del \textit{Secure Enclave}.\\
-ada vez que se crea un archivo en la partición de datos, el componente \textit{Data Protection} crea una clave AES-256 para ése archivo (distinta para cada archivo) y se la pasa a \textit{Secure Enclave} para que encripte al archivo con dicha clave. Luego, ésa clave se empaqueta con una (o varias) de las claves de clases, dependiendo de la accesibilidad que va a tener el archivo\footnote{Todos los empaquetamientos se realizan utilizando NIST AES \textit{key wrapping}, según RFC3394 \cite{asg}.}.
+iOS tiene una protección especial para los archivos y los datos personales, la cual sigue intacta inclusive si algunas otras partes del sistema de seguridad fueron comprometidas \cite{asg}. La protección de los datos es implementada construyendo varias claves criptográficas y generando con ellas una jerarquía.\\
+Las claves UID y GID\footnote{\textit{Group ID}, por sus siglas en inglés} son AES-256, y fueron integradas al \textit{Secure Enclave} al momento de fabricación del dispositivo. Ningún firmware ni software pueden leerlas directamente, solamente las usa el \textit{Secure Enclave}.\\
+Además de UID y GID, existen otras claves criptográficas, las cuales son generadas por el RNG (\textit{Random Number Generator}, por sus siglas en inglés), usando un algoritmo basado en CTR-DRBG. La entropía es generada por la variación del tiempo transcurrido a partir del booteo \cite{asg}. Todo esto ocurre por hardware dentro del \textit{Secure Enclave}.\\
+Cada vez que se crea un archivo en la partición de datos, el componente \textit{Data Protection} crea una clave AES-256 para ése archivo (distinta para cada archivo) y se la pasa a \textit{Secure Enclave} para que encripte al archivo con dicha clave. Luego, ésa clave se empaqueta con una (o varias) de las claves de clases, dependiendo de la accesibilidad que va a tener el archivo\footnote{Todos los empaquetamientos se realizan utilizando NIST AES \textit{key wrapping}, según RFC3394 \cite{asg}.}.
 Cuando se abre un archivo, su metadata es desempaquetada con la clave del sistema de archivos, revelando la clave particular del archivo y las clases que lo protegen. Se vuelve a desepaquetar, esta vez, con las claves de las clases, para finalmente desencriptar al archivo con su clave única. Este proceso se observa en la Figura \ref{fig:ch02:dataProtection}.
 \begin{figure}[hbtp]
     \centering
@@ -63,7 +51,7 @@ Todas las aplicaciones de terceros\footnote{\textit{third-party apps}} son aisla
 \begin{figure}[hbtp]
 	\centering
 	\includegraphics[width=.4\linewidth]{chapter2/ios_about_sandboxing}
-    \caption{Arquitectura para proteger los archivos \cite{developerapple}} 
+    \caption{Arquitectura para proteger los archivos \cite{iosdl}} 
     \label{fig:ch02:sandboxing}
 \end{figure}
 Si una aplicaci\'on require acceder a información que no es suya, lo puede hacer únicamente usando servicios de iOS. Lo mismo sucede si quiere ejecutar procesos en segundo plano.
