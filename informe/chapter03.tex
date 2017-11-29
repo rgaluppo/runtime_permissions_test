@@ -1,4 +1,4 @@
-\chapter{Análisis comparativo}
+\chapter{Análisis Comparativo}
 Android e iOS son dos plataformas muy populares entre los dispositivos móviles. Es por ello, que existes muchas  muchas formas de comparar sus respectivos módulos de seguridad.\\
 La medida de comparación propuesta en \cite{YA2014} consiste en analizar la seguridad de una aplicación móvil en cada fase del ciclo de vida, comparándola en cada plataforma.\\
 En \cite{HYGZD2013} el enfoque es distinto. Se centra en comparar los permisos requeridos a cada plataforma al momento de instalar aplicaciones presentes en ambas plataformas.\\
@@ -35,13 +35,14 @@ La primera vez que apareció esta funcionalidad fue en la versión 3.0. Sin emba
 \subsection{Permisos}
 Debido a que cada aplicación Android opera en un entorno aislado\footnote{Ver seccion \nameref{ch01-sandbox}.}, las aplicaciones deben compartir de manera explícita recursos y datos. El camino utilizado para realizar dicho intercambio es la declaración de permisos, tal como se introdujo en la sección \ref{ch01-permisos}. El presente informe se centra en los permisos \emph{Normal} y \emph{Dangerous}; cómo se otorgan y cómo se deniegan.\\
 En las versiones anteriores a Android Marshmallow, al prepararse para instalar una aplicación, el sistema operativo mostraba un diálogo al usuario indicando los permisos solicitados y se le solicitaba si deseaba continuar con la instalación. En caso afirmativo, el sistema otorgaba todos los permisos solicitados e instalaba la aplicación. En el caso contrario, no se instalaba la aplicación. El usuario quedaba preso si quería instalar una aplicación: no podía otorgar o denegar permisos individuales; debía otorgar o denegar todos los permisos solicitados como un bloque. Una vez concedidos, los permisos seguían vigentes mientras la aplicación este instalada. Solo se eliminaban si se desinstala dicha aplicación.\\
-\begin{figure}[hbtp]
+\begin{figure}[htbp]
     \centering
-        \includegraphics[width=.3\linewidth]{imgs/chapter1/app-permissions}
-    \caption{Descripción general de los permisos otorgados.}
-	\label{fig:ch01:app-permissions-overview}
+    \includegraphics[width=0.35\linewidth]{imgs/chapter5/allow_contact}
+    \caption{Ejemplo de solicitud de un permiso en tiempo de ejecución.}
+    \label{fig:ch01:permission-request}
 \end{figure}
-A partir de la versión 6.0, se propone un nuevo modelo de permisos, donde los usuarios pueden administrar en tiempo de ejecución los permisos \textit{peligrosos} requeridos por una aplicación. En este modelo, los permisos se agrupan para facilitar el control de la privacidad de los usuarios. Dichos grupos son:
+A partir de la versión 6.0, se propone un nuevo modelo de permisos, donde los usuarios pueden administrar en tiempo de ejecución los permisos \textit{peligrosos} requeridos por una aplicación. En este modelo, los permisos se agrupan para facilitar el control de la privacidad de los usuarios.\\
+Dichos grupos son:
 \begin{itemize}
     \item \emph{Almacenamiento:} Regula el acceso al almacenamiento externo\footnote{En Android, cuando se habla de almacenamiento externo, se refiere a la tarjeta SD.}, \\permitiendo la lectura o la escritura desde el mismo.
     \item \emph{Calendario:} Permite leer, modificar o eliminar los calendarios del usuario. Incluye además el manejo de los eventos presentes en un calendario.
@@ -53,26 +54,52 @@ A partir de la versión 6.0, se propone un nuevo modelo de permisos, donde los u
     \item \emph{Teléfono:} Regula el acceso a la información relacionada a una llamada telefónica, tales como iniciar una llamada, obtener datos de una llamada en curso, manipular el log de llamadas, entre otros.
     \item \emph{Sensores:} Permite acceder a los datos de los sensores del dispositivo. Se incluyen el giroscopio, el acelerómentro, sensor del ritmo cardíaco, entre otros.
 \end{itemize}
-En contraposición a lo que ocurría en las versiones previas, en Android Marsmallow durante la instalación de una aplicación no se concede ningún permiso \textit{peligroso}. Cada vez que una aplicación necesita acceder a un recurso protegido por un permiso \textit{peligroso}, tiene que solicitarlo en tiempo de ejecución. Por ejemplo, si una aplicación requiere leer un contacto, la primera vez aparece una notificación pidiendo autorización explicita al usuario, tal como se observa en la Figura \ref{fig:ch01:permission-request}. El usuario puede otorgar el permiso, denegarlo una vez o denegarlo para siempre. Si elige la última opción, no volverá a aparecer la notificación solicitando dicho permiso. De querer otorgar el permiso, el usuario va a tener que realizarlo manualmente desde \texttt{Ajustes/Aplicaciones/\{nombre de la aplicación\}/Permisos}. Ya que el usuario puede revocar los permisos en cualquier momento, una aplicación debe comprobar si dispone de los permisos cada vez que se ejecuta. De lo contrario no va a poder acceder a las funciones de las cuales no tiene permiso.
-\begin{figure}[htbp]
+En contraposición a lo que ocurría en las versiones previas, en Android Marsmallow durante la instalación de una aplicación se le otorgan todos los permisos \textit{normales} y ningún permiso \textit{peligroso}. Como consecuencia de esto, cada vez que una aplicación necesita acceder a un recurso protegido por un permiso \textit{peligroso}, tiene que solicitarlo en tiempo de ejecución. Por ejemplo, si una aplicación requiere leer un contacto, la primera vez aparece una notificación pidiendo autorización explicita al usuario, tal como se observa en la Figura \ref{fig:ch01:permission-request}. El usuario puede otorgar el permiso, denegarlo una vez o denegarlo para siempre. Si elige la última opción, no volverá a aparecer la notificación solicitando dicho permiso. Dichas opciones se encuentran en \texttt{Ajustes/Aplicaciones/\{nombre de la aplicación\}/Permisos}. En la Figura \ref{fig:ch03:app-permissions-overview} se observa una captura de las configuraciones de los permisos para una aplicación móvil.\\
+Debido a que el usuario puede revocar los permisos \textit{peligrosos} en cualquier momento, una aplicación debe comprobar si dispone de ellos cada vez que se ejecuta. De lo contrario no va a poder acceder a las funciones de las cuales no tiene permiso. Sin embargo, el usuario no puede revocar los permisos \textit{normales}; solamente se eliminan al desinstalar la aplicación.
+\begin{figure}[hbtp]
     \centering
-    \includegraphics[width=0.3\linewidth]{imgs/chapter5/allow_contact}
-    \caption{Ejemplo de solicitud de un permiso en tiempo de ejecución.}
-    \label{fig:ch01:permission-request}
+        \includegraphics[width=.3\linewidth]{imgs/chapter1/app-permissions}
+    \caption{Descripción general de los permisos otorgados.}
+	\label{fig:ch03:app-permissions-overview}
 \end{figure}
 \section{Analizando iOS}
 \subsection{Arranque seguro}\label{fig:ch02:arranque}
-Cada dispositivo es seguro desde el arranque \cite{asg}, ya que la arquitectura del sistema fue pensada para integrar \textit{software} y \textit{hardware} de manera tal que de asegurar que cada componente sea seguro. Cuando se prende un dispositivo cuyo sistema operativo es iOS, se siguen los siguientes pasos para asegurar la integridad del arranque del sistema (\textit{Boot Chain}):
+Cada dispositivo es seguro desde el arranque, ya que la arquitectura del sistema fue pensada para integrar \textit{hardware}, \textit{software} y servicios, con el objetivo de obtener seguridad a lo largo de todos los componentes que conforman el núcleo del sistema \cite{asg}. Cuando se prende un dispositivo cuyo sistema operativo es iOS, se siguen los siguientes pasos para asegurar la integridad del arranque del sistema\footnote{Traducción propuesta para el término \textit{Boot Chain}} :
 \begin{enumerate}
-	\item Se ejecuta el código alojado en la \textit{BootROM}. Es inmutable y seguro por definición.
-	\item Se verifica la firma del \textit{bootloader} LLB (\textit{Low Level Bootloader}, por sus siglas en ingl\'es), ya que fue certificado por Apple con la clave pública \textit{Apple Root CA}. La misma está alojada en la \textit{BootROM}. 
+	\item Se ejecuta el código alojado en la \textit{BootROM}. Dicho código es inmutable y seguro por definición.
+	\item Se verifica la firma del \textit{bootloader} LLB\footnote{\textit{Low Level Bootloader}, por sus siglas en inglés}, ya que fue certificado por Apple con la clave pública \textit{Apple Root CA}. La misma está alojada en la \textit{BootROM}. 
 	\item Pasada la validación, empieza la carga del kernel de iOS mediante \textit{iBoot}.
-	\item El siguiente paso es asegurar la integridad del software. Los dispositivos con un procesador A7 o superior, cuentan con un co-procesador llamado \textit{Secure Enclave \footnote{\textit{Secure Enclave} es un co-procesador con memoria encriptada e incluye generación de números aleatorios por hardware \cite{asg}.}} para verificar dicha integridad.
+	\item El siguiente paso es asegurar la integridad del software. Los dispositivos con un procesador A7 o superior, cuentan con un co-procesador llamado \textit{Secure Enclave \footnote{\textit{Secure Enclave} es un co-procesador con memoria cifrada e incluye generación de números aleatorios por hardware \cite{asg}.}} para verificar dicha integridad.
 \end{enumerate}
-Si fallan alguno de estos pasos, el dispositivo entra en Modo de Recuperación (\textit{recovery mode}) y se lo debe conectar a iTunes via USB para restaurar la configuración de fábrica.\\
-Nos detendremos en el componente llamado \textit{Secure Enclave}. Tiene dos funciones principales \cite{asg}: proveer todas la operaciones criptográficas para la manipulación de la clave de los datos (\textit{Data Protection Key}); y mantener la integridad de dichos datos inclusive si se haya violado la seguridad del \textit{kernel}.\\
-Dentro de las claves que almacena, se encuentra la clave única UID\footnote{\textit{Unique ID}, por sus siglas en inglés}, que fue creada en el momento de fabricación y que no es conocida por Apple ni por ningún otro componente del dispositivo. La misma es utilizada para generar una clave efímera cada vez que se prende el dispositivo, la cual se utiliza para encriptar la memoria del \textit{Secure Enclave} y para encriptar los datos del sistema de archivos.\\
-Por último, el \textit{Secure Enclave}, se encarga también de procesar los datos que llegan desde el lector de huellas (\textit{Touch ID}), determinando si se puede desbloquear el dispositivo.
+Si fallan alguno de estos pasos, el dispositivo entra en Modo de Recuperación\footnote{Traducción del término \textit{recovery mode}.} y se lo debe conectar a iTunes via USB para restaurar la configuración de fábrica.\\
+\subsection{Cifrado de archivos}
+Cada vez que se crea un archivo en la partición de datos, el componente \textit{Data Protection} crea una clave AES-256 para ése archivo (distinta para cada archivo) y se la pasa a \textit{Secure Enclave} para que encripte al archivo con dicha clave. Luego, ésa clave se empaqueta con una (o varias) de las claves de clases, dependiendo de la accesibilidad que va a tener el archivo\footnote{Todos los empaquetamientos se realizan utilizando NIST AES \textit{key wrapping}, según RFC3394 \cite{asg}.}.
+Cuando se abre un archivo, su metadata es desempaquetada con la clave del sistema de archivos, revelando la clave particular del archivo y las clases que lo protegen. Se vuelve a desepaquetar, esta vez, con las claves de las clases, para finalmente desencriptar al archivo con su clave única. Este proceso se observa en la Figura \ref{fig:ch02:dataProtection}.
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=.7\linewidth]{chapter2/ios_fileDataProtection_architecture}
+    \caption{Proceso para desempaquetar un archivo \cite{asg}.}
+    \label{fig:ch02:dataProtection}
+\end{figure}
+\subsection{Almacenamiento seguro de claves}
+Otra herramienta importante del modelo de seguridad es el almacen de claves llamado Llavero\footnote{Traduccion del termino \textit{keyChain}.}, cuya funcionalidad es proteger las contraseñas y otros datos sensibles de algunas aplicaciones que manejan credenciales propias. Est\'a implementada como una base de datos SQLite \cite{asg}, almacenada en el sistema de archivos. Es única por dispositivo y sólo puede ser accedida mediante el demonio de seguridad, el cual es el encargado de decidir quiénes pueden acceder a los items del \textit{Llavero}. Dicho acceso depende de los siguientes permisos:
+\begin{itemize}
+\item \emph{Clase del \textit{Llavero}:} Permite asociar un item con su funcionalidad. En el Cuadro \ref{tab:ch02:keychain-classes} se observan las distintas clases provistas por el sistema.
+\item \emph{Id de la aplicacion:} Restringe al item para utilizarlo solamente con una aplicaci\'on.
+\item \emph{Id del grupo de la aplicacion:} Retringe al item para utilizarlo entre aplicaciones que compartan un GID\footnote{Id del grupo, explicada en la secci\'on \ref{fig:ch02:data-protection}.}. Permite a que un desarrollador comparta credenciales entre sus distintas aplicaciones.
+\end{itemize}
+\begin{table}[hbtp]
+    \centering
+    \begin{tabular}{l l}
+\textbf{Habilidad}    &    \textbf{Clase}   \\ \hline
+Cuando est\'a desbloqueado    &   \textit{kSecAttrAccessibleWhenUnlocked} \\
+Despu\'es del primer desbloqueo    &    \textit{kSecAttrAccessibleAfterFirstUnlock} \\
+Siempre    &   \textit{kSecAttrAccessibleAlways}    \\
+C\'odigo de desbloqueo v\'alido    &    \textit{kSecAttrAccessible} o \textit{WhenPasscodeSetThisDeviceOnly}
+    \end{tabular}
+    \caption{Clases del \textit{Llavero} seg\'un su funcionalidad \cite{asg}.}
+    \label{tab:ch02:keychain-classes}
+\end{table}
 \subsection{Permisos}
 Los controles de privacidad en iOS dan el control sobre qué aplicaciones tienen acceso a la información almacenada en su dispositivo iOS. Su enfoque es distinto ya que focaliza en componentes del sistema, permitiendo al usuario denegar (o permitir) el acceso de una aplicación a un determinado componente. El usuario puede modificar la configuración de privacidad en $Ajustes > Privacidad$. En ella se encuentra una lista de componentes, como se observa en la figura \ref{fig:chapter03:iospermCapture}. Para cada uno de ellos, figuran las aplicaciones que pidieron permiso para usar dicho componente. Se pueden agregar o quitar el permiso de cualquier aplicación que ha solicitado el acceso a los datos. Cabe aclarar que una aplicación puede utilizar sus datos sólo si se le ha dado permiso.\\
 

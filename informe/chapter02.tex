@@ -1,53 +1,35 @@
 \chapter{Modelo de Seguridad de iOS}
-iOS es un sistema operativo móvil de la multinacional Apple Inc. diseñado para ser
+iOS es un sistema operativo para dispositivos móviles de la multinacional Apple Inc. diseñado para ser
 seguro \cite{asg}. Cada dispositivo combina hardware, software y servicios, diseñados para trabajar
-conjuntamente para proveer seguridad y al mismo tiempo, que la misma sea transparente para el
-usuario.
-\begin{figure}[htbp]
+conjuntamente para proveer seguridad y al mismo tiempo, que sea transparente para el
+usuario.\\
+Características como el cifrado del sistema de archivos, asegurar un arranque seguro, proveer un repositorio de contraseñas seguro, vienen habilitadas por defecto. Como se puede observar en la Figura \ref{fig:ch02:security-architecture}, la seguridad se extiende más allá del dispositivo, generando un ecosistema seguro.\\
+\begin{figure}[hbtp]
     \centering
-    \includegraphics[width=0.3\linewidth]{chapter2/ios_security_architecture}
+    \includegraphics[width=0.3295\linewidth]{chapter2/ios_security_architecture}
     \caption{Modelo de seguridad de iOS \cite{asg}.} 
     \label{fig:ch02:security-architecture}
 \end{figure}
-Características como encriptación del sistema de archivos, asegurar un arranque seguro, asegurar
-\textit{KeyChain Data}, vienen habilitadas por defecto. Como se puede observar en la figura \ref{fig:ch02:security-architecture}, la seguridad se extiende más allá del dispositivo, generando un ecosistema seguro.\\
+\newpage
 A lo largo de este capítulo se realizara una descripción de los principales aspectos del modelo de seguridad de iOS, basándose en la versión 9.3, lanzada en 2015.
 \section{Protección de los datos} \label{fig:ch02:data-protection}
 iOS tiene una protección especial para los archivos y los datos personales, la cual sigue intacta inclusive si algunas otras partes del sistema de seguridad fueron comprometidas \cite{asg}. La protección de los datos es implementada construyendo varias claves criptográficas y generando con ellas una jerarquía.\\
-Las claves UID y GID\footnote{\textit{Group ID}, por sus siglas en inglés} son AES-256, y fueron integradas al \textit{Secure Enclave} al momento de fabricación del dispositivo. Ningún firmware ni software pueden leerlas directamente, solamente las usa el \textit{Secure Enclave}.\\
-Además de UID y GID, existen otras claves criptográficas, las cuales son generadas por el RNG (\textit{Random Number Generator}, por sus siglas en inglés), usando un algoritmo basado en CTR-DRBG. La entropía es generada por la variación del tiempo transcurrido a partir del booteo \cite{asg}. Todo esto ocurre por hardware dentro del \textit{Secure Enclave}.\\
-Cada vez que se crea un archivo en la partición de datos, el componente \textit{Data Protection} crea una clave AES-256 para ése archivo (distinta para cada archivo) y se la pasa a \textit{Secure Enclave} para que encripte al archivo con dicha clave. Luego, ésa clave se empaqueta con una (o varias) de las claves de clases, dependiendo de la accesibilidad que va a tener el archivo\footnote{Todos los empaquetamientos se realizan utilizando NIST AES \textit{key wrapping}, según RFC3394 \cite{asg}.}.
-Cuando se abre un archivo, su metadata es desempaquetada con la clave del sistema de archivos, revelando la clave particular del archivo y las clases que lo protegen. Se vuelve a desepaquetar, esta vez, con las claves de las clases, para finalmente desencriptar al archivo con su clave única. Este proceso se observa en la Figura \ref{fig:ch02:dataProtection}.
-\begin{figure}[hbtp]
-    \centering
-    \includegraphics[width=.7\linewidth]{chapter2/ios_fileDataProtection_architecture}
-    \caption{Proceso para desempaquetar un archivo \cite{asg}.}
-    \label{fig:ch02:dataProtection}
-\end{figure}
-\section{Código de desbloqueo y Almacenamiento seguro de claves}
-iOS soporta un código de desbloqueo de longitud 4 o superior, salvo que el dispositivo tenga un lector de huellas; en ese \'ultimo caso deber\'a contar con al menos 6 d\'igitos. Además de desbloquear el dispositivo, el código provee entropía a ciertas claves de encriptación del sistema, especialmente a las que se encuentran en el componente \textit{Data Protection}. El hecho de que esté muy ligado con el UID\footnote{Id del usuario, explicada en la secci\'on \ref{fig:ch02:arranque}.}, añade una seguridad extra: no se puede intentar quebrar dicho código fuera del dispositivo. Sumado a esto, se le agrega un gran retraso entre intentos fallidos, el cual intenta reducir la cantidad de intentos de un ataque por fuerza bruta. Los retrasos estan calibrados suponiendo que la frecuencia entre un ataque y otro es de 80 milisegundos \cite{asg}.\\
-Otra herramienta importante del modelo de seguridad es el almacen de claves llamado Llavero\footnote{Traduccion del termino \textit{keyChain}.}, cuya funcionalidad es proteger las contraseñas y otros datos sensibles de algunas aplicaciones que manejan credenciales propias. Est\'a implementada como una base de datos SQLite \cite{asg}, almacenada en el sistema de archivos. Es única por dispositivo y sólo puede ser accedida mediante el demonio de seguridad, el cual es el encargado de decidir quiénes pueden acceder a los items del \textit{Llavero}. Dicho acceso depende de los siguientes permisos:
+El dispositivo móvil provee un componente de \textit{hardware} llamado \textit{Secure Enclave}. Tiene tres funciones principales:
 \begin{itemize}
-\item \emph{Clase del \textit{Llavero}:} Permite asociar un item con su funcionalidad. En el Cuadro \ref{tab:ch02:keychain-classes} se observan las distintas clases provistas por el sistema.
-\item \emph{Id de la aplicacion:} Restringe al item para utilizarlo solamente con una aplicaci\'on.
-\item \emph{Id del grupo de la aplicacion:} Retringe al item para utilizarlo entre aplicaciones que compartan un GID\footnote{Id del grupo, explicada en la secci\'on \ref{fig:ch02:data-protection}.}. Permite a que un desarrollador comparta credenciales entre sus distintas aplicaciones.
+    \item proveer las operaciones de cifrado para la manipulación de la Clave de los Datos\footnote{Traducción propuesta para el término \textit{Data Protection Key}.};
+    \item mantener la integridad de dichos datos inclusive si \textit{kernel} haya sido comprometido;
+    \item es el responsable de procesar los datos provenientes del \textit{Touch ID}\footnote{\textit{Touch ID} es el sistema de detección de huellas digitales que hace posible un acceso seguro, más rápido y sencillo al dispositivo.}, determinando si se desbloquea el dispositivo.
 \end{itemize}
-\begin{table}[hbtp]
-    \centering
-    \begin{tabular}{l l}
-\textbf{Habilidad}    &    \textbf{Clase}   \\ \hline
-Cuando est\'a desbloqueado    &   \textit{kSecAttrAccessibleWhenUnlocked} \\
-Despu\'es del primer desbloqueo    &    \textit{kSecAttrAccessibleAfterFirstUnlock} \\
-Siempre    &   \textit{kSecAttrAccessibleAlways}    \\
-C\'odigo de desbloqueo v\'alido    &    \textit{kSecAttrAccessible} o \textit{WhenPasscodeSetThisDeviceOnly}
-    \end{tabular}
-    \caption{Clases del \textit{Llavero} seg\'un su funcionalidad \cite{asg}.}
-    \label{tab:ch02:keychain-classes}
-\end{table}
+En los procesadores A9 o posteriores de la serie A, el chip genera de forma segura el identificador único (UID\footnote{\textit{Unique ID}, por sus siglas en inglés.}). Esta clave fue creada en el momento de fabricación y que no es conocida por Apple ni por ningún otro componente del dispositivo. La misma es utilizada para generar una clave efímera cada vez que se prende el dispositivo, la cual se utiliza para cifrar la memoria del \textit{Secure Enclave} y los datos del sistema de archivos.\\
+El UID permite vincular los datos a un dispositivo determinado mediante cifrado. Por ejemplo, la jerarquía de claves que protege el sistema de archivos incluye el UID, de modo que si los chips de memoria se trasladan físicamente de un dispositivo a otro, no será posible acceder a los archivos.
+\section{Código de desbloqueo}
+Al configurar el código de desbloqueo para un dispositivo, el usuario activa la protección de datos automáticamente. El sistema admite códigos alfanuméricos de cuatro dígitos, de seis dígitos y de longitud arbitraria, salvo que el dispositivo tenga un lector de huellas; en ese último caso deberá contar con al menos seis dígitos.\\
+Además de desbloquear el dispositivo, el código provee entropía a ciertas claves de cifrado del sistema. El hecho de que esté muy ligado con el UID, añade una seguridad extra: no se puede intentar quebrar dicho código fuera del dispositivo. Es por ello que cuanto más seguro sea el código de desbloqueo, más segura será la clave de cifrado.\\
+A fin de desalentar los posibles ataques de fuerza bruta, se generan retardos cada vez mayores tras la introducción de un código inválido en la pantalla de bloqueo. Los retardos están calibrados suponiendo que la frecuencia entre un ataque y otro es de 80 milisegundos \cite{asg}. En dispositivos que cuentan con un \textit{Secure Enclave}, los retardos se aplican mediante dicho componente. Si el dispositivo se reinicia durante un tiempo de demora, la demora aún se aplica, con el temporizador empezando de nuevo para el periodo actual.
 \section{Seguridad en las aplicaciones}
 \subsection{Entorno seguro}
 Las aplicaciones son un punto crítico en la seguridad de un dispositivo móvil. iOS provee varias capas de seguridad para las aplicaciones, asegurando que las mismas estén certificadas y verificadas antes de estar disponibles en la tienda \cite{asg}.\\
-Todas las aplicaciones de terceros\footnote{\textit{third-party apps}} son aisladas mediante \textit{sandboxing}: tienen denegado el acceso de archivos guardados por otras aplicaciones; tampoco pueden realizar cambios en el dispositivo. En la Figura \ref{fig:ch02:sandboxing} se puede observar lo mencionado anteriormente: cada aplicaci\'on tiene su directorio \textit{Home} para sus archivos, el cual es otorgado aleatoreamente al momento de instalaci\'on.\\
+Todas las aplicaciones de terceros\footnote{\textit{third-party apps}} son aisladas mediante \textit{sandboxing}: tienen denegado el acceso de archivos guardados por otras aplicaciones y no pueden realizar cambios en el dispositivo. En la Figura \ref{fig:ch02:sandboxing} se puede observar lo mencionado anteriormente: cada aplicaci\'on tiene su directorio \textit{Home} para sus archivos, el cual es otorgado aleatoriamente al momento de instalaci\'on.\\
 \begin{figure}[hbtp]
 	\centering
 	\includegraphics[width=.4\linewidth]{chapter2/ios_about_sandboxing}

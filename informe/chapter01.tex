@@ -5,8 +5,8 @@ Una de las características principales de Android es que cualquier aplicación,
 creada por algún desarrollador, puede, al instalarse con las autorizaciones adecuadas, utilizar tanto
 los recursos/servicios del dispositivo móvil como los ofrecidos por el resto de las aplicaciones
 instaladas.\\
-A lo largo de este capitulo se hara una descripcion de los principales aspectos del modelo de seguridad de Android, basandose en la version 6.0 llamada Marshmallow, lanzada en 2015.
-\section{Entorno aislado para cada aplicacion}\label{ch01-sandbox}
+A lo largo de este capitulo se hara una descripción de los principales aspectos del modelo de seguridad de Android, basandose en la version 6.0 llamada Marshmallow, lanzada en 2015.
+\section{Entorno aislado para cada aplicación}\label{ch01-sandbox}
 Fue una de las primeras tecnologías de seguridad aplicadas en Android, y tiene mucha importancia en el modelo de seguridad. Consiste en que cada aplicacion se ejecuta en un entorno aislado (\textit{sandbox}), forzando a que solo pueda tener acceso irrestricto a sus propios recursos. Por lo tanto, las aplicaciones no pueden interactuar entre ellas y tienen acceso limitado al sistema operativo. Ademas, se les asigna una única id de usuario (UID) y se ejecutan en ese usuario como un proceso independiente, como se observa en la Figura \ref{fig:ch01:sandbox}.\\
 Como el entorno aislado está en el \textit{kernel}, este modelo de seguridad se extiende al código nativo y a las aplicaciones del sistema operativo, tales como las bibliotecas del sistema operativo y los \textit{frameworks} de las aplicaciones. Esto genera un aislamiento a nivel del \textit{kernel}, ya que todas las políticas que se aplican a usuarios o grupos de usuarios, se trasfieren a las aplicaciones por tener su UID.
 \begin{figure}[!hb]
