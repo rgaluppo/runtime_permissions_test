@@ -1,18 +1,18 @@
 \chapter{Hacia un Framework Comparativo}
-Android e iOS permiten cambiar ciertos permisos de una aplicación luego de haberla instalado en el dispositivo. En este contexto, se ha desarrollado un framework para determinar empíricamente el alcance de dichos cambios en los sistemas de permisos de ambas plataformas.\\
-El framework es una aplicación móvil y está compuesto por varios tests. Cada test pone a prueba a un componente del dispositivo, permitiendo así conocer el alcance de los permisos correspondientes a dicho componente. De esta manera, se busca dejar en evidencia posibles vulnerabilidades presentes en los modelos de seguridad. Adicionalmente, se hace especial enfoque a la relación existente entre la privacidad del usuario y el sistema de permisos, analizando cuál es la cobertura del sistema respecto de los datos sensibles para la privacidad.\\
-En las siguientes secciones se detallarán los distintos tests que componen el framework. Además, se mencionarán las conclusiones arribadas luego de correr los tests mencionados anteriormente.
+Android e iOS permiten cambiar ciertos permisos de una aplicación luego de haberla instalado en el dispositivo. En este contexto, se ha desarrollado un \textit{framework} para determinar empíricamente el alcance de dichos cambios en los sistemas de permisos de ambas plataformas.\\
+El \textit{framework} es una aplicación móvil y está compuesto por varios tests. Cada test pone a prueba a un componente del dispositivo, permitiendo así conocer el alcance de los permisos correspondientes a dicho componente. De esta manera, se busca dejar en evidencia posibles vulnerabilidades presentes en los modelos de seguridad. Adicionalmente, se hace especial enfoque a la relación existente entre la privacidad del usuario y el sistema de permisos, analizando cuál es la cobertura del sistema respecto de los datos sensibles para la privacidad.\\
+En las siguientes secciones se detallarán los distintos tests que componen el \textit{framework}. Además, se mencionarán las conclusiones arribadas luego de correr los tests mencionados anteriormente.
 \section{Vista principal} \label{sec:main-view}
 Al iniciar la aplicación, se observan dos áreas principales: Acciones y Test, como se puede observar en la Figura \ref{fig:chapter05:main_view}.\\
-La primera área contiene un botón para acceder a la configuración de los permisos del dispositivo. Allí, el \textit{tester} puede cambiar manualmente los permisos requeridos por la aplicación. Además, se encuentra un botón para limpiar la consola del framework.\\
+El primer área contiene un botón para acceder a la configuración de los permisos del dispositivo. Allí, el \textit{tester} puede cambiar manualmente los permisos requeridos por la aplicación. Además, se encuentra un botón para limpiar la consola del \textit{framework}.\\
 \begin{figure}[hbtp]
     \centering
 	\includegraphics[width=0.4\linewidth]{chapter5/app_main_view}
-	\caption{Áreas de la aplicación \textit{Runtime Permissions Test}.}
+	\caption{Áreas del \textit{framework}.}
 	\label{fig:chapter05:main_view}
 \end{figure}
-La segunda área se subdivide en dos: la parte de los tests y la parte de la consola. Una parte corresponde a los botones de los tests que, al presionarse, ejecutan el respectivo test, mostrando en la consola el resultado. Dicho resultado se mostrara con tipografía color verde si fue exitoso; en cambio, se mostrara con tipografía color roja de ser fallido.\\
-A continuación se mencionan los componentes que se pueden testear con el framework:
+El segundo área se subdivide en dos: la parte de los tests y la parte de la consola. Una parte corresponde a los botones de los tests que, al presionarse, ejecutan el respectivo test, mostrando el resultado en la consola. Dicho resultado se imprimirá con tipografía color verde si fue exitoso; en cambio, se imprimirá con tipografía color roja de ser fallido.\\
+A continuación se mencionan los componentes que se pueden testear con el \textit{framework}:
 \begin{itemize}
 	\item Contactos
 	\item Calendario
@@ -35,21 +35,22 @@ El emulador oficial de Android es compatible con la mayoría de las funciones de
     \item Cámara
 \end{itemize}
 Al no poder manipular la tarjeta SD, no es posible testear las funcionalidades multimedia: no se puede grabar audio, ni video ni sacar fotos.\\
-Por lo tanto, no se agregaron al framework tests para los componentes listados anteriormente.
-\section{Cátalogo de test}
-En esta sección se listarán todos los test que conforman al framework. Para cada test se detalla su algoritmo, los plugins de Apache Cordova que se utilizaron para desarrollarlo y una serie de capturas que muestran los casos exitosos y fallidos.\\
-Para acceder al panel de configuraciones, se utilizó el siguiente plugin:\\ \href{https://www.npmjs.com/package/cordova.plugins.diagnostic}{cordova.plugins.diagnostic v3.1.7}
+Por lo tanto, no se agregaron al \textit{framework} tests para los componentes listados anteriormente.
+\section{Catálogo de Tests}
+En esta sección se listarán todos los test que conforman el \textit{framework}. Para cada uno de ellos se detalla el algoritmo, los plugins de Apache Cordova que se utilizaron para desarrollarlo y una serie de capturas que muestran los casos exitosos y fallidos.\\
+Para acceder al panel de configuraciones, se utilizó el \textit{plugin} \href{https://www.npmjs.com/package/cordova.plugins.diagnostic}{cordova.plugins.diagnostic (v. 3.0.4)} de Apache Cordova.\\
+De ahora en adelante, cuando se diga `consola', se refiere a la consola del \textit{framework}.
 \subsection{Contactos}
 \begin{algorithm}
 	\begin{algorithmic}[1]
-		\STATE Se listan todos los contactos en la consola.
+		\STATE Se imprime por consola todos los contactos.
 		\STATE Se crea un nuevo contacto.
-		\STATE Se vuelven a listar todos los contactos en la consola.
+		\STATE Se vuelven a imprimir por consola todos los contactos.
 	\end{algorithmic}
 	\caption{Test de Contactos.}\label{alg:chap5:test_contactos}
 \end{algorithm}
-El test consiste en crear un contacto y luego listar todos los contactos presentes en el dispositivo. En caso de ser exitoso, se muestran los contactos. De lo contrario, se muestra un error. En la Figura \ref{fig:ch05:without_contact} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:with_contact} se observa el caso exitoso.\\
-Para desarrollarlo, se utilizó el plugin \href{https://www.npmjs.com/package/cordova-plugin-contacts}{cordova-plugin-contacts (v. 2.2.1)} de Apache Cordova.\\
+El test consiste en crear un contacto y luego listar todos los contactos presentes en el dispositivo. En caso de ser exitoso, se imprimen los contactos por consola. De lo contrario, se imprime un error. En la Figura \ref{fig:ch05:without_contact} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:with_contact} se observa el caso exitoso.\\
+Para desarrollarlo, se utilizó el \textit{plugin} \href{https://www.npmjs.com/package/cordova-plugin-contacts}{cordova-plugin-contacts (v. 2.3.1)} de Apache Cordova.\\
 Finalmente, para correr el test, es necesario tener el permiso \texttt{Contacto}, tanto para Android como para iOS.
 \begin{figure}[htbp]
     \centering
@@ -71,12 +72,12 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Contacto}
 	\begin{algorithmic}[1]
 		\STATE Se crean las fechas $startDate$ y $endDate$.
 		\STATE Se crea un evento que empieza en la fecha $startDate$ y termina en la fecha $endDate$.
-		\STATE Se listan en la consola los eventos entre las fechas $startDate$ y $endDate$.
+		\STATE Se imprimen por consola los eventos entre las fechas $startDate$ y $endDate$.
 	\end{algorithmic}
 	\caption{Test del Calendario.}\label{alg:chap5:test_calendario}
 \end{algorithm}
 El test consiste en crear un evento en un determinado rango de fechas y luego listar todos los eventos dentro del rango. En caso de ser exitoso, se muestran los datos del evento. De lo contrario, se muestra un error. En la Figura \ref{fig:ch05:without_calendar} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:with_calendar} se observa el caso exitoso.\\
-Para desarrollarlo, se utilizó el plugin \href{https://www.npmjs.com/package/cordova-plugin-calendar}{cordova-plugin-calendar (v. 4.5.5)} de Apache Cordova.\\
+Para desarrollarlo, se utilizó el \textit{plugin} \href{https://www.npmjs.com/package/cordova-plugin-calendar}{cordova-plugin-calendar (v. 4.6)} de Apache Cordova.\\
 Finalmente, para correr el test, es necesario tener el permiso \texttt{Calendario} para Android. En cambio, para iOS, es necesario tener el permiso \texttt{Recordatorios}.
 \begin{figure}[hbtp]
     \centering
@@ -98,12 +99,12 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Calendari
 \begin{algorithm}
 	\begin{algorithmic}[1]
 		\STATE Se censa el GPS.
-		\STATE Se muestran los datos en la consola.
+		\STATE Se imprimen por consola los datos.
 	\end{algorithmic}
 	\caption{Test de Geolocalización.}\label{alg:chap5:test_geolocalizacion}
 \end{algorithm}
 El objetivo del presente test es obtener los datos de la ubicación actual. En caso de tener los permisos correspondientes, obtiene tanto la ubicación precisa (GPS) como la aproximada (WIFI/Móvil). En la Figura \ref{fig:ch05:without_location} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:with_location} se observa el caso exitoso.\\
-Para desarrollarlo, se utilizó el plugin \href{https://github.com/apache/cordova-plugin-geolocation}{cordova-plugin-geolocation (v. 2.4.3)} de Apache Cordova.\\
+Para desarrollarlo, se utilizó el \textit{plugin} \href{https://github.com/apache/cordova-plugin-geolocation}{cordova-plugin-geolocation (v. 2.4.3)} de Apache Cordova.\\
 Al momento de realizar las pruebas, se configuró el emulador de Android para que simule las coordenadas \texttt{(-122$^\circ$, 37$^\circ$)}, tal como se observa en la Figura \ref{fig:ch05:android_extended_controls}. Dicha configuración también se realizo en emulador oficial de iOS.\\
 Finalmente, para correr el test, es necesario tener el permiso \texttt{Localización}, tanto para Android como para iOS.
 \begin{figure}[htbp]
@@ -124,22 +125,21 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Localizac
 \begin{figure}[hbtp]
     \centering
 	\includegraphics[width=0.75\linewidth]{chapter5/android_extended_controls}
-	\caption{Panel de configuración de coordenadas del emulador de Android.}
+	\caption{Panel de configuración del emulador de Android.}
 	\label{fig:ch05:android_extended_controls}
 \end{figure}
 \newpage
 \subsection{SMS}
 \begin{algorithm}
 	\begin{algorithmic}[1]
-		\STATE Se inicializan los eventos para recibir SMS. 
 		\STATE Se envía un SMS de prueba.
-		\STATE Se indica el resultado del test en la consola.
+		\STATE Se imprime por consola el resultado del test.
 	\end{algorithmic}
 	\caption{Test de SMS.}
 	\label{alg:chap5_test_sms}
 \end{algorithm}
 El test consiste en enviar un mensaje SMS. En un principio, se diseñó con la capacidad de enviar, leer y recibir mensajes. Al momento de desarrollarlo, se encontró una restricción de seguridad en iOS: a partir de la version 8 no se pueden acceder a los mensajes SMS desde una aplicación instalada por el usuario \cite{foda, foda2}. En cambio, en Android sí se pueden acceder, siempre que se tengan el permiso correspondiente. Dicho permiso permiso es \texttt{SMS}.\\
-Como consecuencia de lo mencionado en el párrafo anterior, se decidió no implementar las funcionalidades incompatibles, quedando en el test la posibilidad de enviar mensajes SMS. Para desarrollarlo, se utilizó el plugin \href{https://github.com/floatinghotpot/cordova-plugin-sms}{cordova-plugin-sms (v. 1.0)} de Apache Cordova.\\
+Como consecuencia de lo mencionado en el párrafo anterior, se decidió no implementar las funcionalidades incompatibles, quedando en el test la posibilidad de enviar mensajes SMS. Para desarrollarlo, se utilizó el \textit{plugin} \href{https://github.com/floatinghotpot/cordova-plugin-sms}{cordova-plugin-sms (v. 0.1.11)} de Apache Cordova.\\
 En la Figura \ref{fig:ch05:without_sms} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:with_sms} se observa el caso exitoso.\\
 Finalmente, para correr el test, es necesario tener el permiso \texttt{SMS} para Android. Sin embargo, no es necesario tener permisos para correr el test en iOS.
 \begin{figure}[hbtp]
@@ -161,13 +161,14 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{SMS} para
 \subsection{Almacenamiento}
 \begin{algorithm}
 	\begin{algorithmic}[1]
-		\STATE Se intenta capturar la pantalla.
+		\STATE Se realiza una captura de la pantalla.
 		\STATE Se guarda la captura en el dispositivo.
+		\STATE Se imprime por consola el resultado del test.
 	\end{algorithmic}
 	\caption{Test de Almacenamiento.}\label{alg:chap5_test_storage}
 \end{algorithm}
 El presente test fue diseñado para probar el alcance de los permisos de escritura sobre el sistema de archivos que tiene cada plataforma. En la Figura \ref{fig:ch05:storage_fail} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:storage_success} se observa el caso exitoso.\\
-Para desarrollar el presente test se utilizó el plugin \href{https://github.com/gitawego/cordova-screenshot}{cordova-screenshot}.\\
+Para desarrollar el presente test se utilizó el \textit{plugin} \href{https://github.com/gitawego/cordova-screenshot}{cordova-screenshot (v. 0.1.5)} de Apache Cordova.\\
 Finalmente, para correr el test, es necesario tener el permiso \texttt{Almacenamiento} para Android. Sin embargo, no es necesario tener permisos para correr el test en iOS.
 \begin{figure}[hbtp]
    \centering
@@ -184,7 +185,7 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Almacenam
 	\caption{Testeando el almacenamiento del dispositivo.}
 	\label{fig:ch05:storage_test}
 \end{figure}
-\subsection{DeviceInfo}
+\subsection{Información del Dispositivo}
 \begin{algorithm}
 	\begin{algorithmic}[1]
 		\STATE Se obtienen los datos del dispositivo.
@@ -193,12 +194,12 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Almacenam
 	\caption{Test de Información del Dispositivo.}\label{alg:chap5_test_info}
 \end{algorithm}
 El objetivo de este test es obtener datos del dispositivo donde corre la aplicación. Entre otros datos, se obtiene la plataforma, modelo del dispositivo y su número de serie. En la Figura \ref{fig:ch05:device-info} se observan los datos obtenidos.\\
-Para desarrollarlo se utilizó el plugin \href{https://www.npmjs.com/package/cordova-plugin-device}{cordova-plugin-device}.\\
+Para desarrollarlo se utilizó el \textit{plugin} \href{https://www.npmjs.com/package/cordova-plugin-device}{cordova-plugin-device (v.1.1.6)} de Apache Cordova.\\
 Cabe aclarar que no fueron necesarios permisos en ninguna de las dos plataformas para poder correrlo.
 \begin{figure}[hbtp]
    \centering
 	\includegraphics[width=0.3\linewidth]{chapter5/device_info}
-	\caption{Obteniendo datos del dispositivo.}
+	\caption{Testeando Información del Dispositivo.}
 	\label{fig:ch05:device-info}
 \end{figure}
 \subsection{Sensores}
@@ -211,35 +212,31 @@ Cabe aclarar que no fueron necesarios permisos en ninguna de las dos plataformas
 	\end{algorithmic}
 	\caption{Test de los Sensores.}\label{alg:chap5_test_sensors}
 \end{algorithm}
-El objetivo de este test es obtener datos de dos sensores del dispositivo: acelerómentro y giroscopio. Para ello, se configura un \texttt{timer}. Durante el tiempo que este activo, se tomarán distintos muestreos; y cuando ocurra el \emph{timeout} se mostrarán los datos en la consola de la aplicación. En la Figura \ref{fig:ch05:accelerometer_success} se observan los datos obtenidos.\\
-Para desarrollar el presente test se utilizaron los tests \href{https://www.npmjs.com/package/cordova-plugin-device-motion}{cordova-plugin-device-motion} y \href{https://www.npmjs.com/package/cordova-plugin-gyroscope}{cordova-plugin-gyroscope}, de Apache Cordova.\\
+El objetivo de este test es obtener datos de dos sensores del dispositivo: acelerómentro y giroscopio. Para ello, se configura un \texttt{timer}. Durante el tiempo que este activo, se tomarán distintos muestreos; y cuando ocurra el \emph{timeout} se mostrarán los datos en la consola de la aplicación. En la Figura \ref{fig:ch05:sensors_test} se observan los datos obtenidos.\\
+Para desarrollar el presente test se utilizaron los \textit{plugins} \href{https://www.npmjs.com/package/cordova-plugin-device-motion}{cordova-plugin-device-motion} y \href{https://www.npmjs.com/package/cordova-plugin-gyroscope}{cordova-plugin-gyroscope}, de Apache Cordova.\\
 Cabe aclarar que no fueron necesarios permisos en ninguna de las dos plataformas para poder correrlo.
 \begin{figure}[hbtp]
     \centering
-	\begin{subfigure}{.3\linewidth}
-	    \centering
-		\includegraphics[width=\linewidth]{chapter5/accelerometer_success}
-		\caption{Datos obtenidos.}
-		\label{fig:ch05:accelerometer_success}
-	\end{subfigure}
+	\includegraphics[width=.3\linewidth]{chapter5/sensors_success}
 	\caption{Testeando los sensores.}
-	\label{fig:chapter05:sensors_test}
+	\label{fig:ch05:sensors_test}
 \end{figure}
 \newpage
 \subsection{Internet}
 \begin{algorithm}
 	\begin{algorithmic}[1]
-		\STATE Se realiza una consulta GET HTTP hacia \href{https://dcc.fceia.unr.edu.ar/sites/all/themes/birthofcool/images/logo-lcc.png}{logo del DCC}
+		\STATE Se realiza una consulta GET HTTP hacia \href{https://dcc.fceia.unr.edu.ar/sites/all/themes/birthofcool/images/logo-lcc.png}{logo del DCC}.
 		\STATE Se decodifica la imagen (viene codificada en Base64).
-		\STATE Se muestra en consola un \texttt{tag} \textless IMG\textgreater, cuyo \texttt{source} es el dato decodificado.
-		\STATE Se realiza una consulta POST HTTP hacia \href{http://httpbin.org/post}{httpbin}
-		\STATE Se muestra en consola la respuesta.
+		\STATE Se imprime por consola un \texttt{tag} \textless IMG\textgreater, cuyo \texttt{source} es el dato decodificado.
+		\STATE Se realiza una consulta POST HTTP hacia \href{http://httpbin.org/post}{httpbin}.
+		\STATE Se imprime por consola la respuesta.
 	\end{algorithmic}
 	\caption{Test de conexión a Internet.}\label{alg:chap5_test_internet}
 \end{algorithm}
-El objetivo del presente test es establecer una comunicación a través de Internet. No se requirió de ningún plugin para desarrollarlo. En la Figura \ref{fig:ch05:fail_request} se observa el resultado del test cuando no se tiene conexión a Internet; mientras que en la Figura \ref{fig:ch05:success_request} se observa el caso de establecer una comunicación por Internet.\\
+El objetivo del presente test es establecer una comunicación a través de Internet. Al momento de desarrollarlo, no se requirió de ningún \textit{plugin} de Apache Cordova.\\
+En la Figura \ref{fig:ch05:fail_request} se observa el resultado del test cuando no se tiene conexión a Internet; mientras que en la Figura \ref{fig:ch05:success_request} se observa el caso de establecer una comunicación por Internet.\\
 Cabe aclarar que, al ejecutarse el framework desde un emulador, para probar el acceso a Internet se habilitó/deshabilitó la Red Inalámbrica de la computadora donde se corrieron los emuladores.\\
-Por último, para correr el presente test, no fueron necesarios permisos en ninguna de las dos plataformas.
+Por último, no son necesarios permisos en ninguna de las dos plataformas para poder utilizar el presente test.
 \begin{figure}[hbtp]
     \centering
     \begin{subfigure}{.35\linewidth}
@@ -255,16 +252,18 @@ Por último, para correr el presente test, no fueron necesarios permisos en ning
 	\caption{Testeando el acceso a Internet.}
 	\label{fig:ch05:internet_test}
 \end{figure}
+\newpage
 \section{Resultados experimentales}
-El framework desarrollado en este trabajo tiene la capacidad de testear los componentes \emph{Contactos}, \emph{Calendario}, \emph{Geolocalización}, \emph{SMS}, \emph{Sensores}, \emph{Almacenamiento}, \emph{Información del dispositivo} y \emph{Acceso a Internet}, tal como se explica en la sección \ref{sec:main-view}.\\
-Un primer resultado es poder clasificar los componentes testeados en tres clases, según requieran explícitamente permisos para utilizarlos. Dichas clases son:
+El \textit{framework} desarrollado en este trabajo tiene la capacidad de testear los componentes \emph{Contactos}, \emph{Calendario}, \emph{Geolocalización}, \emph{SMS}, \emph{Sensores}, \emph{Almacenamiento}, \emph{Información del dispositivo} y \emph{Acceso a Internet}, tal como se explica en la sección \ref{sec:main-view}.\\
+Un primer resultado es poder clasificar los componentes testeados en cuatro clases, según requieran autorización del usuario para utilizarlos. Dichas clases son:
 \begin{itemize}
-    \item \underline{Clase A}: componentes que requieren autorización explícita en ambas plataformas para poder utilizar sus funcionalidades;
+    \item \underline{Clase A}: componentes que requieren autorización explícita en ambas plataformas para poder utilizar las funcionalidades que proveen;
     \item \underline{Clase B}: componentes que requieren autorización explícita solamente en Android;
-    \item \underline{Clase C}: componentes que no requieren permisos para poder utilizar sus funcionalidades.
-    \item \underline{Clase D}: componentes que requieren autorización explícita solamente en iOS;
+    \item \underline{Clase C}: componentes que requieren autorización explícita solamente en iOS;
+    \item \underline{Clase D}: componentes que no requieren autorización explícita para poder utilizar las funcionalidades que proveen.
 \end{itemize}
-Las clases son mutuamente excluyentes. Luego de correr los tests, se confeccionó la Tabla \ref{tab:ch03:permission-classification}. Cabe aclarar que la \emph{Clase D} es puramente teórica, ya que ninguno de los componentes analizados cayeron en dicha clase. Sin embargo, es bastante razonable que exista algún componente en dicha clase, que pueda ser descubierto al ser ampliado el framework.\\
+Las clases son mutuamente excluyentes. Luego de correr los tests provistos por el \textit{framework}, se armó el Cuadro \ref{tab:ch03:permission-classification}. Cada test permitió clasificar a un componente presente en ambas plataformas.\\
+A continuación, se detalla como están conformadas las clases.
 \begin{table}[hbtp]
     \centering
 	\begin{tabular}{c c c c}
@@ -276,9 +275,9 @@ Las clases son mutuamente excluyentes. Luego de correr los tests, se confeccion�
     Geolocalización    & -    & -    & -\\
     -    & SMS\tablefootnote{Aplica solamente al envío de mensajes.}    & -    & -\\
     -    & Almacenamiento    & -    & -\\
-    -    & -    & Sensores    & -\\
-    -    & -    & Información del dispositivo    & -\\
-    -    & -    & Acceso a Internet    & -\\ \hline
+    -    & -    & -    & Sensores\\
+    -    & -    & -    & Información del dispositivo\\
+    -    & -    & -    & Acceso a Internet\\ \hline
 	\end{tabular}
 	\caption{Clasificación de permisos según si requieren autorización.}
 	\label{tab:ch03:permission-classification}
@@ -286,14 +285,19 @@ Las clases son mutuamente excluyentes. Luego de correr los tests, se confeccion�
 \subsection{Clase A}
 Los componentes que conforman esta clase son \emph{Contactos}, \emph{Calendario} y \emph{Geolocalización}. La característica común entre ellos es que requieren autorización explícita del usuario para interactuar con ellos. Si el usuario deniega el correspondiente permiso, no se puede acceder a ninguna funcionalidad del componente.\\
 El primer componente a analizar es \emph{Contactos}. En Android, requiere el permiso \textit{peligroso} llamado Contacto y en iOS requiere el permiso llamado con el mismo nombre. En ambas plataformas, los dos permisos abarcan las mismas funcionales: permiten crear un contacto, borrarlo, editarlo y obtener un listado de todos los contactos presentes en el dispositivo.\\
-Luego, se continua analizando el componente \emph{Calendario}. Permite administrar todo lo relacionado con los eventos: crear un evento, modificarlo y eliminarlo. Además, permite administrar varios calendarios. Cada evento está relacionado a un calendario. En iOS, estas funcionalidades están separadas en dos componentes: \emph{Calendarios} y \emph{Recordatorios}. Cada uno de ellos tiene su permiso que lo regula. Sin embargo, el test solo prueba el uso del permiso llamado Recordatorios. Por otra parte, en Android el permiso \textit{peligroso} que regula estas funcionalidades se llama Calendario.\\
+Luego, se continua analizando el componente \emph{Calendario}. En Android permite administrar todo lo relacionado con los eventos: crear un evento, modificarlo y eliminarlo. Además, permite administrar varios calendarios, permitiendo por ejemplo, tener un calendario que contenga los eventos laborales y otro con los eventos personales. En iOS, estas funcionalidades están separadas en dos componentes: \emph{Calendarios} y \emph{Recordatorios}. Cada uno de ellos tiene su permiso que lo regula. Sin embargo, el test presente en el \textit{framework} prueba solamente el componente \emph{Recordatorios}. Para poder correrlo, es necesario tener el permiso Recordatorios. Por otra parte, en Android, el permiso \textit{peligroso} que regula las funcionalidades mencionadas anteriormente, se llama Calendario.\\
 A continuación se analiza el último componente de esta clase, llamado \emph{Geolocalización}. En ambas plataformas, provee el acceso a la ubicación del dispositivo, ya sea la ubicación precisa (GPS) o la aproximada (WIFI/Móvil). Tanto en Android como en iOS, el permiso que regula dichas funcionalidades se llama Localización.\\
 \subsection{Clase B}
 Esta clase está compuesta por los componentes \emph{SMS} y \emph{Almacenamiento}. Ellos tienen en común que para utilizar sus funcionalidades no requieren permisos en iOS. Sin embargo, necesitan autorización explícita en Android.\\
-Se comenzará el análisis por el componente \emph{SMS}. Sus funcionalidades son: enviar un mensaje, eliminarlo, obtener los mensajes entrantes y obtener la lista de todos los mensajes, ya sean recibidos o enviados. Sin embargo, el test que se desarrolló solamente prueba el envío de mensajes, ya que en iOS, a partir de la version 8, no se permite acceder al resto de las funcionalidades desde una aplicación de terceros (es decir, no nativa) \cite{foda, foda2}. En cambio, Android permite acceder a todas las funcionalidades mencionadas; y se pueden acceder a través del permiso \textit{peligroso} llamado SMS.\\
-Finalmente, se hablará sobre el componente \emph{Almacenamiento}. En Android, el permiso que regula al componente mencionado tiene su mismo nombre. Dicho permiso resguarda las funcionalidades que permiten leer y escribir la tarjeta SD. En el test, se intenta escribir en el sistema de archivos.
+Se comenzará el análisis por el componente \emph{SMS}. Sus funcionalidades son: enviar un mensaje, eliminarlo, obtener los mensajes entrantes y obtener la lista de todos los mensajes, ya sean recibidos o enviados. Sin embargo, el test presente en el \textit{framework} solamente prueba el envío de mensajes, ya que en iOS, a partir de la version 8, no permite acceder al resto de las funcionalidades desde una aplicación de terceros (es decir, no nativa) \cite{foda, foda2}. En cambio, Android permite acceder a todas las funcionalidades mencionadas; y se pueden acceder teniendo el permiso \textit{peligroso} llamado SMS.\\
+Finalmente, se hablará sobre el componente \emph{Almacenamiento}. En Android, el permiso que regula al componente mencionado tiene su mismo nombre. Dicho permiso resguarda las funcionalidades que permiten leer y escribir la tarjeta SD. El test presente en el \textit{framework} solamente prueba escribir en el sistema de archivos.
 \subsection{Clase C}
-El objetivo de esta clase es agrupar componentes que tienen permisos \textit{normales} en Android. A pesar de ello, pueden ser potencialmente peligrosos a la hora de ser utilizados para violar la privacidad de un usuario\emph{TODO: EXPLICAR!}. De todos los componentes que tienen relacionados algún permiso \textit{normal}, se eligieron tres: \emph{Información del dispositivo}, \emph{Sensores} y \emph{Acceso a Internet}. Cabe aclarar que ambos no requieren autorización explícita del usuario, en ninguna de las dos plataformas, para utilizar las funcionalidades que brindan.\\
-El primer componente nos brinda datos relacionados al dispositivo en el cual se está corriendo la aplicación. Especifica el modelo del dispositivo, el cual es establecido por el fabricante del dispositivo y puede ser diferente en todas las versiones del mismo producto. También se puede obtener información relacionada a la plataforma del dispositivo: nombre, versión, quién lo manufacturó, su UUID\footnote{Del ingles Universally Unique Identifier. Es un numero de 128 bits que identifica al dispositivo biunívocamente.} y si es emulado o no.\\
-Luego, se continúa con el componente \emph{Sensores}. Dicho componente controla el acceso a los sensores del dispositivo. El test recolecta datos de dos sensores: el acelerómentro y el giroscopio.\\
-El último componente de esta clase es el que nos provee acceso a Internet. En la actualidad, son muchas las aplicaciones móviles que utilizan Internet. Según el ranking confeccionado por \cite{BOA}, las 10 aplicaciones más populares utilizan Internet. El test permite realizar una petición GET y una petición POST sin notificar al usuario. Esto es potencialmente muy peligroso ya que una aplicación maliciosa puede enviar y recibir datos sin que el usuario lo note.\emph{TODO: dar más detalles de esto!}
+Los componentes que agrupa la presente clase son aquellos que requieren algún permiso en iOS y no requieren permisos en Android para poder utilizar sus funcionalidades.\\
+Cabe aclarar que la presente clase es puramente teórica, ya que ninguno de los componentes analizados pertenecen a ella. Sin embargo, se mantuvo en el informe ya que es posible que exista algún componente en dicha clase, que pueda ser descubierto en futuras versiones del \textit{framework}.\\
+\subsection{Clase D}
+La presente clase agrupa componentes que no requieren autorización explícita del usuario para utilizar las funcionalidades que brindan. Sus miembros son \emph{Información del dispositivo}, \emph{Sensores} y \emph{Acceso a Internet}.\\
+Como se explica en la sección 3\footnote{TODO: poner la referencia a la sección que explica los permisos en Android}, si una aplicación requiere algún permiso asociado a un componente de esta clase, se le es otorgado por el sistema operativo al momento de instalación. Es por ello que los miembros de esta clase pueden ser potencialmente peligrosos respecto de la privacidad del usuario, ya que exponen medios o información que, combinadas a otros componentes, pueden violar dicha privacidad.\\
+Por ejemplo, supongamos que se tiene instalada una aplicación maliciosa de administración de contactos. Supongamos también, para simplificar, que requiere solamente de dos componentes: Contactos y Acceso a Internet. Según el Cuadro \ref{tab:ch03:permission-classification}, al usuario se le requeriría explícitamente el permiso \emph{Contactos}. Sin embargo, dicha aplicación maliciosa obtiene el permiso correspondiente a Acceso a Internet sin que el usuario sea notificado. Ergo, ¡puede robar todos los contactos!\\
+Empecemos el análisis de los miembros de la clase. El primer componente nos brinda datos relacionados al dispositivo en el cual se está corriendo la aplicación. Especifica el modelo del dispositivo, el cual es establecido por el fabricante del dispositivo y puede ser diferente en todas las versiones del mismo producto. También se puede obtener información relacionada a la plataforma del dispositivo: nombre, versión, quién lo manufacturó, su UUID\footnote{Del ingles Universally Unique Identifier. Es un numero de 128 bits que identifica al dispositivo biunívocamente.} y si es emulado o no.\\
+Luego, se continúa con el componente \emph{Sensores}. Dicho componente controla el acceso a los sensores del dispositivo. El test presente en el \textit{framework} recolecta datos de dos sensores: el acelerómentro y el giroscopio. Con los datos obtenidos, se podría calcular varios movimientos del dispositivo, tales como inclinación, vibración, rotación o balanceo.\\
+El último componente de esta clase es el que nos provee acceso a Internet. En la actualidad, son muchas las aplicaciones móviles que utilizan Internet. Según el ranking confeccionado por \cite{BOA}, las 10 aplicaciones más populares utilizan Internet. El test permite realizar una petición GET y una petición POST sin notificar al usuario. Esto es potencialmente muy peligroso ya que una aplicación maliciosa puede enviar y recibir datos sin que el usuario lo note. Por ejemplo, supongamos que tenemos una aplicación maliciosa que nos oficia de navegador GPS. Supongamos también que el usuario le otorga el permiso para utilizar el GPS. Sin embargo, dicha aplicación podría enviar a través de Internet todas las rutas realizadas por el usuario, sin que el mismo sea notificado.
