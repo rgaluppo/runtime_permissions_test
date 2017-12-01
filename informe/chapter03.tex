@@ -100,45 +100,13 @@ C\'odigo de desbloqueo v\'alido    &    \textit{kSecAttrAccessible} o \textit{Wh
     \caption{Clases del \textit{Llavero} seg\'un su funcionalidad \cite{asg}.}
     \label{tab:ch02:keychain-classes}
 \end{table}
-\subsection{Firma de código de las aplicacionesAAAAAAAAAAAAAAAAAAAAAA}
-Para garantizar que todas las apps proceden de una fuente 
-conocida y aprobada y no se han manipulado, iOS requiere que todo el código ejecu-
-table se firme con un certificado emitido por Apple. Las apps proporcionadas con el 
-dispositivo, como Mail y Safari, están firmadas por Apple. Las apps de terceros también 
-se deben validar y firmar con un certificado emitido por Apple. La firma de código obli-
-gatoria extiende el concepto de cadena de confianza del sistema operativo a las apps 
-e impide que aplicaciones de terceros carguen código sin firmar o utilicen código que 
-se modifique automáticamente.
-Para poder desarrollar e instalar apps en dispositivos iOS, los desarrolladores deben 
-registrarse en Apple y unirse al programa para desarrolladores de Apple. Apple verifica 
-la identidad real de cada desarrollador, ya sea una persona individual o una empresa, 
-antes de emitir su certificado. Este certificado permite a los desarrolladores firmar apps 
-y enviarlas a App Store para su distribución. Así todas las apps de App Store han sido 
-enviadas por personas u organizaciones identificables, lo cual funciona como elemento 
-disuasorio para la creación de apps maliciosas. Además, Apple las ha revisado para 
-garantizar que funcionan según lo esperado y que no contienen errores ni otros pro-
-blemas evidentes. Este proceso de revisión, organización y distribución, que se suma 
-a la tecnología ya comentada, da confianza a los clientes en cuanto a la calidad de las 
-apps que compran
-iOS permite a los desarrolladores incorporar en sus apps estructuras que las propias 
-apps o las extensiones incorporadas en ellas pueden utilizar. Para proteger el sistema y 
-otras apps frente a la carga de código de terceros en su espacio de direcciones, el sis-
-tema valida la firma de código en todas las bibliotecas dinámicas a las que un proceso 
-ofrezca un enlace al iniciarse. Esta verificación se consigue mediante el identificador de 
-equipo (ID de equipo), que se extrae de un certificado emitido por Apple. Un identifi-
-cador de equipo es una cadena de 10 caracteres alfanuméricos, como 1A2B3C4D5F.
- Un 
-programa puede tener un enlace a cualquier biblioteca de plataformas proporcionada 
-con el sistema o a cualquier biblioteca que tenga el mismo identificador de equipo 
-en su firma de código como ejecutable principal. Los ejecutables que se envían con el 
-sistema no cuentan con un identificador de equipo, por lo que solo pueden contener 
-enlaces a bibliotecas que se envíen con el propio sistema
-A diferencia de otras plataformas móviles, iOS no permite a los usuarios instalar apps 
-procedentes de sitios web que no estén firmadas y puedan ser maliciosas, ni ejecutar 
-código que no sea de confianza. Durante la ejecución, se comprueba la firma de códi-
-go de todas las páginas de la memoria ejecutable a medida que se cargan para garan-
-tizar que una app no se ha modificado desde la última vez que se instaló o actualizó.
-\subsection{Permisos}
+\subsection{Firma de código de las aplicaciones}
+iOS realiza un esfuerzo para garantizar que todas las aplicaciones proceden de una fuente conocida y aprobada. Por ello, requiere que todo el código ejecutable se firme con un certificado emitido por Apple. La firma de código obligatoria extiende el concepto de cadena de confianza del sistema operativo a las aplicaciones e impide que aplicaciones de terceros carguen código sin firmar o utilicen código que se modifique automáticamente.\\
+Para poder desarrollar e instalar aplicaciones en dispositivos iOS, los desarrolladores deben 
+registrarse. Apple verifica la identidad real de cada desarrollador, ya sea una persona individual o una empresa, 
+antes de emitir su certificado. Este certificado permite a los desarrolladores firmar apps y enviarlas a la tienda para su distribución. Además, todas las aplicaciones de la tienda han sido revisadas para garantizar que funcionan según lo esperado y que no contienen errores ni otros problemas evidentes.\\
+A diferencia de otras plataformas móviles, iOS no permite a los usuarios instalar apps procedentes de sitios web que no estén firmadas y puedan ser maliciosas, ni ejecutar código que no sea de confianza \cite{asg}. Durante la ejecución, se comprueba la firma de código de todas las páginas de la memoria ejecutable a medida que se cargan para garantizar que una app no se ha modificado desde la última vez que se instaló o actualizó \cite{asg}.
+\subsection{PermisosAAAAAAAAAAAAAAAAAAAAAA}
 Los controles de privacidad en iOS dan el control sobre qué aplicaciones tienen acceso a la información almacenada en su dispositivo iOS. Su enfoque es distinto ya que focaliza en componentes del sistema, permitiendo al usuario denegar (o permitir) el acceso de una aplicación a un determinado componente. El usuario puede modificar la configuración de privacidad en $Ajustes > Privacidad$. En ella se encuentra una lista de componentes, como se observa en la figura \ref{fig:chapter03:iospermCapture}. Para cada uno de ellos, figuran las aplicaciones que pidieron permiso para usar dicho componente. Se pueden agregar o quitar el permiso de cualquier aplicación que ha solicitado el acceso a los datos. Cabe aclarar que una aplicación puede utilizar sus datos sólo si se le ha dado permiso.\\
 
 \begin{figure}[!pb]
