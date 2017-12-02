@@ -73,7 +73,7 @@ Cada dispositivo es seguro desde el arranque, ya que la arquitectura del sistema
 \end{enumerate}
 Si fallan alguno de estos pasos, el dispositivo entra en \emph{Modo de Recuperación}\footnote{Traducción del término \textit{recovery mode}.} y se lo debe conectar a iTunes via USB para restaurar la configuración de fábrica.\\
 \subsection{Cifrado de archivos}
-Cada vez que se guarda un archivo en la partición de datos, el componente \textit{Data Protection} crea una clave AES-256 para ése archivo. Dicha clave es única y es utilizada por el \textit{Secure Enclave} para cifrar el archivo. Luego, ésa clave se empaqueta con una (o varias) de las claves de clases, dependiendo de la accesibilidad que va a tener el archivo\footnote{Todos los empaquetamientos se realizan utilizando NIST AES \textit{key wrapping}, según RFC3394 \cite{asg}.}.\\
+Cada vez que se guarda un archivo en la partición de datos, el componente \textit{Data Protection} crea una clave AES-256 para ése archivo. Dicha clave es única y es utilizada por el \textit{Secure Enclave} para cifrar el archivo. Luego, ésa clave se empaqueta con una (o varias) de las claves de clases, dependiendo de la accesibilidad que va a tener el archivo \cite{asg}.\\
 Cuando se abre un archivo, ocurre el proceso inverso: su metadata es desempaquetada con la clave del sistema de archivos, revelando la clave particular del archivo y las clases que lo protegen. Se vuelve a desempaquetar, esta vez, con las claves de las clases, para finalmente descifrar al archivo con su clave única. El proceso completo se observa en la Figura \ref{fig:ch02:dataProtection}.
 \begin{figure}[hbtp]
     \centering
@@ -81,76 +81,29 @@ Cuando se abre un archivo, ocurre el proceso inverso: su metadata es desempaquet
     \caption{Proceso para descifrar un archivo \cite{asg}.}
     \label{fig:ch02:dataProtection}
 \end{figure}
-\subsection{Almacenamiento seguro de claves}
-Otra herramienta importante del modelo de seguridad es el almacen de claves llamado Llavero\footnote{Traduccion del termino \textit{keyChain}.}, cuya funcionalidad es proteger las contraseñas y otros datos sensibles de algunas aplicaciones que manejan credenciales propias. Est\'a implementada como una base de datos SQLite \cite{asg}, almacenada en el sistema de archivos. Es única por dispositivo y sólo puede ser accedida mediante el demonio de seguridad, el cual es el encargado de decidir quiénes pueden acceder a los items del \textit{Llavero}. Dicho acceso depende de los siguientes permisos:
-\begin{itemize}
-\item \emph{Clase del \textit{Llavero}:} Permite asociar un item con su funcionalidad. En el Cuadro \ref{tab:ch02:keychain-classes} se observan las distintas clases provistas por el sistema.
-\item \emph{Id de la aplicacion:} Restringe al item para utilizarlo solamente con una aplicaci\'on.
-\item \emph{Id del grupo de la aplicacion:} Retringe al item para utilizarlo entre aplicaciones que compartan un GID\footnote{Id del grupo, explicada en la secci\'on \ref{fig:ch02:data-protection}.}. Permite a que un desarrollador comparta credenciales entre sus distintas aplicaciones.
-\end{itemize}
-\begin{table}[hbtp]
-    \centering
-    \begin{tabular}{l l}
-\textbf{Habilidad}    &    \textbf{Clase}   \\ \hline
-Cuando est\'a desbloqueado    &   \textit{kSecAttrAccessibleWhenUnlocked} \\
-Despu\'es del primer desbloqueo    &    \textit{kSecAttrAccessibleAfterFirstUnlock} \\
-Siempre    &   \textit{kSecAttrAccessibleAlways}    \\
-C\'odigo de desbloqueo v\'alido    &    \textit{kSecAttrAccessible} o \textit{WhenPasscodeSetThisDeviceOnly}
-    \end{tabular}
-    \caption{Clases del \textit{Llavero} seg\'un su funcionalidad \cite{asg}.}
-    \label{tab:ch02:keychain-classes}
-\end{table}
 \subsection{Firma de código de las aplicaciones}
-iOS realiza un esfuerzo para garantizar que todas las aplicaciones proceden de una fuente conocida y aprobada. Por ello, requiere que todo el código ejecutable se firme con un certificado emitido por Apple. La firma de código obligatoria extiende el concepto de cadena de confianza del sistema operativo a las aplicaciones e impide que aplicaciones de terceros carguen código sin firmar o utilicen código que se modifique automáticamente.\\
-Para poder desarrollar e instalar aplicaciones en dispositivos iOS, los desarrolladores deben 
-registrarse. Apple verifica la identidad real de cada desarrollador, ya sea una persona individual o una empresa, 
-antes de emitir su certificado. Este certificado permite a los desarrolladores firmar apps y enviarlas a la tienda para su distribución. Además, todas las aplicaciones de la tienda han sido revisadas para garantizar que funcionan según lo esperado y que no contienen errores ni otros problemas evidentes.\\
-A diferencia de otras plataformas móviles, iOS no permite a los usuarios instalar apps procedentes de sitios web que no estén firmadas y puedan ser maliciosas, ni ejecutar código que no sea de confianza \cite{asg}. Durante la ejecución, se comprueba la firma de código de todas las páginas de la memoria ejecutable a medida que se cargan para garantizar que una app no se ha modificado desde la última vez que se instaló o actualizó \cite{asg}.
+iOS garantiza que todas las aplicaciones proceden de una fuente conocida y aprobada. Por ello, requiere que todo el código ejecutable se firme con un certificado emitido por Apple. La firma de código obligatoria extiende el concepto de cadena de confianza del sistema operativo a las aplicaciones e impide que aplicaciones de terceros carguen código sin firmar o utilicen código que se modifique automáticamente.\\
+Para poder desarrollar aplicaciones en dispositivos iOS, los desarrolladores deben registrarse. Apple verifica la identidad real de cada desarrollador, ya sea una persona individual o una empresa, 
+antes de emitir su certificado. Este certificado permite a los desarrolladores firmar sus aplicaciones y enviarlas a la tienda para su distribución. Además, todas las aplicaciones de la tienda han sido revisadas para garantizar que funcionan según lo esperado y que no contienen errores ni otros problemas evidentes.\\
+A diferencia de otras plataformas móviles, iOS no permite a los usuarios instalar aplicaciones procedentes de sitios web que no estén firmadas, ni ejecutar código que no sea de confianza \cite{asg}. Durante la ejecución de una aplicación, se comprueba la firma de código de todas las páginas de la memoria ejecutable a medida que se cargan para garantizar que una aplicaciones no se ha modificado desde la última vez que se instaló o actualizó \cite{asg}.
 \subsection{PermisosAAAAAAAAAAAAAAAAAAAAAA}
-Los controles de privacidad en iOS dan el control sobre qué aplicaciones tienen acceso a la información almacenada en su dispositivo iOS. Su enfoque es distinto ya que focaliza en componentes del sistema, permitiendo al usuario denegar (o permitir) el acceso de una aplicación a un determinado componente. El usuario puede modificar la configuración de privacidad en $Ajustes > Privacidad$. En ella se encuentra una lista de componentes, como se observa en la figura \ref{fig:chapter03:iospermCapture}. Para cada uno de ellos, figuran las aplicaciones que pidieron permiso para usar dicho componente. Se pueden agregar o quitar el permiso de cualquier aplicación que ha solicitado el acceso a los datos. Cabe aclarar que una aplicación puede utilizar sus datos sólo si se le ha dado permiso.\\
-
-\begin{figure}[!pb]
-	\begin{subfigure}{.4\textwidth}
-		\centering
-		\includegraphics[width=135px]{chapter3/iphone6-ios9-settings-privacy}
-    		\caption{iOS 9.3}
-   		\label{fig:chapter03:iospermCapture}
-	\end{subfigure}
-	\begin{subfigure}{.55\textwidth}
-	    \centering	
-		\begin{tabular}{|c|c|}
-			\hline
-			Permissions		 					& Subgroup\\ \hline
-			\multirow{12}{*}{LOCATION SERVICES} 	& Cell Network Search \\
-								 				& Compass Calibration \\
-												& Find My iPhone \\
-												& HomeKit \\
-												& Location-Based Alerts \\
-												& Location-Based iAds \\
-												& Motion Calibration \& Distance \\
-												& Safari \& Spotlight Suggestions \\
-												& Settings Time Zone\\
-												& Share My Location \\
-												& Wi-Fi Networking \\
-												& Frequent Locations \\ \hline
-			Contacts				& \\ \hline
-			Calendars			& \\ \hline
-			Reminders			& \\ \hline
-			Photos				& \\ \hline
-			Bluetooth Sharing 	& \\ \hline
-			Microphone 			& \\ \hline
-			Camera 				& \\ \hline
-			Health 				& \\ \hline
-			HomeKit 				& \\ \hline
-			Social Media Accounts& \\ \hline
-			Diagnostics \& Usage	& \\ \hline		
-			Advertising			& \\ \hline
-		\end{tabular}
-		\caption{Permisos modificables por el Administrador de Privacidad de iOS}
-		\label{tab:chapter03:iosperm}
+Los controles de privacidad en iOS restringen el acceso de las aplicaciones a la información personal del usuario. El principal control es el sistema de permisos, el cual es encargado de custodiar el acceso a ciertos recursos. Al momento de instalar una aplicación en el dispositivo, no le se otorgan ningún permiso. Es responsabilidad de cada aplicación solicitar los permisos que requiere al momento de utilizar el recurso custodiado. Por ejemplo, en la Figura \ref{fig:chapter03:iospermCapture} se observa el pedido del permiso al componente Calendario. Sin la autorización explícita del usuario, dicha aplicación tiene restringido el acceso a ese recurso.\\
+\begin{figure}[hbtp]
+	\centering
+	\begin{subfigure}{.33\linewidth}
+    	\includegraphics[width=\linewidth]{chapter3/calendar_request_ios}
+	    \caption{Captura del pedido de un permiso.}    		
+	    \label{fig:chapter03:iospermCapture}
+    \end{subfigure}
+    \begin{subfigure}{.33\linewidth}
+    	\includegraphics[width=\linewidth]{chapter3/apps-allow-location}
+	    \caption{Aplicaciones que requirieron un permiso.}    		
+	    \label{fig:chapter03:privacy}
 	\end{subfigure}
 \end{figure}
-La lista mencionada anteriormente contiene algunos componentes cuyo nombre es lo suficientemente descriptivo como para saber que estamos permitiendo o denegando. A continuación se hará una breve descripción sobre los componentes de la lista:
+\newpage
+El usuario puede modificar la configuración de privacidad desde \texttt{Ajustes/Privacidad}. Se pueden aprobar o denegar cualquier permiso que haya sido solicitado. Aún más, se puede denegar `para siempre': está pensado para evitar que aparezca constantemente una notificación solicitando determinado permiso. En la Figura \ref{fig:chapter03:privacy} se observan las aplicaciones que requirieron el permiso \emph{Localización}.\\
+Los permisos restringen el acceso a:
 \begin{itemize}
 	\item \textbf{Location Services:} permite a las aplicaciones y/o a las páginas web determinar aproximadamente su ubicación. Dependiendo de su dispositivo y de los servicios disponibles, se utiliza una combinación de cierta información del celular, Wi-Fi, Bluetooth y GPS para determinar su ubicación.
 	\item \textbf{Contacts:} permite a las aplicaciones el acceso a los contactos.
@@ -167,7 +120,6 @@ La lista mencionada anteriormente contiene algunos componentes cuyo nombre es lo
 	\item \textbf{Advertising:} permite inhabilitar los anuncios basados en intereses.
 \end{itemize}
 \newpage
-
 \section{Crítica}
 Al momento de realizar el análisis, se tuvieron en cuenta las coincidencias y las diferencias entre ambas plataformas.\\
 Entre las primeras, podemos mencionar que las dos tienen dispositivos en común a los cuáles se les pueden modificar permisos en \textit{runtime}: micrófono, cámara, GPS, y sensores biométricos. También se aplican dichos permisos a componentes que contienen información sensible del usuario, tales como el calendario, los contactos y las fotos.\\

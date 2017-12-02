@@ -39,23 +39,7 @@ Cada aplicación instalada por el usuario se ejecuta en un \emph{entorno aislado
 El entorno seguro de una aplicación comienza desde el momento de su desarrollo. Los IDE de iOS construyen las aplicaciones utilizando las técnica ASRL\footnote{\textit{Address Space Layout Randomization} es una técnica de seguridad informática involucrada en la prevención contra ataques de desbordamiento de \textit{buffer}.}. Por ejemplo, Xcode compila automáticamente con ASLR activada. De esta forma, se asegura que todas las regiones de memoria son aleatorias al momento de ejecución \cite{asg}, reduciendo la probabilidad de muchos \textit{exploits} sofisticados.
 \subsection{Controles de privacidad}
 iOS ayuda a evitar que las aplicaciones accedan a la información personal de un usuario sin permiso. Es por ello que, el acceso a ciertos recursos, necesita autorización explícita del usuario. Las aplicaciones pueden solicitar un permiso solamente mientras se esté ejecutando. A su vez, los usuarios pueden optar por no permitir este acceso, y pueden cambiar su elección en cualquier momento. Cabe aclarar que una aplicación puede utilizar un recurso sólo si se le ha dado permiso.\\
-Los permisos restringen el acceso a:
-\begin{multicols}{2}
-    \begin{itemize}
-        \item Servicios de Localización
-        \item Contactos
-        \item Calendarios
-        \item Recordatorios
-        \item Fotos
-        \item Compartir Bluetooth
-        \item Micrófono
-        \item Cámara
-        \item Salud
-        \item \textit{HomeKit}
-        \item Redes Sociales
-    \end{itemize} 
-\end{multicols}
-Finalmente, los usuarios pueden ver qué aplicaciones han permitido acceder a cierta información, así como otorgar o revocar cualquier acceso futuro. Dicha información se encuentra en la configuración de privacidad (\texttt{Ajustes/Privacidad}), como se observa en la Figura \ref{fig:ch02:permissions-capture}.\\
+Finalmente, un usuario puede ver qué aplicaciones ha permitido acceder a cierta información, así como otorgar o revocar cualquier acceso futuro. Dicha información se encuentra en la configuración de privacidad (\texttt{Ajustes/Privacidad}), como se observa en la Figura \ref{fig:ch02:permissions-capture}.
 \begin{figure}[hbtp]
     \centering
     \includegraphics[width=.3\linewidth]{chapter2/settings-privacy}
