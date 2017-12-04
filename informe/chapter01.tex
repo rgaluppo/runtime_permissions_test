@@ -24,34 +24,11 @@ Dado que el \emph{entorno aislado} es a nivel del \textit{kernel}, este modelo d
 \end{itemize} 
 Decimos que un dominio es una etiqueta que identifica un conjunto de procesos en una política de seguridad. Los procesos que comparten una misma etiqueta de dominio son tratados de la misma forma. \\
 Android permite aplicar el modo permisivo en un determinado dominio y el resto del sistema permanece en modo riguroso. Gracias a ello, se puede lograr aplicar incrementalmente \emph{SELinux} a una porción cada vez mayor del sistema y desarrollar de políticas para nuevos servicios, manteniendo el resto del sistema en vigencia.
-\section{Autenticación del usuario}
-Android provee diversas formas para que un usuario se autentique, con el objetivo de desbloquear la pantalla. Desde los comienzos, la autenticación se realizaba mediante el PIN, contraseña y patrones. A partir de la versión 5.0, se introduce el concepto llamado \textit{TrustAgents}, el cuál permite mecanismos de desbloqueo más flexibles, tales como:
-\begin{itemize}
-	\item Reconocimiento facial.
-	\item Un determinado lugar, configurado a través de Google Maps.
-	\item Reconocimiento de voz.
-	\item Ciertos dispositivos, tales como el auto (a través de Bluetooth).
-\end{itemize}
-La novedad en la versión 6.0 es que soporta el lector de huellas digitales.\\
-Dependiendo del método utilizado para autenticarse, el sistema operativo provee dos componentes: \textit{Gatekeeper} y \textit{Fingerprint}. El primer componente realiza la autenticación del patrón/contraseña del dispositivo en un entorno de ejecución de confianza TEE); mientras que el segundo componente es el encargado de verificar que la huella detectada por el sensor es valida. Ellos interactúan con el \textit{Keystore}\footnote{Es un componente para almacenar las claves criptográficas, el cual dificulta su extracción, ya que asegura dos cosas: una clave nunca entra en una aplicación y una clave nunca sale de una zona segura \cite{dakss}.} para soportar el uso de \textit{tokens} de autenticación respaldados por \textit{hardware} (\textit{AuthTokens}).\\
-La verificación del desbloqueo de la pantalla ocurre en el TEE \footnote{El \textit{Trust Execution Enviroment} es una zona segura del procesador principal en la cual se provee una ejecución segura e íntegra, tanto de código fuente como de datos. El TEE aisla por \textit{hardware} el acceso a cierta memoria y provee mecanismos de I/O para dicha memoria \cite{tee2011}.}, tal como se observa en la Figura \ref{fig:ch01:authentication-flow}.
-\begin{figure}[htbp]
-	\begin{center}
-		\includegraphics[width=0.7\linewidth]{chapter1/authentication-flow}
-		\caption{Proceso de autenticación en Android\cite{aossec}.}
-		\label{fig:ch01:authentication-flow}
-	\end{center}
-\end{figure}
-Como consecuencia del esta forma de autenticarse, se destacan las siguientes ventajas:
-\begin{itemize}
-    \item Al permitir el desbloqueo con datos biométricos, se acelera y se simplifica el proceso de autenticación. Los usuarios eligen este sistema de desbloqueo en un 91\% \cite{asreview2015}.
-    \item Al realizarse la autenticación en un TEE, se mejora la protección contra ataques de fuerza bruta, ya que se incrementa exponencialmente el tiempo de espera para el desbloqueo \cite{asreview2015}.
-\end{itemize}
-Estas mejoras permiten que los desarrolladores de aplicaciones tengan más opciones de seguridad para sus datos y sus comunicaciones.
 \section{Seguridad en las aplicaciones}
 \subsection{Permisos} \label{ch01-permisos}
 Ciertos recursos que provee Android son sensibles, ya que acceden a datos personales o periféricos importantes. Dichos recursos sólo pueden ser accedidos mediante una SS-API\footnote{\textit{Security Sensitive API}, por sus siglas en inglés.} con un doble objetivo: tenerlos aislados y permitir cierta granularidad de seguridad sobre ellos \cite{HYGZD2014}.
-El mecanismo de seguridad para el acceso a estas SS-API de recursos se llama Permisos y se clasifican de acuerdo con el riesgo implícito al otorgarlos en las siguientes cuatro categorías:
+El mecanismo de seguridad para el acceso a estas SS-API de recursos se llama Permisos, tal como se observa en la Figura \ref{fig:ch01:permissions-check}.\\
+Podemos clasificar los permisos según el riesgo implícito al otorgarlos, resultando las siguientes cuatro categorías:
 \begin{itemize}
     \item \emph{Normal:} Son aquellos permisos de bajo riesgo ya que corresponden a características aisladas y son considerados de bajo riesgo para las demás aplicaciones, para el sistema y para el usuario. Son concedidos automáticamente por el sistema, sin solicitar aprobación explícita del usuario \cite{Rom14}.
     \item \emph{Dangerous:} Son aquellos permisos de alto riesgo ya que resguardan los accesos a información sensible para el usuario u otorgan control sobre funcionalidades principales del sistema. Para ser concedidos se requiere aprobación explícita del usuario \cite{Rom14}. 
@@ -60,16 +37,17 @@ El mecanismo de seguridad para el acceso a estas SS-API de recursos se llama Per
 \end{itemize}
 \begin{figure}[hbtp]
 	\begin{center}
-		\includegraphics[width=.8\linewidth]{chapter1/permissions_check}
-		\caption{Los recursos solamente pueden ser accedidos a través de los permisos}
+		\includegraphics[width=.75\linewidth]{chapter1/permissions_check}
+		\caption{Los recursos están resguardados por los permisos \cite{aossec}.}
 		\label{fig:ch01:permissions-check}
 	\end{center}
 \end{figure}
+\newpage
 \subsection{Manifiesto}
-El archivo de manifiesto proporciona información sobre una aplicación al sistema Android, información que el sistema debe tener para poder ejecutar el código de la aplicación. Es por ello, que todas las aplicaciones deben tener un archivo \texttt{AndroidManifest.xml} (con ese nombre exacto) en el directorio raíz. En este archivo se declaran todos los componentes que forman parte de la aplicación en cuestión, los permisos que son requeridos (ver sección \ref{ch01-permisos}) y los permisos exportados por la aplicación, entre otras cosas.
+El archivo de manifiesto proporciona información sobre una aplicación al sistema Android, información que el sistema debe tener para poder ejecutar el código de la aplicación. Es por ello, que todas las aplicaciones deben tener un archivo \texttt{AndroidManifest.xml} (con ese nombre exacto) en el directorio raíz. En este archivo se declaran todos los componentes que forman parte de la aplicación en cuestión, los permisos que son requeridos (ver sección \ref{ch01-permisos}) y los permisos exportados por la aplicación, entre otras cosas. En la Figura \ref{fig:ch01:manifest} se observa el manifiesto de una aplicación que requiere los permisos \texttt{READ\_CONTACTS} y \texttt{WRITE\_CONTACTS}.
 \begin{figure}[hbtp]
     \centering
     \lstinputlisting[language=XML, basicstyle=\tiny, breaklines=true, frame=single]{AndroidManifest.xml}
-    \caption{Manifiesto de la aplicación que contiene los tests.}
+    \caption{Manifiesto de una aplicación.}
     \label{fig:ch01:manifest}
 \end{figure}
