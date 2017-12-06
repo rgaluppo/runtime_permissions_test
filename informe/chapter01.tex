@@ -1,13 +1,16 @@
 \chapter{Modelo de Seguridad de Android}
 Android \cite{aos} es un sistema operativo de código abierto \cite{aosp}, diseñado para dispositivos móviles y
 desarrollado por Google junto con la Open Handset Alliance \cite{oha}. Su arquitectura sigue el estilo arquitectónico conocido como Sistemas Estratificados: los distintos componentes se agrupan en capas según su nivel de abstracción, conformando una jerarquía. Las capas inferiores contienen componentes ligados al \textit{hardware}, mientras que las capas superiores agrupan componentes ligados con tareas de mas alto nivel.\\
+
 Una de las características principales de Android es que cualquier aplicación, ya sea principal o
 creada por algún desarrollador, puede, al instalarse con las autorizaciones adecuadas, utilizar tanto
 los recursos/servicios del dispositivo móvil como los ofrecidos por el resto de las aplicaciones
 instaladas.\\
+
 A lo largo de este capitulo se hará una descripción de los principales aspectos del modelo de seguridad de Android,  en la version 6.0 llamada Marshmallow, lanzada en 2015.
 \section{Entorno aislado para cada aplicación}\label{ch01-sandbox}
 Fue una de las primeras tecnologías de seguridad aplicadas en Android, y tiene mucha importancia en el modelo de seguridad. Consiste en que cada aplicación se ejecuta en un \emph{entorno aislado}\footnote{Traducción propuesta para el término \textit{sandbox}.}, forzando a que solo pueda tener acceso irrestricto a sus propios recursos. Por lo tanto, las aplicaciones no pueden interactuar entre ellas y tienen acceso limitado al sistema operativo. Cada aplicación se le asigna una única id de usuario UID y se ejecuta en ese usuario como un proceso independiente, tal como se observa en la Figura \ref{fig:ch01:sandbox}.\\
+
 Dado que el \emph{entorno aislado} es a nivel del \textit{kernel}, este modelo de seguridad se extiende al código nativo y a las aplicaciones del sistema operativo, tales como las bibliotecas del sistema operativo y los \textit{frameworks} de las aplicaciones. Esto genera un aislamiento a nivel del \textit{kernel}, ya que todas las políticas que se aplican a usuarios o grupos de usuarios, se transfieren a las aplicaciones por tener su UID.
 \begin{figure}[hbtp]
 	\begin{center}
@@ -23,11 +26,12 @@ Dado que el \emph{entorno aislado} es a nivel del \textit{kernel}, este modelo d
     \item \underline{Permisivo:} no se aplican las políticas pero se guardan en un log.
 \end{itemize} 
 Decimos que un dominio es una etiqueta que identifica un conjunto de procesos en una política de seguridad. Los procesos que comparten una misma etiqueta de dominio son tratados de la misma forma. \\
+
 Android permite aplicar el modo permisivo en un determinado dominio y el resto del sistema permanece en modo riguroso. Gracias a ello, se puede lograr aplicar incrementalmente \emph{SELinux} a una porción cada vez mayor del sistema y desarrollar de políticas para nuevos servicios, manteniendo el resto del sistema en vigencia.
 \section{Seguridad en las aplicaciones}
 \subsection{Permisos} \label{ch01-permisos}
-Ciertos recursos que provee Android son sensibles, ya que acceden a datos personales o periféricos importantes. Dichos recursos sólo pueden ser accedidos mediante una SS-API\footnote{\textit{Security Sensitive API}, por sus siglas en inglés.} con un doble objetivo: tenerlos aislados y permitir cierta granularidad de seguridad sobre ellos \cite{HYGZD2014}.
-El mecanismo de seguridad para el acceso a estas SS-API de recursos se llama Permisos, tal como se observa en la Figura \ref{fig:ch01:permissions-check}.\\
+Ciertos recursos que provee Android son sensibles, ya que acceden a datos personales o periféricos importantes. Dichos recursos sólo pueden ser accedidos mediante una SS-API\footnote{\textit{Security Sensitive API}, por sus siglas en inglés.} con un doble objetivo: tenerlos aislados y permitir cierta granularidad de seguridad sobre ellos \cite{HYGZD2014}. El mecanismo de seguridad para el acceso a estas SS-API de recursos se llama Permisos, tal como se observa en la Figura \ref{fig:ch01:permissions-check}.\\
+
 Podemos clasificar los permisos según el riesgo implícito al otorgarlos, resultando las siguientes cuatro categorías:
 \begin{itemize}
     \item \emph{Normal:} Son aquellos permisos de bajo riesgo ya que corresponden a características aisladas y son considerados de bajo riesgo para las demás aplicaciones, para el sistema y para el usuario. Son concedidos automáticamente por el sistema, sin solicitar aprobación explícita del usuario \cite{Rom14}.
@@ -35,7 +39,7 @@ Podemos clasificar los permisos según el riesgo implícito al otorgarlos, resul
     \item \emph{Signature:} Son aquellos permisos que son aprobados solamente si la aplicación que los requiere tiene el mismo certificado que la aplicación que los creó. Cuando el sistema valida el certificado, se otorga el permiso sin requerir aprobación explícita del usuario. Se crearon para permitir que un desarrollador pueda compartir información entre sus distintas aplicaciones sin necesidad de la aprobación del usuario \cite{Rom14}.
     \item \emph{Signature/System:} Son aquellos permisos que controlan el acceso a servicios críticos del sistema. En general, las únicas aplicaciones que los utilizan son las que vienen pre-instaladas en el dispositivo, ya que se utilizan para ciertas situaciones especiales en las que varios proveedores tienen aplicaciones integradas en una imagen del sistema que necesitan compartir funciones específicas explícitamente porque se están creando juntas \cite{Rom14}.
 \end{itemize}
-\begin{figure}[hbtp]
+\begin{figure}[tbp]
 	\begin{center}
 		\includegraphics[width=.75\linewidth]{chapter1/permissions_check}
 		\caption{Los recursos están resguardados por los permisos \cite{aossec}.}

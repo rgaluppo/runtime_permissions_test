@@ -1,9 +1,13 @@
 \chapter{Análisis Comparativo}
 Android e iOS son dos plataformas muy populares entre los dispositivos móviles. Es por ello, que existes muchas  muchas formas de comparar sus respectivos módulos de seguridad.\\
+
 La medida de comparación propuesta en \cite{YA2014} consiste en analizar la seguridad de una aplicación móvil en cada fase del ciclo de vida, comparándola en cada plataforma.\\
+
 En \cite{HYGZD2013} el enfoque es distinto. Se centra en comparar los permisos requeridos a cada plataforma al momento de instalar aplicaciones presentes en ambas plataformas.\\
+
 En \cite{Gor16, BCLR15, Rom14} se cambia el enfoque propuesto. El objetivo que persiguen es desarrollar una especificación formal que describa el modulo de seguridad de Android.\\
-En este capítulo se propone una forma de comparar distinta a las anteriores. Consiste en analizar distintas características presentes en ambas plataformas, poniendo foco especialmente en los permisos que se pueden modificar en tiempo de ejecución. El análisis se esta basado en los documentos oficiales de seguridad, tales como \cite{aossec, asreview2015, asg} entre otros. Al final del capítulo se agrega una crítica sobre las funcionalidades mencionadas en el análisis.\\
+
+En este capítulo se propone una forma de comparar distinta a las anteriores. Consiste en analizar distintas características presentes en ambas plataformas, poniendo foco en los permisos que se pueden modificar \emph{en tiempo de ejecución}. El análisis se esta basado en los documentos oficiales de seguridad, tales como \cite{aossec, asreview2015, asg} entre otros. Al final del capítulo se agrega una crítica sobre las funcionalidades mencionadas en el análisis.
 \section{Analizando Android}
 \subsection{Autenticación del usuario}
 Android provee diversas formas para que un usuario se autentique, con el objetivo de desbloquear la pantalla. Desde los comienzos, la autenticación se realizaba mediante el PIN, contraseña y patrones. A partir de la versión 5.0, se introduce el concepto llamado \textit{TrustAgents}, el cuál permite mecanismos de desbloqueo más flexibles, tales como:
@@ -14,8 +18,11 @@ Android provee diversas formas para que un usuario se autentique, con el objetiv
 	\item Ciertos dispositivos, tales como el auto (a través de Bluetooth).
 \end{itemize}
 La novedad en la versión 6.0 es que soporta el lector de huellas digitales.\\
+
 Dependiendo del método utilizado para autenticarse, el sistema operativo provee dos componentes: \textit{Gatekeeper} y \textit{Fingerprint}. El primer componente realiza la autenticación del patrón/contraseña del dispositivo en un entorno de ejecución de confianza TEE\footnote{El \textit{Trust Execution Enviroment} es una zona segura del procesador principal en la cual se provee una ejecución segura e íntegra, tanto de código fuente como de datos. El TEE aisla por \textit{hardware} el acceso a cierta memoria y provee mecanismos de I/O para dicha memoria \cite{tee2011}.}; mientras que el segundo componente es el encargado de verificar que la huella detectada por el sensor es valida. Ellos interactúan con el \textit{Keystore}\footnote{Es un componente para almacenar las claves criptográficas, el cual dificulta su extracción, ya que asegura dos cosas: una clave nunca entra en una aplicación y una clave nunca sale de una zona segura \cite{dakss}.} para soportar el uso de \textit{tokens} de autenticación respaldados por \textit{hardware} (\textit{AuthTokens}).\\
-La verificación del desbloqueo de la pantalla ocurre en el TEE, tal como se observa en la Figura \ref{fig:ch01:authentication-flow}.
+
+La verificación del desbloqueo de la pantalla ocurre en el TEE, tal como se observa en la Figura \ref{fig:ch01:authentication-flow}.\\
+
 \begin{figure}[htbp]
 	\begin{center}
 		\includegraphics[width=0.7\linewidth]{chapter1/authentication-flow}
@@ -31,6 +38,7 @@ Como consecuencia del esta forma de autenticarse, se destacan las siguientes ven
 Estas mejoras permiten que los desarrolladores de aplicaciones tengan más opciones de seguridad para sus datos y sus comunicaciones.
 \subsection{Seguro desde el arranque}\label{fig:ch03:verify-boot}
 Android ofrece la funcionalidad de garantizar un arranque seguro del dispositivo, comenzando desde un lugar confiable del \textit{hardware} hasta que se monta la partición. Durante el arranque, el sistema operativo verifica que la versión de Android no se haya alterado respecto a la de fábrica, informando mediante alertas en caso contrario y ofreciendo opciones para resolverlo. Dependiendo de la implementación de la funcionalidad, el sistema operativo puede ofrecer una acción al usuario o evitar el arranque hasta que se haya solucionado el problema \cite{aossec}.\\
+
 En la figura \ref{fig:ch03:verifyBoot} se observa el diagrama de flujo del \textit{Arranque Seguro}\footnote{Traducción propuesta del término \textit{Verified Boot}.}, el cual termina en cuatro estados posibles:
 \begin{itemize}
 	\item Verde: indica que se pudo verificar correctamente el arranque del sistema.
@@ -47,20 +55,23 @@ En la figura \ref{fig:ch03:verifyBoot} se observa el diagrama de flujo del \text
 \end{figure}
 \subsection{Cifrado de la partición de datos}
 Mediante una opción de la configuración, Android permite cifrar todos los datos de usuario presentes en un dispositivo, utilizando claves de cifrado simétricas. Una vez cifrado, el proceso es transparente para el usuario. Es decir, todos los datos creados se cifran antes de enviarlos al disco y todas las lecturas descifran los datos antes de devolverlos al proceso que realizó la llamada.\\
+
 Esta funcionalidad se activa desde \texttt{Ajustes/Seguridad/Cifrar Teléfono}, como se observa en la Figura \ref{fig:ch03:android-cifrado}. Al activarse dicha opción, se cifran los datos privados de las aplicaciones, el contenido de la tarjeta SD y los datos personales, pudiendo cambiar más adelante el alcance de los componentes afectados por el cifrado. Mientras esté activa dicha opción, cada vez que arranque el dispositivo, el usuario debe proporcionar sus credenciales para poder acceder a cualquier parte del disco.\\
-La primera vez que apareció esta funcionalidad fue en la versión 3.0. Sin embargo, a partir de la versión 5.0, fue fuertemente recomendado a los fabricantes de dispositivos que habiliten esta característica. La novedad incorporada en Android Marshmallow es que se puede cifrar el contenido de la tarjeta SD, permitiendo que sea ilegible si es removida del dispositivo.\\
-\begin{figure}[hbtp]
+La primera vez que apareció esta funcionalidad fue en la versión 3.0. Sin embargo, a partir de la versión 5.0, fue fuertemente recomendado a los fabricantes de dispositivos que habiliten esta característica. La novedad incorporada en Android Marshmallow es que se puede cifrar el contenido de la tarjeta SD, permitiendo que sea ilegible si es removida del dispositivo.
+\begin{figure}[htbp]
 	\begin{center}
 		\includegraphics[width=0.3\linewidth]{chapter3/android-cifrado}
 		\caption{Captura de \texttt{Ajustes/Seguridad}.}
 		\label{fig:ch03:android-cifrado}
 	\end{center}
 \end{figure}
-\newpage
-\subsection{Permisos}
+\subsection{Permisos}\label{ch03-permisos}
 Debido a que cada aplicación Android opera en un \emph{entorno aislado}\footnote{Ver sección \nameref{ch01-sandbox}.}, las aplicaciones deben compartir de manera explícita recursos y datos. El camino utilizado para realizar dicho intercambio es la declaración de permisos, tal como se introdujo en la sección \ref{ch01-permisos}. El presente informe se centra en los permisos \emph{Normales} y \emph{Peligrosos}; cómo se otorgan y cómo se deniegan.\\
+
 En las versiones anteriores a Android Marshmallow, al prepararse para instalar una aplicación, el sistema operativo mostraba un diálogo al usuario indicando los permisos solicitados y se le solicitaba si deseaba continuar con la instalación. En caso afirmativo, el sistema otorgaba todos los permisos solicitados e instalaba la aplicación. En el caso contrario, no se instalaba la aplicación. El usuario quedaba preso si quería instalar una aplicación: no podía otorgar o denegar permisos individuales; debía otorgar o denegar todos los permisos solicitados como un bloque. Una vez concedidos, los permisos seguían vigentes mientras la aplicación este instalada. Solo se eliminaban si se desinstala dicha aplicación.\\
+
 A partir de la versión 6.0, se propone un nuevo modelo de permisos, donde los usuarios pueden administrar en tiempo de ejecución los permisos \emph{peligrosos} requeridos por una aplicación. En este modelo, los permisos se agrupan para facilitar el control de la privacidad de los usuarios.\\
+
 Dichos grupos son:
 \begin{itemize}
     \item \emph{Almacenamiento:} Regula el acceso al almacenamiento externo\footnote{En Android, cuando se habla de almacenamiento externo, se refiere a la tarjeta SD.}, \\permitiendo la lectura o la escritura desde el mismo.
@@ -74,6 +85,7 @@ Dichos grupos son:
     \item \emph{Sensores:} Permite acceder a los datos de los sensores del dispositivo. Se incluyen el giroscopio, el acelerómentro, sensor del ritmo cardíaco, entre otros.
 \end{itemize}
 En contraposición a lo que ocurría en las versiones previas, en Android Marsmallow durante la instalación de una aplicación se le otorgan todos los permisos \emph{normales} y ningún permiso \emph{peligroso}. Como consecuencia de esto, cada vez que una aplicación necesita acceder a un recurso protegido por un permiso \emph{peligroso}, tiene que solicitarlo en tiempo de ejecución. Por ejemplo, si una aplicación requiere leer un contacto, la primera vez aparece una notificación pidiendo autorización explicita al usuario, tal como se observa en la Figura \ref{fig:ch01:permission-request}. El usuario puede otorgar el permiso, denegarlo una vez o denegarlo para siempre. Si elige la última opción, no volverá a aparecer la notificación solicitando dicho permiso. Dichas opciones se encuentran en \texttt{Ajustes/Aplicaciones/\{nombre de la aplicación\}/Permisos}. En la Figura \ref{fig:ch03:app-permissions-overview} se observa una captura de las configuraciones de los permisos para una aplicación móvil.\\
+
 Debido a que el usuario puede revocar los permisos \emph{peligrosos} en cualquier momento, una aplicación debe comprobar si dispone de ellos cada vez que se ejecuta. De lo contrario no va a poder acceder a las funciones de las cuales no tiene permiso. Sin embargo, el usuario no puede revocar los permisos \emph{normales}; solamente se eliminan al desinstalar la aplicación.
 \begin{figure}[btp]
     \centering
@@ -93,7 +105,9 @@ Debido a que el usuario puede revocar los permisos \emph{peligrosos} en cualquie
 \section{Analizando iOS}
 \subsection{Bloqueo del dispositivo}
 Al configurar el código de desbloqueo para un dispositivo, el usuario activa la protección de datos automáticamente. El sistema admite códigos alfanuméricos de cuatro dígitos, de seis dígitos y de longitud arbitraria, salvo que el dispositivo tenga un lector de huellas; en ese último caso deberá contar con al menos seis dígitos.\\
+
 Además de desbloquear el dispositivo, el código provee entropía a ciertas claves de cifrado del sistema. El hecho de que esté muy ligado con el UID, añade una seguridad extra: no se puede intentar quebrar dicho código fuera del dispositivo. Es por ello que cuanto más seguro sea el código de desbloqueo, más segura será la clave de cifrado.\\
+
 A fin de desalentar los posibles ataques de fuerza bruta, se generan retardos cada vez mayores tras la introducción de un código inválido en la pantalla de bloqueo. Los retardos están calibrados suponiendo que la frecuencia entre un ataque y otro es de 80 milisegundos \cite{asg}. En dispositivos que cuentan con un \textit{Secure Enclave}, los retardos se aplican mediante dicho componente. Si el dispositivo se reinicia durante un tiempo de demora, la demora aún se aplica, con el temporizador empezando de nuevo para el periodo actual.
 \subsection{Arranque seguro}\label{fig:ch02:arranque}
 Cada dispositivo es seguro desde el arranque, ya que la arquitectura del sistema fue pensada para integrar \textit{hardware}, \textit{software} y servicios, con el objetivo de obtener seguridad a lo largo de todos los componentes que conforman el núcleo del sistema \cite{asg}. Cuando se prende un dispositivo cuyo sistema operativo es iOS, se siguen los siguientes pasos para asegurar la integridad del arranque del sistema\footnote{Traducción propuesta para el término \textit{Boot Chain}} :
@@ -103,9 +117,10 @@ Cada dispositivo es seguro desde el arranque, ya que la arquitectura del sistema
 	\item Pasada la validación, empieza la carga del kernel de iOS mediante \textit{iBoot}.
 	\item El siguiente paso es asegurar la integridad del software. Los dispositivos con un procesador A7 o superior, cuentan con un coprocesador llamado \textit{Secure Enclave}\footnote{\textit{Secure Enclave} es un coprocesador con memoria cifrada e incluye generación de números aleatorios por hardware \cite{asg}.} para verificar dicha integridad.
 \end{enumerate}
-Si fallan alguno de estos pasos, el dispositivo entra en \emph{Modo de Recuperación}\footnote{Traducción del término \textit{recovery mode}.} y se lo debe conectar a iTunes via USB para restaurar la configuración de fábrica.\\
+Si fallan alguno de estos pasos, el dispositivo entra en \emph{Modo de Recuperación}\footnote{Traducción del término \textit{recovery mode}.} y se lo debe conectar a iTunes via USB para restaurar la configuración de fábrica.
 \subsection{Cifrado de archivos}
 Cada vez que se guarda un archivo en la partición de datos, el sistema operativo crea una clave AES-256 para ése archivo. Dicha clave es única y es utilizada por el \textit{Secure Enclave} para cifrar el archivo. Luego, ésa clave se empaqueta con una (o varias) de las claves de clases, dependiendo de la accesibilidad que va a tener el archivo \cite{asg}.\\
+
 Cada vez que se abre un archivo, ocurre el proceso inverso: su metadata es desempaquetada con la clave del sistema de archivos, revelando la clave particular del archivo y las clases que lo protegen. Se vuelve a desempaquetar, esta vez, con las claves de las clases, para finalmente descifrar al archivo con su clave única. El proceso completo se observa en la Figura \ref{fig:ch02:dataProtection}.
 \begin{figure}[hbtp]
     \centering
@@ -115,11 +130,13 @@ Cada vez que se abre un archivo, ocurre el proceso inverso: su metadata es desem
 \end{figure}
 \subsection{Firma de código de las aplicaciones}
 iOS garantiza que todas las aplicaciones proceden de una fuente conocida y aprobada. Por ello, requiere que todo el código ejecutable se firme con un certificado emitido por Apple. La firma de código obligatoria extiende el concepto de cadena de confianza del sistema operativo a las aplicaciones e impide que aplicaciones de terceros carguen código sin firmar o utilicen código que se modifique automáticamente.\\
-Para poder desarrollar aplicaciones en dispositivos iOS, los desarrolladores deben registrarse. Apple verifica la identidad real de cada desarrollador, ya sea una persona individual o una empresa, 
-antes de emitir su certificado. Este certificado permite a los desarrolladores firmar sus aplicaciones y enviarlas a la tienda para su distribución. Además, todas las aplicaciones de la tienda han sido revisadas para garantizar que funcionan según lo esperado y que no contienen errores ni otros problemas evidentes.\\
+
+Para poder desarrollar aplicaciones en dispositivos iOS, los desarrolladores deben registrarse. Apple verifica la identidad real de cada desarrollador, ya sea una persona individual o una empresa, antes de emitir su certificado. Este certificado permite a los desarrolladores firmar sus aplicaciones y enviarlas a la tienda para su distribución. Además, todas las aplicaciones de la tienda han sido revisadas para garantizar que funcionan según lo esperado y que no contienen errores ni otros problemas evidentes.\\
+
 A diferencia de otras plataformas móviles, iOS no permite a los usuarios instalar aplicaciones procedentes de sitios web que no estén firmadas, ni ejecutar código que no sea de confianza \cite{asg}. Durante la ejecución de una aplicación, se comprueba la firma de código de todas las páginas de la memoria ejecutable a medida que se cargan para garantizar que una aplicaciones no se ha modificado desde la última vez que se instaló o actualizó \cite{asg}.
 \subsection{Permisos}
 Los controles de privacidad en iOS restringen el acceso de las aplicaciones a la información personal del usuario. El principal control es el sistema de permisos, el cual es encargado de custodiar el acceso a ciertos recursos. Al momento de instalar una aplicación en el dispositivo, no le se otorga ningún permiso. Es responsabilidad de cada aplicación solicitar los permisos que requiere al momento de utilizar el recurso custodiado. Por ejemplo, en la Figura \ref{fig:chapter03:iospermCapture} se observa el pedido del permiso al componente Calendario. Sin la autorización explícita del usuario, dicha aplicación tiene restringido el acceso a ese recurso.\\
+
 \begin{figure}[hbtp]
 	\centering
 	\begin{subfigure}{.33\linewidth}
@@ -137,6 +154,7 @@ Los controles de privacidad en iOS restringen el acceso de las aplicaciones a la
 \end{figure}
 \newpage
 El usuario puede modificar la configuración de privacidad desde \texttt{Ajustes/Privacidad}. Se pueden aprobar o denegar cualquier permiso que haya sido solicitado. Aún más, se puede denegar ``para siempre'': está pensado para evitar que aparezca constantemente una notificación solicitando determinado permiso. En la Figura \ref{fig:chapter03:privacy} se observan las aplicaciones que requirieron el permiso \emph{Localización}.\\
+
 Los permisos restringen el acceso a:
 \begin{itemize}
 	\item \emph{Localización:} Permite determinar aproximadamente la ubicación del dispositivo. Utiliza una combinación de cierta información del celular, WiFi, Bluetooth y GPS para determinarla.
@@ -154,24 +172,33 @@ Los permisos restringen el acceso a:
 	\item \emph{Publicidad:} Permite inhabilitar los anuncios basados en intereses.
 \end{itemize}
 \section{Crítica}
-Teniendo presente el análisis realizado en las secciones anteriores, se realiza a continuación una crítica sobre los modelos de seguridad de ambas plataformas. La misma está compuesta por cuatro niveles gradualmente más complejos que engloban aspectos de la seguridad que van desde que se prende el dispositvo hasta el uso de una aplicación.
+Teniendo presente el análisis realizado en las secciones anteriores, se realiza a continuación una crítica sobre los modelos de seguridad de ambas plataformas. La misma está compuesta por cuatro niveles gradualmente más complejos que engloban aspectos de la seguridad que van desde que se prende el dispositivo hasta el uso de una aplicación.
 \subsection{Arranque verificado}
 Desde la primera versión, iOS ofrece la funcionalidad de verificación desde el arranque del dispositivo para ver si fue modificado respecto de la version de fábrica. Por lo tanto, dicha verificación es transparente para el usuario. En caso de fallar, el dispositivo entra en \emph{modo de recuperación}, teniendo que conectarlo a una computadora para restaurar la configuración de fábrica.\\
+
 En Android, el arranque verificado se agregó en la version 4.4 pero recién en la versión 6.0 se hizo obligatorio para los fabricantes. La principal ventaja respecto de iOS es que tiene cuatro estados finales de la verificación en vez de dos. Se identifican por colores: verde, amarillo, naranja y rojo. Los estados verde y rojo son equivalentes a los estados de iOS: válido e inválido, respectivamente. Los estados amarillo y naranja corresponden a una validación parcial\footnote{Ver apartado \ref{fig:ch03:verify-boot}.}. Android deja librado a la decisión del usuario para continuar o suspender el arranque.
-\subsection{Cifrado del sistema de archivosAAAAAAAAAAAAAAAAAAAAAA}
+\subsection{Cifrado del sistema de archivos}
 Tanto Android con iOS proveen la funcionalidad de cifrar los datos alojados en el sistema de archivos. Sin embargo, tienen una política distinta al momento de aplicarlo: en iOS está siempre habilitada y no se puede deshabilitar; mientras que en Android, se deja esta decisión al usuario.\\
+
 En Android, al soportar almacenamiento externo, se corre el riego de que se accedan a los datos por fuera del dispositivo. Es por ello que, a partir de la versión 6.0, el usuario puede cifrar la tarjeta SD. De esta manera, reduce el riesgo mencionado.\\
+
 Por su parte, iOS está libre del riesgo mencionado en el párrafo anterior, ya que todo su almacenamiento es interno. Además, iOS agrega una medida extra de seguridad: los archivos se cifran utilizando varias claves, entre las que se encuentran el código de desbloqueo y UID\footnote{Clave única por dispositivo. Más datos en la sección \ref{fig:ch02:data-protection}.}. Gracias a ello, se dificulta muchísimo la tarea de quebrar el cifrado por fuera del dispositivo.
 \subsection{Bloqueo del dispositivo}
 Android cuenta con cinco métodos de bloqueo de pantalla: PIN, patrón, contraseña, desbloqueo facial y huella digital. Por otro lado, iOS dispone de sólo dos métodos: PIN y huella digital.\\
+
 Independientemente del método utilizado para bloquear la pantalla, tanto en Android como en iOS, el proceso de desbloqueo ocurre en un entorno seguro (TEE y \emph{Secure Enclave}, respectivamente). Como consecuencia de esto, las claves se procesan siempre allí y no son conocidas por el resto de los componentes. Además, se incrementa el tiempo de espera del bloqueo, dificultando un ataque por fuerza bruta.\\
+
 iOS agrega una medida de seguridad extra: el código de desbloqueo está muy ligado al UID. Es por ello que no se puede realizar ataques al código de desbloqueo fuera del dispositivo.
 \subsection{Seguridad de las aplicaciones}
 Inicialmente, tanto Android como iOS tienen un enfoque similar, en el sentido de que ambos se apoyan en sus propias tiendas de aplicaciones en los que comprueban la seguridad de las miles de aplicaciones que se encuentran a disposición del usuario. Sin embargo, tienen una diferencia filosófica respecto de los proveedores de aplicaciones: en iOS todas las aplicaciones tienen que descargarse de la tienda oficial. Es más, para poder subir una aplicación, su desarrollador pasa por un proceso muy estricto de registro. En cambio, al ser un sistema más abierto, Android favorece la instalación de aplicaciones de terceros, ya que deja abierta la posibilidad de instalar aplicaciones ``sueltas'' e incluso tiendas. Es peligroso, pero le da una flexibilidad inmensa, frente a la rigidez de iOS. Esta libertad, sin embargo, tiene un precio, y es la presencia de \emph{malware} disfrazado de aplicaciones legítimas.\\
+
 Respecto a la ejecución de una aplicación, Ambos sistemas aislan los procesos en ejecución en un \emph{entorno aislado}\footnote{Traducción propuesta para el término \textit{sandbox}.}. Como consecuencia de esto, se destacan dos resultados: evita que una aplicación pueda tomar control de todo el sistema; y evita que una aplicación conozca datos de otra.\\
+
 Al comparar la gestión de permisos de ambas plataformas, encontramos varias similitudes. Lo primera cosa en común es que a las aplicaciones no se le otorgan ningún permiso al momento de instalarla. Otra cosa que comparten es que si una aplicación necesita algún permiso, debe requerirlo mientras se ejecuta, pudiendo el usuario otorgar o denegarlo. La última similitud es que, desde la configuración de privacidad, el usuario puede revocar u otorgar permisos a las aplicaciones.\\
+
 Respecto a cómo se definen los permisos, se observan diferencias de concepto. En Android están orientados según el riesgo implícito al otorgarlos. En cambio, en iOS, los permisos están orientados a los componentes. Sin embargo, se pueden comparar según los componentes que son afectados por un permiso. De esta manera, se puede saber cuáles componentes son protegidos por permisos en ambas plataformas y cuáles están presentes solamente en una de ellas. Con estos datos, se confeccionó la Tabla \ref{tab:chapter03:compPerm}.\\
-\begin{table}[htbp]
+
+\begin{table}[tbp]
 	\center
 	\begin{tabular}{c c c}
 		\hline
@@ -195,35 +222,26 @@ Respecto a cómo se definen los permisos, se observan diferencias de concepto. E
 	\caption{Comparación de permisos entre Android 6.0 e iOS}
 	\label{tab:chapter03:compPerm}
 \end{table}
+Respecto del alcance del sistema de permisos, se observó una falta de granularidad de los permisos que se pueden modificar \emph{en tiempo de ejecución}. En Android, un permiso es a nivel de grupo. Por lo tanto, el usuario otorga o deniega para todo el grupo. Por ejemplo, si se pide permisos del grupo \emph{Contactos} se obtienen los permisos para leer, modificar o eliminar los contactos. Para  una aplicación que administra los contactos tiene sentido tener todos los permisos, pero para una aplicación de acceso a una red social, no tiene sentido que pueda eliminar un contacto. La misma situación ocurre en iOS: se otorga un permiso de acceso a todas las funcionalidades de un determinado componente. Como consecuencia de ello, el usuario esta delegando a una aplicación demasiados permisos y no tiene expresividad para decir que funcionalidades autoriza.\\
 
-Entre las primeras, podemos mencionar que las dos tienen dispositivos en común a los cuáles se les pueden modificar permisos en \textit{runtime}: micrófono, cámara, GPS, y sensores biométricos. También se aplican dichos permisos a componentes que contienen información sensible del usuario, tales como el calendario, los contactos y las fotos.\\
-Entre las segundas, podemos mencionar permisos que tiene uno pero no el otro. Por ejemplo, Android tiene la permisos sobre el almacenamiento externo. Este permiso no tiene sentido en iOS, ya que los iPhone solamente tienen almacenamiento interno. iOS, por su parte, tiene integrado el manejo de ciertos dispositivos hogareños. También dispone de un servicio tracking de publicidad, el cual permite recomendaciones sobre los gustos del usuario. Por ello, agrega permisos para dichos componentes, los cuales no existes como componentes en Android.\\
-Como consecuencia de lo mencionado anteriormente, se encontraron permisos que son comparables entre sí y otros que no lo son. Cabe aclarar que ciertos permisos se agruparon. Por ejemplo, en Android, los recordatorios forman parte del calendario; mientras que en iOS están separados. Los resultados se volcaron en la tabla \ref{tab:chapter03:compPerm}.\\
+Otra cosa a destacar es la cobertura del sistema de permisos. Las dos plataformas dejan funcionalidades principales del dispositivo sin permisos modificables \emph{en tiempo de ejecución}. En Android, los permisos \emph{normales} son otorgados al instalarse la aplicación y no pueden ser quitados. Entre ellos se encuentran: Acceso a Internet, Compartir vía Bluetooth, Información del dispositivo, entre otros. Además, no hay un permiso para proteger los datos de las Redes Sociales. Por su parte, iOS también deja algunos componentes sin permisos modificables \emph{en tiempo de ejecución}. Entre ellos se encuentran: Acceso a Internet, SMS, entre otros. Tampoco tiene la suficiente granularidad para administrar el acceso a los datos de las llamadas telefónicas.\\
 
-Para finalizar el capítulo, se mencionan las conclusiones que se encontraron.\\
-Es importante destacar la falta de granularidad en algunos aspectos. Android no toma como permiso peligroso los datos de las redes sociales. Tampoco el permiso para compartir cosas por Bluetooth. Por otro lado, iOS no tiene la suficiente granularidad para administrar el acceso a las llamadas telefónicas, su historial, etc. Tampoco contempla los datos móviles ni los SMS. En estos casos, el permiso es a nivel de teléfono y no a nivel de aplicación.\\
-
-Otra cosa a destacar es que en Android el permiso es a nivel de grupo. Cuando se requiere que el usuario permita cierto permiso para una aplicación, lo que sucede es que la aplicación obtiene todos los permisos del grupo. Por ejemplo, si se pide permisos del grupo "Calendario" se obtienen los permisos tanto para leer y para escribir. Para el caso del calendario puede llegar a ser razonable tener los dos permisos pero para otros casos no lo es. Como consecuencia de ello, el usuario esta delegando a una aplicación demasiados permisos.
-\subsection*{Detalle de los tests}
-Luego de instalar la aplicación, se observa que la misma no tiene ningún permiso:
-\begin{figure}[!ht]
+Para finalizar se hablará sobre como se muestra al usuario los permisos adquiridos por una aplicación. En iOS solamente se listan los permisos requeridos por una aplicación, como se observa en la Figura \ref{fig:ch05:ios_all_permissions}. En cambio, en Android es confuso como se informa. En la Figura \ref{fig:ch05:without_permissions} se observa las datos de una aplicación. Si se observa el apartado \emph{Permisos}, la leyenda indica que no fueron otorgados ningún permiso \emph{peligroso}. Ingresando en ese apartado, queda claro lo mencionado anteriormente. Sin embargo, dada dice sobre los demás permisos. Si se presiona sobre los tres puntos, se acceden a todos los permisos, como se observa en la Figura \ref{fig:ch05:always_have_internet}. Ahí nace la confusión: primero indica que ``No hay permisos otorgados'', pero indagando un poco, se descubre que fueron otorgados todos los permisos \emph{normales}.
+\begin{figure}[hbtp]
 	\centering
-	\begin{subfigure}{.32\textwidth}
-		\includegraphics[width=4cm]{chapter5/without_permissions}
-		\caption{\textit{Runtime Permissions Test} no tiene ningún permiso $peligroso$}
-		\label{fig:chapter05:without_permissions}
+	\begin{subfigure}{.3\linewidth}
+		\includegraphics[width=\linewidth]{chapter2/permission-classes.png}
+		\caption{Permisos requeridos por una aplicación.}
+		\label{fig:ch05:ios_all_permissions}
 	\end{subfigure}
-	\begin{subfigure}{.32\textwidth}
-		\includegraphics[width=4cm]{chapter5/all_permissions}
-		\caption{Si se presiona sobre los tres puntos, se acceden a todos los permisos}
-		\label{fig:chapter05:all_permissions}
+	\begin{subfigure}{.3\linewidth}
+		\includegraphics[width=\linewidth]{chapter5/no_permissions_granted}
+		\caption{La aplicación no tiene ningún permiso.}
+		\label{fig:ch05:without_permissions}
 	\end{subfigure}
-	\begin{subfigure}{.32\textwidth}
-		\includegraphics[width=4cm]{chapter5/always_have_internet}
-		\caption{\textit{Runtime Permissions Test} tiene todos los permisos $normales$}
-		\label{fig:chapter05:always_have_internet}
+	\begin{subfigure}{.3\linewidth}
+		\includegraphics[width=\linewidth]{chapter5/always_have_internet}
+		\caption{Tiene todos los permisos \emph{normales}.}
+		\label{fig:ch05:always_have_internet}
 	\end{subfigure}
-	\caption{\textit{Android App Permissions, API\textgreater 23}}
-	\label{fig:chapter05:android_permissions}
-\end{figure}\\
-Sin embargo, si se muestran todos los permisos de la aplicación, notará que se tienen todos los permisos $normales$ que requiera. Por ejemplo, en la Figura \ref{fig:chapter05:always_have_internet} se observa que tenemos permiso de acceso a internet.
+\end{figure}

@@ -13,6 +13,11 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
+\makeatletter
+\renewcommand{\ALG@name}{Algoritmo}
+\renewcommand{\listalgorithmname}{Índice de \ALG@name s}
+\makeatother
+
 %packages customizations
 \graphicspath{ {imgs/} }
 
@@ -23,6 +28,7 @@
 
 %contents with roman numeration
 \pagenumbering{roman}
+
 
 %document
 \begin{document}
@@ -35,7 +41,7 @@
     \cleardoublepage
     
     \pagenumbering{arabic}
-    %\include{resumen}
+    \include{resumen}
     \include{introduccion}
     \include{chapter01}
     \include{chapter02}
