@@ -319,7 +319,7 @@ Esta clase está compuesta por los componentes \emph{SMS} y \emph{Almacenamiento
 
 Se comenzará el análisis por el componente \emph{SMS}. Sus funcionalidades son: enviar un mensaje, eliminarlo, obtener los mensajes entrantes y obtener la lista de todos los mensajes, ya sean recibidos o enviados. Sin embargo, el test presente en el \textit{framework} solamente prueba el envío de mensajes, ya que en iOS, a partir de la version 8, no permite acceder al resto de las funcionalidades desde una aplicación de terceros (es decir, no nativa) \cite{foda, foda2}. En cambio, Android permite acceder a todas las funcionalidades mencionadas; y se pueden acceder teniendo el permiso \textit{peligroso} llamado SMS.\\
 
-Finalmente, se hablará sobre el componente \emph{Almacenamiento}. En Android, el permiso que regula al componente mencionado tiene su mismo nombre. Dicho permiso resguarda las funcionalidades que permiten leer y escribir la tarjeta SD. El test presente en el \textit{framework} solamente prueba escribir en el sistema de archivos.
+Finalmente, se hablará sobre el componente \emph{Almacenamiento}. El permiso que regula al componente en Android tiene su mismo nombre. Dicho permiso resguarda las funcionalidades que permiten leer y escribir la tarjeta SD. El test presente en el \textit{framework} solamente prueba escribir en el sistema de archivos.
 \subsection{Clase C}
 Los componentes que agrupa la presente clase son aquellos que requieren algún permiso en iOS y no requieren permisos en Android para poder utilizar sus funcionalidades.\\
 

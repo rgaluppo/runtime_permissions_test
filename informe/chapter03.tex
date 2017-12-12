@@ -3,9 +3,11 @@ Android e iOS son dos plataformas muy populares entre los dispositivos móviles.
 
 La medida de comparación propuesta en \cite{YA2014} consiste en analizar la seguridad de una aplicación móvil en cada fase del ciclo de vida, comparándola en cada plataforma.\\
 
-En \cite{HYGZD2013} el enfoque es distinto. Se centra en comparar los permisos requeridos a cada plataforma al momento de instalar aplicaciones presentes en ambas plataformas.\\
+En \cite{HYGZD13} el enfoque es distinto. Se centra en comparar los permisos requeridos a cada plataforma al momento de instalar aplicaciones presentes en ambas plataformas.\\
 
 En \cite{Gor16, BCLR15, Rom14} se cambia el enfoque propuesto. El objetivo que persiguen es desarrollar una especificación formal que describa el modulo de seguridad de Android.\\
+
+En cambio, en \cite{TZSH13}, el enfoque se centra en distintos ataques al modelo de seguridad de iOS.\\
 
 En este capítulo se propone una forma de comparar distinta a las anteriores. Consiste en analizar distintas características presentes en ambas plataformas, poniendo foco en los permisos que se pueden modificar \emph{en tiempo de ejecución}. El análisis se esta basado en los documentos oficiales de seguridad, tales como \cite{aossec, asreview2015, asg} entre otros. Al final del capítulo se agrega una crítica sobre las funcionalidades mencionadas en el análisis.
 \section{Analizando Android}
@@ -86,7 +88,7 @@ Dichos grupos son:
 \end{itemize}
 En contraposición a lo que ocurría en las versiones previas, en Android Marsmallow durante la instalación de una aplicación se le otorgan todos los permisos \emph{normales} y ningún permiso \emph{peligroso}. Como consecuencia de esto, cada vez que una aplicación necesita acceder a un recurso protegido por un permiso \emph{peligroso}, tiene que solicitarlo en tiempo de ejecución. Por ejemplo, si una aplicación requiere leer un contacto, la primera vez aparece una notificación pidiendo autorización explicita al usuario, tal como se observa en la Figura \ref{fig:ch01:permission-request}. El usuario puede otorgar el permiso, denegarlo una vez o denegarlo para siempre. Si elige la última opción, no volverá a aparecer la notificación solicitando dicho permiso. Dichas opciones se encuentran en \texttt{Ajustes/Aplicaciones/\{nombre de la aplicación\}/Permisos}. En la Figura \ref{fig:ch03:app-permissions-overview} se observa una captura de las configuraciones de los permisos para una aplicación móvil.\\
 
-Debido a que el usuario puede revocar los permisos \emph{peligrosos} en cualquier momento, una aplicación debe comprobar si dispone de ellos cada vez que se ejecuta. De lo contrario no va a poder acceder a las funciones de las cuales no tiene permiso. Sin embargo, el usuario no puede revocar los permisos \emph{normales}; solamente se eliminan al desinstalar la aplicación.
+Debido a que el usuario puede revocar algunos los permisos en cualquier momento, una aplicación debe comprobar si dispone de ellos cada vez que se ejecuta. De lo contrario no va a poder acceder a las funciones de las cuales no tiene permiso. Sin embargo, el usuario no puede revocar los permisos \emph{normales}; solamente se eliminan al desinstalar la aplicación.
 \begin{figure}[btp]
     \centering
     \begin{subfigure}{0.35\linewidth}
