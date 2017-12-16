@@ -25,14 +25,15 @@ El emulador requiere una configuración de un AVD\footnote{Android Virtual Devic
 \subsection{Simulador oficial de iOS}
 Apple provee un simulador, disponible dentro de Xcode, que se ejecuta como una aplicación independiente. El simulador presenta la interfaz de usuario de un iPhone, iPad, Apple Watch o Apple TV como una ventana en el escritorio de su Mac y le permite manipular esta pantalla y la aplicación que se ejecuta \cite{iosds}.\\
 
-Para probar el funcionamiento de una aplicación, un desarrollador puede ejecutar su aplicación en el simulador directamente desde el proyecto de Xcode. El simulador proporciona herramientas para ayudarlo a depurar sus aplicaciones. Por ejemplo, se puede simular la ubicación dentro de tu aplicación. En la Figura \ref{fig:ch05:ios-simulator-home} se observa el simulador emulando un iPhone 5 (iOS 8.0).\\
+El simulador proporciona la capacidad de emular muchas combinaciones diferentes de tipo de dispositivo y versión de sistema operativo. Un tipo de dispositivo es un modelo de iPhone, iPad o Apple TV. Cada combinación de dispositivo-sistema operativo tiene su propio entorno de simulación con sus propias configuraciones y aplicaciones. También puede agregar simuladores para una combinación específica que quiera probar. Sin embargo, no todas las combinaciones de tipo de dispositivo y versión de SO están disponibles. Dicha configuración se realiza desde \texttt{Hardware/Dispositivo}.\\
 \begin{figure}[tbp]
     \centering
 	\includegraphics[width=.45\linewidth]{chapter5/ios-simulator-home}
 	\caption{Pantalla de inicio del simulador de iOS \cite{iosds}.}
     \label{fig:ch05:ios-simulator-home}
 \end{figure}
-El simulador proporciona la capacidad de emular muchas combinaciones diferentes de tipo de dispositivo y versión de sistema operativo. Un tipo de dispositivo es un modelo de iPhone, iPad o Apple TV. Cada combinación de dispositivo-sistema operativo tiene su propio entorno de simulación con sus propias configuraciones y aplicaciones. También puede agregar simuladores para una combinación específica que quiera probar. Sin embargo, no todas las combinaciones de tipo de dispositivo y versión de SO están disponibles. Dicha configuración se realiza desde \texttt{Hardware/Dispositivo}.\\
+
+Para probar el funcionamiento de una aplicación, un desarrollador puede ejecutar su aplicación en el simulador directamente desde el proyecto de Xcode. El simulador proporciona herramientas para ayudarlo a depurar sus aplicaciones. Por ejemplo, se puede simular la ubicación dentro de una aplicación. En la Figura \ref{fig:ch05:ios-simulator-home} se observa el simulador emulando un iPhone 5 (iOS 8.0).\\
 
 A pesar de todas las funcionalidades que provee, el simulador tiene sus limitaciones. No permite instalar aplicaciones desde App Store. Sumado a esto, muchas de las aplicaciones que vienen preinstaladas en dispositivos iOS no están disponibles en el simulador \cite{iosds}. Además, no todos los errores y problemas de rendimiento pueden detectarse mediante pruebas en el simulador.
 \newpage
