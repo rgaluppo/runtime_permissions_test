@@ -10,6 +10,7 @@
 \usepackage{multirow}
 \usepackage{multicol}
 \usepackage{listings}
+\usepackage{xcolor}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
@@ -29,6 +30,17 @@
 %contents with roman numeration
 \pagenumbering{roman}
 
+%terminal preety print
+\definecolor{purpure}{RGB}{48, 10, 36}
+\lstdefinestyle{DOS}
+{
+    backgroundcolor=\color{purpure},
+    basicstyle=\scriptsize\color{white}\ttfamily,
+    breaklines=true,
+    xleftmargin=10pt,
+    xrightmargin=10pt,
+    frame=none,
+}
 
 %document
 \begin{document}
@@ -41,7 +53,7 @@
     \cleardoublepage
     
     \pagenumbering{arabic}
-    %\include{resumen}
+    \include{resumen}
     \include{introduccion}
     \include{chapter01}
     \include{chapter02}
@@ -50,8 +62,8 @@
     \include{chapter05}
     \include{chapter06}
     
-    %\appendix
-    %\include{anexoA}    
+    \appendix
+    \include{anexoA}    
     
     \bibliographystyle{acm}
     \bibliography{bibliografia}{}
