@@ -7,15 +7,15 @@ En las siguientes secciones se detallarán los distintos tests que componen el \
 \section{Ejecución de los test}
 Durante el momento de desarrollo de aplicaciones móviles multiplafoma, un desarrollador necesita tener los dispositivos reales para probar y depurar sus aplicaciones, hasta alcanzar el funcionamiento deseado. Sin embargo, a veces ocurre que el desarrollador no cuenta con todos los dispositivos en los que se ejecuta su aplicación. Es por ello que tanto Android como iOS proveen emuladores oficiales para salvar dicho inconveniente.\\
 
-Los emuladores permiten interactuar de la misma manera que se haría con un dispositivo real, pero con el ratón y el teclado, y mediante los botones y los controles del emulador. De forma dinámica, permiten acercar y alejar la imagen, cambiar la orientación e, incluso, tomar una captura de pantalla. Además, son compatibles con pantallas táctiles y botones de \emph{hardware} virtuales, incluyendo también las operaciones con dos dedos.
+Los emuladores permiten interactuar de la misma manera que se haría con un dispositivo real, pero con el ratón y el teclado, y mediante los botones y los controles del emulador. De forma dinámica, permiten acercar y alejar la imagen, cambiar la orientación e incluso tomar capturas de pantalla. Además, son compatibles con pantallas táctiles y botones de \emph{hardware} virtuales, incluyendo también las operaciones con dos dedos.
 
-Para el presente trabajo, se decidió utilizar los emuladores oficiales para testear el \emph{framework} propuesto. A continuación, se mencionan las principales características de los emuladores.
+Para el presente trabajo se decidió utilizar los emuladores oficiales para testear el \emph{framework} propuesto. A continuación se mencionan las principales características de los emuladores.
 \subsection{Emulador oficial de Android}
 Android provee un emulador para que un desarrollador pueda simular un dispositivo en la computadora de desarrollo. El emulador es compatible con teléfonos y tablets Android, y con dispositivos Android Wear y Android TV \cite{daemu}.\\
 
-Cuando una aplicación se ejecuta en el emulador, puede usar los servicios de la plataforma Android para invocar otras aplicaciones, acceder a la red, almacenar y recuperar datos, y mostrar notificaciones. El emulador tiene controles que te permiten enviar mensajes de texto y llamadas telefónicas entrantes con facilidad, especificar la ubicación del dispositivo, simular lecturas de huellas digitales, y simular las propiedades de batería.\\
+Cuando una aplicación se ejecuta en el emulador puede usar los servicios de la plataforma Android para invocar otras aplicaciones, acceder a la red, almacenar y recuperar datos, y mostrar notificaciones. El emulador tiene controles que permiten enviar mensajes de texto y administrar llamadas telefónicas con facilidad, especificar la ubicación del dispositivo, simular lecturas de huellas digitales, y simular las propiedades de la batería.\\
 
-El emulador requiere una configuración de un AVD\footnote{Android Virtual Device, por sus siglas en inglés.} para determinar la apariencia, funcionalidad y versión del sistema del dispositivo simulado. Los AVD permiten definir determinados aspectos de \emph{hardware} de los dispositivos emulados. Cuentan con tipos de dispositivos predefinidos, como el teléfono Nexus, y permite crear definiciones propias. En la Figura \ref{fig:ch05:androidAVDsettings} se observa una captura del ADV utilizado para el desarrollo del \emph{framework}.
+El emulador requiere una configuración de un AVD\footnote{Android Virtual Device, por sus siglas en inglés.} para determinar la apariencia, funcionalidad y versión del sistema del dispositivo simulado. Los AVD permiten definir determinados aspectos de \emph{hardware} de los dispositivos emulados. Cuentan con tipos de dispositivos predefinidos, como el teléfono Nexus, y permiten crear definiciones propias. En la Figura \ref{fig:ch05:androidAVDsettings} se observa una captura del ADV utilizado para el desarrollo del \emph{framework}.
 \begin{figure}[htbp]
     \centering
 	\includegraphics[width=.5\linewidth]{chapter4/android-AVD_settings}
@@ -33,7 +33,7 @@ El simulador proporciona la capacidad de emular muchas combinaciones diferentes 
     \label{fig:ch05:ios-simulator-home}
 \end{figure}
 
-Para probar el funcionamiento de una aplicación, un desarrollador puede ejecutar su aplicación en el simulador directamente desde el proyecto de Xcode. El simulador proporciona herramientas para ayudarlo a depurar sus aplicaciones. Por ejemplo, se puede simular la ubicación dentro de una aplicación. En la Figura \ref{fig:ch05:ios-simulator-home} se observa el simulador emulando un iPhone 5 (iOS 8.0).\\
+Para probar el funcionamiento de una aplicación, un desarrollador puede ejecutar su aplicación en el simulador directamente desde el proyecto Xcode. El simulador proporciona herramientas para ayudar en la depuración de sus aplicaciones. Por ejemplo, se puede simular la ubicación dentro de una aplicación. En la Figura \ref{fig:ch05:ios-simulator-home} se observa el simulador emulando un iPhone 5 (iOS 8.0).\\
 
 A pesar de todas las funcionalidades que provee, el simulador tiene sus limitaciones. No permite instalar aplicaciones desde App Store. Sumado a esto, muchas de las aplicaciones que vienen preinstaladas en dispositivos iOS no están disponibles en el simulador \cite{iosds}. Además, no todos los errores y problemas de rendimiento pueden detectarse mediante pruebas en el simulador.
 \newpage
