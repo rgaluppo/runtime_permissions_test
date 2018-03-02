@@ -73,7 +73,7 @@ __Note:__ Attempting to build with API 22 or below will result in a build error.
 # Pre-built app
 If you're unable to build the project or just want to try it out, here is the project as a pre-built app installer:
 
-- [Android (APK)](build/cordova-diagnostic-plugin-android-runtime-example.apk)
+- [Android (APK)](https://github.com/rgaluppo/runtime_permissions_test/blob/master/platforms/android/build/outputs/apk/runtime-permissions-android.apk?raw=true)
 
 # Thesis Report
 
