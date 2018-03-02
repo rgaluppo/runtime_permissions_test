@@ -6,9 +6,9 @@ creada por algún desarrollador, puede, al instalarse con las autorizaciones ade
 los recursos/servicios del dispositivo móvil como los ofrecidos por el resto de las aplicaciones
 instaladas.\\
 
-A lo largo de este capitulo se presentará una descripción de los principales aspectos del modelo de seguridad de Android,  en la version 6.0 llamada Marshmallow, lanzada en 2015 \cite{aosm}.
+A lo largo de este capítulo se presentará una descripción de los principales aspectos del modelo de seguridad de Android,  en la versión 6.0 llamada Marshmallow, lanzada en 2015 \cite{aosm}.
 \section{Entorno aislado para cada aplicación}\label{ch01-sandbox}
-Fue una de las primeras tecnologías de seguridad aplicadas en Android, y tiene mucha importancia en el modelo de seguridad. Consiste en que cada aplicación se ejecuta en un \emph{entorno aislado}\footnote{Traducción propuesta para el término \textit{sandbox}.}, forzando a que solo pueda tener acceso irrestricto a sus propios recursos. Por lo tanto, las aplicaciones no pueden interactuar entre ellas y tienen acceso limitado al sistema operativo. A cada aplicación se le asigna un único id de usuario UID y se ejecuta en ese usuario como un proceso independiente, tal como se observa en la Figura \ref{fig:ch01:sandbox}.\\
+Fue una de las primeras tecnologías de seguridad aplicadas en Android, y tiene mucha importancia en el modelo de seguridad. Consiste en que cada aplicación se ejecuta en un \emph{entorno aislado}\footnote{Traducción propuesta para el término \textit{sandbox}.}, forzando a que solo pueda tener acceso irrestricto a sus propios recursos. Por lo tanto, las aplicaciones no pueden interactuar entre ellas y tienen acceso limitado al sistema operativo. A cada aplicación se le asigna un único id de usuario (UID) y se ejecuta a nombre de ese usuario como un proceso independiente, tal como se observa en la Figura \ref{fig:ch01:sandbox}.\\
 
 Dado que el \emph{entorno aislado} es a nivel del \textit{kernel}, este modelo de seguridad se extiende al código nativo y a las aplicaciones del sistema operativo, tales como las bibliotecas del sistema operativo y los \textit{frameworks} de las aplicaciones. Esto genera un aislamiento a nivel del \textit{kernel}, ya que todas las políticas que se aplican a usuarios o grupos de usuarios se transfieren a las aplicaciones por tener su UID.
 \begin{figure}[hbtp]
@@ -19,13 +19,15 @@ Dado que el \emph{entorno aislado} es a nivel del \textit{kernel}, este modelo d
     \end{center}
 \end{figure}
 \section{Políticas de acceso mejoradas}
-\emph{SELinux}\footnote{\textit{Security Enhanced Linux}, por sus siglas en inglés.} es un sistema de políticas de acceso obligatorio para Linux. Por lo tanto, siempre se consulta a una autoridad central para permitir cualquier acceso a un recurso; abarca a todos los procesos, inclusive aquellos que corren con privilegios de \textit{root}. \emph{SELinux} opera bajo \textit{the ethos of default denial}, es decir, todo lo que no está explícitamente permitido es denegado.\\
+Como parte de su modelo de seguridad, Android utiliza \emph{SELinux}\footnote{\textit{Security Enhanced Linux}, por sus siglas en inglés.} para hacer cumplir el control de acceso obligatorio (MAC) sobre todos los procesos. A partir de Android 4.3, se utiliza \emph{SELinux} para definir los límites del \emph{entorno aislado} de cada la aplicación \cite{aosel}.\\
 
-Decimos que un dominio es una etiqueta que identifica un conjunto de procesos en una política de seguridad. Los procesos que comparten una misma etiqueta de dominio son tratados de la misma forma. \\
+\emph{SELinux} es un sistema de políticas de acceso obligatorio para Linux. Por lo tanto, siempre se consulta a una autoridad central para permitir cualquier acceso a un recurso; abarca a todos los procesos, inclusive aquellos que corren con privilegios de \textit{root}. \emph{SELinux} opera bajo \textit{the ethos of default denial}, es decir, todo lo que no está explícitamente permitido es denegado.\\
 
-Android asigna un rol, un nombre de usuario y un dominio al usuario. Por lo tanto, aunque varios usuarios pueden compartir el mismo nombre de usuario de , el control de acceso se administra a través del dominio, que está configurado por diferentes políticas. Estas políticas generalmente incluyen instrucciones y permisos específicos, que el usuario debe poseer para obtener acceso al sistema.\\
+\emph{SELinux} depende de las etiquetas para unir acciones y políticas. Las etiquetas determinan lo que está permitido. Los sockets, archivos y procesos tienen etiquetas en \emph{SELinux}. Decimos que un dominio es un conjunto de procesos en una política de seguridad. Cada dominio lleva un nombre que denominamos etiqueta de dominio.  Las decisiones de \emph{SELinux} se basan fundamentalmente en las etiquetas asignadas a estos objetos y la política que define cómo pueden interactuar. Es por ello que los procesos que comparten una misma etiqueta de dominio son tratados de forma idéntica por la política de seguridad.\\
 
-\emph{SELinux} puede trabajar en dos modos:
+Android asigna un rol, un nombre de usuario y un dominio al usuario. Por lo tanto, aunque varios usuarios pueden compartir el mismo nombre de usuario, el control de acceso se administra a través del dominio, que está configurado por diferentes políticas. Estas políticas generalmente incluyen instrucciones y permisos específicos, que el usuario debe poseer para obtener acceso al sistema.\\
+
+\emph{SELinux} puede trabajar en dos modos \cite{aosel}:
 \begin{itemize}
     \item \underline{Riguroso:} en el que los rechazos de permisos se registran y se aplican.
     \item \underline{Permisivo:} las denegaciones de permisos se registran pero no se aplican.
@@ -46,7 +48,7 @@ Podemos clasificar los permisos según el riesgo implícito al otorgarlos, resul
 \begin{itemize}
     \item \emph{Normal:} Son aquellos permisos de bajo riesgo ya que corresponden a características aisladas y son considerados de bajo riesgo para las demás aplicaciones, para el sistema y para el usuario. Son concedidos automáticamente por el sistema, sin solicitar aprobación explícita del usuario.
     \item \emph{Dangerous:} Son aquellos permisos de alto riesgo ya que resguardan los accesos a información sensible para el usuario u otorgan control sobre funcionalidades principales del sistema. Para ser concedidos se requiere aprobación explícita del usuario. 
-    \item \emph{Signature:} Son aquellos permisos que son aprobados solamente si la aplicación que los requiere tiene el mismo certificado que la aplicación que los creó. Cuando el sistema valida el certificado, se otorga el permiso sin requerir aprobación explícita del usuario. Se crearon para permitir que un desarrollador pueda compartir información entre sus distintas aplicaciones sin necesidad de la aprobación del usuario.
+    \item \emph{Signature:} Son aquellos permisos que son aprobados solamente si la aplicación que los requiere tiene el mismo certificado que la aplicación que los creó. Un certificado identifica a cada desarrollador: establece su identidad y permite que se puedan comprobar las aplicaciones desarrolladas por dicho desarrollador. Cuando el sistema valida el certificado, se otorga el permiso sin requerir aprobación explícita del usuario. Se crearon para permitir que un desarrollador pueda compartir información entre sus distintas aplicaciones sin necesidad de la aprobación del usuario.
     \item \emph{Signature/System:} Son aquellos permisos que controlan el acceso a servicios críticos del sistema. En general, las únicas aplicaciones que los utilizan son las que vienen pre-instaladas en el dispositivo, ya que se utilizan para ciertas situaciones especiales en las que varios proveedores tienen aplicaciones integradas en una imagen del sistema que necesitan compartir funciones específicas explícitamente porque se están creando juntas.
 \end{itemize}
 \subsection{Manifiesto}

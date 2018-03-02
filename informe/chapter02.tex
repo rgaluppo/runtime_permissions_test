@@ -19,10 +19,10 @@ iOS tiene una protección especial para los archivos y los datos personales, la 
 El dispositivo móvil provee un componente de \textit{hardware} llamado \textit{Secure Enclave}. Es un coprocesador con memoria cifrada e incluye generación de números aleatorios por hardware. Tiene tres responsabilidades principales:
 \begin{itemize}
     \item proveer las operaciones de cifrado para la manipulación de la Clave de los Datos\footnote{Traducción propuesta para el término \textit{Data Protection Key}.};
-    \item asegura la integridad de los datos inclusive si \textit{kernel} fue comprometido;
+    \item asegurar la integridad de los datos, inclusive si el \textit{kernel} fue \\comprometido;
     \item es el responsable de procesar los datos provenientes del \textit{Touch ID}\footnote{\textit{Touch ID} es el sistema de detección de huellas digitales que hace posible un acceso seguro, más rápido y sencillo al dispositivo.}, determinando si se desbloquea el dispositivo.
 \end{itemize}
-En los procesadores A9 o posteriores de la serie A, el chip genera de forma segura el identificador único UID\footnote{\textit{Unique ID}, por sus siglas en inglés.}. Esta clave fue creada en el momento de fabricación y no es conocida por Apple ni por ningún otro componente del dispositivo. La misma es utilizada para generar una clave efímera cada vez que se prende el dispositivo, la cual se utiliza para cifrar la memoria del \textit{Secure Enclave} y los datos del sistema de archivos.\\
+En los procesadores A9 o posteriores de la serie A, el chip genera de forma segura el identificador único (UID\footnote{\textit{Unique ID}, por sus siglas en inglés.}). Esta clave fue creada en el momento de fabricación y no es conocida por Apple ni por ningún otro componente del dispositivo. La misma es utilizada para generar una clave efímera cada vez que se prende el dispositivo, la cual se utiliza para cifrar la memoria del \textit{Secure Enclave} y los datos del sistema de archivos.\\
 
 El UID permite vincular los datos a un dispositivo determinado mediante cifrado. Por ejemplo, la jerarquía de claves que protege el sistema de archivos incluye el UID, de modo que si los chips de memoria se trasladan físicamente de un dispositivo a otro, no será posible acceder a los archivos.
 \section{Seguridad en las aplicaciones}
@@ -35,9 +35,9 @@ Las aplicaciones son un punto crítico en la seguridad de un dispositivo móvil.
     \caption{Entorno aislado de una aplicación en iOS \cite{iosdl}} 
     \label{fig:ch02:sandboxing}
 \end{figure}
-Cada aplicación instalada por el usuario se ejecuta en un \emph{entorno aislado}\footnote{Traducción propuesta para el término \textit{sandbox}.}. Como consecuencia de esto, tiene denegado el acceso de archivos guardados por otra aplicación y no puede realizar cambios en el dispositivo. Si una aplicación requiere acceder a información que no es suya, lo puede hacer únicamente usando servicios de iOS. Lo mismo sucede si quiere ejecutar procesos en segundo plano. En la Figura \ref{fig:ch02:sandboxing} se puede observar lo mencionado anteriormente: cada aplicación tiene su directorio \textit{Home} para sus archivos, el cual es otorgado aleatoriamente al momento de la instalación.\\
+Cada aplicación instalada por el usuario se ejecuta en un \emph{entorno aislado}\footnote{Traducción propuesta para el término \textit{sandbox}.}. Como consecuencia de esto, tiene denegado el acceso a los archivos guardados por otra aplicación y no puede realizar cambios en el dispositivo. Si una aplicación requiere acceder a información que no es suya, lo puede hacer únicamente usando servicios de iOS. Lo mismo sucede si quiere ejecutar procesos en segundo plano. En la Figura \ref{fig:ch02:sandboxing} se puede observar lo mencionado anteriormente: cada aplicación tiene su directorio \textit{Home} para sus archivos, el cual es otorgado aleatoriamente al momento de la instalación.\\
 
-El entorno seguro de una aplicación comienza desde el momento de su desarrollo. Los IDE de iOS construyen las aplicaciones utilizando las técnica ASRL\footnote{\textit{Address Space Layout Randomization} es una técnica de seguridad informática involucrada en la prevención contra ataques de desbordamiento de \textit{buffer}.}. Por ejemplo, Xcode compila automáticamente con ASLR activada. De esta forma, se asegura que todas las regiones de memoria son aleatorias al momento de ejecución \cite{asg}, reduciendo la probabilidad de muchos \textit{exploits} sofisticados.
+El entorno seguro de una aplicación comienza desde el momento de su desarrollo. Los IDE de iOS construyen las aplicaciones utilizando la técnica ASRL\footnote{\textit{Address Space Layout Randomization} es una técnica de seguridad informática involucrada en la prevención contra ataques de desbordamiento de \textit{buffer}.}. Por ejemplo, Xcode compila automáticamente con ASLR activada. De esta forma, se asegura que todas las regiones de memoria son aleatorias al momento de ejecución \cite{asg}, reduciendo la probabilidad de muchos \textit{exploits} sofisticados.
 \subsection{Controles de privacidad}
 iOS ayuda a evitar que las aplicaciones accedan a la información personal de un usuario sin permiso. Es por ello que, el acceso a ciertos recursos, necesita autorización explícita del usuario. Las aplicaciones pueden solicitar un permiso solamente mientras se esté ejecutando. A su vez, los usuarios pueden optar por no permitir este acceso, y pueden cambiar su elección en cualquier momento. Cabe aclarar que una aplicación puede utilizar un recurso sólo si se le ha dado permiso.\\
 
@@ -61,7 +61,7 @@ Los permisos restringen el acceso a:
 De querer otorgar o revocar algún permiso, el usuario debe ir a la configuración de privacidad (\texttt{Ajustes/Privacidad}). En la Figura \ref{fig:ch02:permissions-capture} se observa una captura de pantalla de dicha configuración.
 \begin{figure}[hbtp]
     \centering
-    \includegraphics[width=.3\linewidth]{chapter2/settings-privacy}
+    \includegraphics[width=.35\linewidth]{chapter2/settings-privacy}
     \caption{Control de privacidad de iOS 9.}
 	\label{fig:ch02:permissions-capture}
 \end{figure}

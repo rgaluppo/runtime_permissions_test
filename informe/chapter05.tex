@@ -1,29 +1,42 @@
-\chapter{Hacia un Framework Comparativo}
+\chapter{Hacia un Framework para la Comparación de Permisos}
 Android e iOS permiten cambiar ciertos permisos de una aplicación luego de haberla instalado en el dispositivo. En este contexto, se ha desarrollado un \textit{framework} para determinar empíricamente el alcance de dichos cambios en los sistemas de permisos de ambas plataformas.\\
 
-El \textit{framework} es una aplicación móvil y está compuesto por varios tests. Cada test pone a prueba a un componente del dispositivo, permitiendo así conocer el alcance de los permisos correspondientes a dicho componente. De esta manera, se busca dejar en evidencia posibles vulnerabilidades presentes en los modelos de seguridad. Adicionalmente, se pone especial énfasis en la relación existente entre la privacidad del usuario y el sistema de permisos, analizando cuál es la cobertura del sistema respecto de los datos sensibles para la privacidad.\\
+El \textit{framework} es una aplicación móvil desarrollada con Apache Cordova y está compuesto por varios tests. Cada test pone a prueba a un componente del dispositivo, permitiendo así conocer el alcance de los permisos correspondientes a dicho componente. De esta manera, se busca dejar en evidencia posibles vulnerabilidades presentes en los modelos de seguridad. Adicionalmente, se pone especial énfasis en la relación existente entre la privacidad del usuario y el sistema de permisos, analizando cuál es la cobertura del sistema respecto de los datos sensibles para la privacidad.\\
 
 En las siguientes secciones se detallarán los distintos tests que componen el \textit{framework}. Además, se mencionarán las conclusiones arribadas luego de correr los tests mencionados anteriormente.
-\section{Ejecución de los test}
-Durante el momento de desarrollo de aplicaciones móviles multiplafoma, un desarrollador necesita tener los dispositivos reales para probar y depurar sus aplicaciones, hasta alcanzar el funcionamiento deseado. Sin embargo, a veces ocurre que el desarrollador no cuenta con todos los dispositivos en los que se ejecuta su aplicación. Es por ello que tanto Android como iOS proveen emuladores oficiales para salvar dicho inconveniente.\\
+\section{Emuladores Oficiales}
+Durante el momento de desarrollo de aplicaciones móviles multiplafoma, un desarrollador necesita tener los dispositivos reales para probar y depurar sus aplicaciones, hasta alcanzar el funcionamiento deseado. Sin embargo, a veces ocurre que el desarrollador no cuenta con todos los dispositivos en los que se ejecutará su aplicación. Es por ello que tanto Android como iOS proveen emuladores oficiales para salvar dicho inconveniente.\\
 
-Los emuladores permiten interactuar de la misma manera que se haría con un dispositivo real, pero con el ratón y el teclado, y mediante los botones y los controles del emulador. De forma dinámica, permiten acercar y alejar la imagen, cambiar la orientación e incluso tomar capturas de pantalla. Además, son compatibles con pantallas táctiles y botones de \emph{hardware} virtuales, incluyendo también las operaciones con dos dedos.
+Los emuladores permiten interactuar de la misma manera que se haría con un dispositivo real, pero con el ratón y el teclado, y mediante los botones y los controles del emulador. De forma dinámica, permiten acercar y alejar la imagen, cambiar la orientación e incluso tomar capturas de pantalla. Además, son compatibles con pantallas táctiles y botones de \emph{hardware} virtuales, incluyendo también las operaciones con dos dedos.\\
 
 Para el presente trabajo se decidió utilizar los emuladores oficiales para testear el \emph{framework} propuesto. A continuación se mencionan las principales características de los emuladores.
-\subsection{Emulador oficial de Android}
+\subsection{Emulador oficial de Android}\label{ch05:andoid-emulator}
 Android provee un emulador para que un desarrollador pueda simular un dispositivo en la computadora de desarrollo. El emulador es compatible con teléfonos y tablets Android, y con dispositivos Android Wear y Android TV \cite{daemu}.\\
 
 Cuando una aplicación se ejecuta en el emulador puede usar los servicios de la plataforma Android para invocar otras aplicaciones, acceder a la red, almacenar y recuperar datos, y mostrar notificaciones. El emulador tiene controles que permiten enviar mensajes de texto y administrar llamadas telefónicas con facilidad, especificar la ubicación del dispositivo, simular lecturas de huellas digitales, y simular las propiedades de la batería.\\
 
-El emulador requiere una configuración de un AVD\footnote{Android Virtual Device, por sus siglas en inglés.} para determinar la apariencia, funcionalidad y versión del sistema del dispositivo simulado. Los AVD permiten definir determinados aspectos de \emph{hardware} de los dispositivos emulados. Cuentan con tipos de dispositivos predefinidos, como el teléfono Nexus, y permiten crear definiciones propias. En la Figura \ref{fig:ch05:androidAVDsettings} se observa una captura del ADV utilizado para el desarrollo del \emph{framework}.
+El emulador requiere una configuración de un AVD\footnote{Android Virtual Device, por sus siglas en inglés.} para determinar la apariencia, funcionalidad y versión del sistema del dispositivo simulado. Los AVD permiten definir determinados aspectos de \emph{hardware} de los dispositivos emulados. Cuentan con tipos de dispositivos predefinidos, como el teléfono Nexus, y permiten crear definiciones propias. En la Figura \ref{fig:ch05:androidAVDsettings} se observa una captura del ADV utilizado para el desarrollo del \emph{framework}.\\
+
+El emulador es compatible con la mayoría de las funciones de un dispositivo, pero no incluye la posibilidad de virtualizar los siguientes componentes \cite{daemu}:
+\begin{multicols}{2}
+  \begin{itemize}
+    \item WiFi
+    \item Bluetooth
+    \item NFC\footnote{Del ingles \emph{Near Field Communication}. Es una tecnología de comunicación inalámbrica, de corto alcance y alta frecuencia que permite el intercambio de datos entre dispositivos.}
+    \item Manipulación de la tarjeta SD
+    \item Conexión USB
+    \item Micrófono
+    \item Cámara
+  \end{itemize}
+\end{multicols}
 \begin{figure}[htbp]
     \centering
-	\includegraphics[width=.5\linewidth]{chapter4/android-AVD_settings}
+	\includegraphics[width=.4\linewidth]{chapter4/android-AVD_settings}
 	\caption{Configuración de un AVD.}
     \label{fig:ch05:androidAVDsettings}
 \end{figure}
 \subsection{Simulador oficial de iOS}
-Apple provee un simulador, disponible dentro de Xcode, que se ejecuta como una aplicación independiente. El simulador presenta la interfaz de usuario de un iPhone, iPad, Apple Watch o Apple TV como una ventana en el escritorio de su Mac y le permite manipular esta pantalla y la aplicación que se ejecuta \cite{iosds}.\\
+Apple provee un simulador, disponible dentro de Xcode\footnote{\emph{Xcode} es un entorno de desarrollo integrado (IDE) para macOS que contiene un conjunto de herramientas creadas por Apple.}, que se ejecuta como una aplicación independiente. El simulador presenta la interfaz de usuario de un iPhone, iPad, Apple Watch o Apple TV como una ventana en el escritorio de su Mac y le permite manipular esta pantalla y la aplicación que se ejecuta \cite{iosds}.\\
 
 El simulador proporciona la capacidad de emular muchas combinaciones diferentes de tipo de dispositivo y versión de sistema operativo. Un tipo de dispositivo es un modelo de iPhone, iPad o Apple TV. Cada combinación de dispositivo-sistema operativo tiene su propio entorno de simulación con sus propias configuraciones y aplicaciones. También puede agregar simuladores para una combinación específica que quiera probar. Sin embargo, no todas las combinaciones de tipo de dispositivo y versión de SO están disponibles. Dicha configuración se realiza desde \texttt{Hardware/Dispositivo}.\\
 \begin{figure}[tbp]
@@ -36,7 +49,6 @@ El simulador proporciona la capacidad de emular muchas combinaciones diferentes 
 Para probar el funcionamiento de una aplicación, un desarrollador puede ejecutar su aplicación en el simulador directamente desde el proyecto Xcode. El simulador proporciona herramientas para ayudar en la depuración de sus aplicaciones. Por ejemplo, se puede simular la ubicación dentro de una aplicación. En la Figura \ref{fig:ch05:ios-simulator-home} se observa el simulador emulando un iPhone 5 (iOS 8.0).\\
 
 A pesar de todas las funcionalidades que provee, el simulador tiene sus limitaciones. No permite instalar aplicaciones desde App Store. Sumado a esto, muchas de las aplicaciones que vienen preinstaladas en dispositivos iOS no están disponibles en el simulador \cite{iosds}. Además, no todos los errores y problemas de rendimiento pueden detectarse mediante pruebas en el simulador.
-\newpage
 \section{Vista principal} \label{sec:main-view}
 Al iniciar la aplicación se observan dos áreas principales: Acciones y Test, como se puede observar en la Figura \ref{fig:chapter05:main_view}.\\
 
@@ -51,7 +63,8 @@ La primera área contiene un botón para acceder a la configuración de los perm
 La segunda área se subdivide en dos: la parte de los tests y la parte de la consola. Una parte contiene un conjunto de botones que, al presionarse, ejecutan un test. El resultado se imprimirá en la consola con tipografía color verde si fue exitoso; en cambio, se imprimirá con tipografía color roja de si falla.\\
 
 A continuación se mencionan los componentes que se pueden testear con el \textit{framework}:
-\begin{itemize}
+\begin{multicols}{2}
+  \begin{itemize}
 	\item Contactos
 	\item Calendario
 	\item Geolocalización
@@ -60,23 +73,12 @@ A continuación se mencionan los componentes que se pueden testear con el \texti
 	\item Almacenamiento
 	\item Información del dispositivo
 	\item Acceso a Internet
-\end{itemize}
-\subsection{Funciones no compatibles}
-El emulador oficial de Android es compatible con la mayoría de las funciones de un dispositivo, pero no incluye la posibilidad de virtualizar los siguientes componentes \cite{daemu}:
-\begin{itemize}
-    \item WiFi
-    \item Bluetooth
-    \item NFC\footnote{Del ingles \emph{Near Field Communication}. Es una tecnología de comunicación inalámbrica, de corto alcance y alta frecuencia que permite el intercambio de datos entre dispositivos.}
-    \item Manipulación de la tarjeta SD
-    \item Conexión USB
-    \item Micrófono
-    \item Cámara
-\end{itemize}
-Al no poder manipular la tarjeta SD, no es posible testear las funcionalidades multimedia: no se puede grabar audio, ni video ni sacar fotos. Por lo tanto, no se agregaron al \textit{framework} tests para los componentes listados anteriormente.
+  \end{itemize}
+\end{multicols}
+
+Debido a las limitaciones del emulador de Android\footnote{Ver la Sección \ref{ch05:andoid-emulator}.}, no es posible testear las siguientes funcionalidades: WIFI, Bluetooth, NFC, Conexiones USB, Micrófono ni Cámara. Por lo tanto, no se agregaron al \textit{framework} tests para dichos componentes.
 \section{Catálogo de Tests}
 En esta sección se listarán todos los test que conforman el \textit{framework}. Para cada uno de ellos se detalla el algoritmo, los plugins de Apache Cordova que se utilizaron para desarrollarlo y una serie de capturas que muestran los casos exitosos y fallidos.\\
-
-Para acceder al panel de configuraciones, se utilizó el \textit{plugin} \href{https://www.npmjs.com/package/cordova.plugins.diagnostic}{cordova.plugins.diagnostic (v. 3.0.4)} de Apache Cordova.\\
 
 De ahora en adelante, cuando se diga `consola', se refiere a la consola del \textit{framework}.
 \subsection{Contactos}
@@ -89,18 +91,14 @@ De ahora en adelante, cuando se diga `consola', se refiere a la consola del \tex
 	\caption{Test de Contactos.}\label{alg:chap5:test_contactos}
 \end{algorithm}
 El test consiste en crear un contacto y luego listar todos los contactos presentes en el dispositivo. En caso de ser exitoso, se imprimen los contactos por consola. De lo contrario, se imprime un error. En la Figura \ref{fig:ch05:without_contact} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:with_contact} se observa el caso exitoso.\\
-
-Para desarrollarlo, se utilizó el \textit{plugin} \href{https://www.npmjs.com/package/cordova-plugin-contacts}{cordova-plugin-contacts (v. 2.3.1)} de Apache Cordova.\\
-
-Finalmente, para correr el test, es necesario tener el permiso \texttt{Contacto}, tanto para Android como para iOS.
-\begin{figure}[htbp]
+\begin{figure}[hbp]
     \centering
-    \begin{subfigure}{0.3\linewidth}
+    \begin{subfigure}{0.28\linewidth}
         \includegraphics[width=\linewidth]{chapter5/without_contact}
         \caption{Sin permisos.}
         \label{fig:ch05:without_contact}
     \end{subfigure}
-    \begin{subfigure}{0.3\linewidth}
+    \begin{subfigure}{0.28\linewidth}
         \includegraphics[width=\linewidth]{chapter5/with_contact}
         \caption{Con permisos.}
         \label{fig:ch05:with_contact}
@@ -108,6 +106,10 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Contacto}
     \caption{Testeando la administración de los contactos.}
 	\label{fig:ch05:contacts-cases}
 \end{figure}
+
+Para desarrollarlo, se utilizó el \textit{plugin} \href{https://www.npmjs.com/package/cordova-plugin-contacts}{cordova-plugin-contacts (v. 2.3.1)} de Apache Cordova.\\
+
+Finalmente, para correr el test, es necesario tener el permiso \texttt{Contacto}, tanto para Android como para iOS.
 \subsection{Calendario}
 \begin{algorithm}
 	\begin{algorithmic}[1]
@@ -118,18 +120,14 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Contacto}
 	\caption{Test del Calendario.}\label{alg:chap5:test_calendario}
 \end{algorithm}
 El test consiste en crear un evento en un determinado rango de fechas y luego listar todos los eventos dentro del rango. En caso de ser exitoso, se muestran los datos del evento. De lo contrario, se muestra un error. En la Figura \ref{fig:ch05:without_calendar} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:with_calendar} se observa el caso exitoso.\\
-
-Para desarrollarlo, se utilizó el \textit{plugin} \href{https://www.npmjs.com/package/cordova-plugin-calendar}{cordova-plugin-calendar (v. 4.6)} de Apache Cordova.\\
-
-Finalmente, para correr el test, es necesario tener el permiso \texttt{Calendario} para Android. En cambio, para iOS, es necesario tener el permiso \texttt{Recordatorios}.
-\begin{figure}[tp]
+\begin{figure}[hbp]
     \centering
-    \begin{subfigure}{0.3\linewidth}
+    \begin{subfigure}{0.29\linewidth}
         \includegraphics[width=\linewidth]{chapter5/without_calendar}
         \caption{Sin permisos.}
         \label{fig:ch05:without_calendar}
     \end{subfigure}
-    \begin{subfigure}{0.3\linewidth}
+    \begin{subfigure}{0.29\linewidth}
         \includegraphics[width=\linewidth]{chapter5/with_calendar}
         \caption{Con permisos.}
         \label{fig:ch05:with_calendar}
@@ -137,7 +135,10 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Calendari
     \caption{Testeando la administración del calendario.}
 	\label{fig:ch05:calendar-cases}
 \end{figure}
-\newpage
+
+Para desarrollarlo, se utilizó el \textit{plugin} \href{https://www.npmjs.com/package/cordova-plugin-calendar}{cordova-plugin-calendar (v. 4.6)} de Apache Cordova.\\
+
+Finalmente, para correr el test, es necesario tener el permiso \texttt{Calendario} para Android. En cambio, para iOS, es necesario tener el permiso \texttt{Recordatorios}.
 \subsection{Geolocalización}
 \begin{algorithm}
 	\begin{algorithmic}[1]
@@ -170,7 +171,7 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Localizac
 \end{figure}
 \begin{figure}[hbtp]
     \centering
-	\includegraphics[width=0.65\linewidth]{chapter5/android_extended_controls}
+	\includegraphics[width=0.48\linewidth]{chapter5/android_extended_controls}
 	\caption{Panel de configuración del emulador de Android.}
 	\label{fig:ch05:android_extended_controls}
 \end{figure}
@@ -185,19 +186,14 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Localizac
 	\label{alg:chap5_test_sms}
 \end{algorithm}
 El test consiste en enviar un mensaje SMS. En un principio, se diseñó con la capacidad de enviar, leer y recibir mensajes. Al momento de desarrollarlo, se encontró una restricción de seguridad en iOS: a partir de la version 8 no se pueden acceder a los mensajes SMS desde una aplicación instalada por el usuario \cite{foda, foda2}. En cambio, en Android sí se pueden acceder, siempre que se tengan el permiso correspondiente. Dicho permiso permiso es \texttt{SMS}.\\
-
-Como consecuencia de lo mencionado en el párrafo anterior, se decidió no implementar las funcionalidades incompatibles, quedando en el test la posibilidad de enviar mensajes SMS. Para desarrollarlo, se utilizó el \textit{plugin} \href{https://github.com/floatinghotpot/cordova-plugin-sms}{cordova-plugin-sms (v. 0.1.11)} de Apache Cordova.\\
-
-En la Figura \ref{fig:ch05:without_sms} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:with_sms} se observa el caso exitoso.\\
-Finalmente, para correr el test, es necesario tener el permiso \texttt{SMS} para Android. Sin embargo, no es necesario tener permisos para correr el test en iOS.
-\begin{figure}[hbtp]
+\begin{figure}[hbp]
     \centering
-	\begin{subfigure}{.3\linewidth}
+	\begin{subfigure}{.28\linewidth}
 		\includegraphics[width=\linewidth]{chapter5/without_sms}
 		\caption{Sin permisos.}
 		\label{fig:ch05:without_sms}
 	\end{subfigure}
-	\begin{subfigure}{.3\linewidth}
+	\begin{subfigure}{.28\linewidth}
 	    \centering
 		\includegraphics[width=\linewidth]{chapter5/success_sms}
 		\caption{Con permisos.}
@@ -206,6 +202,11 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{SMS} para
 	\caption{Testeando los mensajes SMS.}
 	\label{fig:chapter05:sms_test}
 \end{figure}
+
+Como consecuencia de lo mencionado en el párrafo anterior, se decidió no implementar las funcionalidades incompatibles, quedando en el test la posibilidad de enviar mensajes SMS. Para desarrollarlo, se utilizó el \textit{plugin} \href{https://github.com/floatinghotpot/cordova-plugin-sms}{cordova-plugin-sms (v. 0.1.11)} de Apache Cordova.\\
+
+En la Figura \ref{fig:ch05:without_sms} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:with_sms} se observa el caso exitoso.\\
+Finalmente, para correr el test, es necesario tener el permiso \texttt{SMS} para Android. Sin embargo, no es necesario tener permisos para correr el test en iOS.
 \subsection{Almacenamiento}
 \begin{algorithm}
 	\begin{algorithmic}[1]
@@ -216,10 +217,6 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{SMS} para
 	\caption{Test de Almacenamiento.}\label{alg:chap5_test_storage}
 \end{algorithm}
 El presente test fue diseñado para probar el alcance de los permisos de escritura sobre el sistema de archivos que tiene cada plataforma. En la Figura \ref{fig:ch05:storage_fail} se observa el resultado del test cuando no se tiene el permiso correspondiente; mientras que en la Figura \ref{fig:ch05:storage_success} se observa el caso exitoso.\\
-
-Para desarrollar el presente test se utilizó el \textit{plugin} \href{https://github.com/gitawego/cordova-screenshot}{cordova-screenshot (v. 0.1.5)} de Apache Cordova.\\
-
-Finalmente, para correr el test, es necesario tener el permiso \texttt{Almacenamiento} para Android. Sin embargo, no es necesario tener permisos para correr el test en iOS.
 \begin{figure}[hbtp]
    \centering
    	\begin{subfigure}{.3\linewidth}
@@ -235,6 +232,10 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Almacenam
 	\caption{Testeando el almacenamiento del dispositivo.}
 	\label{fig:ch05:storage_test}
 \end{figure}
+
+Para desarrollar el presente test se utilizó el \textit{plugin} \href{https://github.com/gitawego/cordova-screenshot}{cordova-screenshot (v. 0.1.5)} de Apache Cordova.\\
+
+Finalmente, para correr el test, es necesario tener el permiso \texttt{Almacenamiento} para Android. Sin embargo, no es necesario tener permisos para correr el test en iOS.
 \subsection{Información del Dispositivo}
 \begin{algorithm}
 	\begin{algorithmic}[1]
@@ -254,6 +255,7 @@ Cabe aclarar que no fueron necesarios permisos en ninguna de las dos plataformas
 	\caption{Testeando Información del Dispositivo.}
 	\label{fig:ch05:device-info}
 \end{figure}
+\newpage
 \subsection{Sensores}
 \begin{algorithm}
 	\begin{algorithmic}[1]
@@ -269,7 +271,7 @@ El objetivo de este test es obtener datos de dos sensores del dispositivo: acele
 Para desarrollar el presente test se utilizaron los \textit{plugins} \href{https://www.npmjs.com/package/cordova-plugin-device-motion}{cordova-plugin-device-motion} y \href{https://www.npmjs.com/package/cordova-plugin-gyroscope}{cordova-plugin-gyroscope}, de Apache Cordova.\\
 
 Cabe aclarar que no fueron necesarios permisos en ninguna de las dos plataformas para poder correrlo.
-\begin{figure}[tp]
+\begin{figure}[hbp]
     \centering
 	\includegraphics[width=.3\linewidth]{chapter5/sensors_success}
 	\caption{Testeando los sensores.}
@@ -294,7 +296,7 @@ En la Figura \ref{fig:ch05:fail_request} se observa el resultado del test cuando
 Cabe aclarar que, al ejecutarse el framework desde un emulador, para probar el acceso a Internet se habilitó/deshabilitó la Red Inalámbrica de la computadora donde se corrieron los emuladores.\\
 
 Por último, no son necesarios permisos en ninguna de las dos plataformas para poder utilizar el presente test.
-\begin{figure}[tp]
+\begin{figure}[htp]
     \centering
     \begin{subfigure}{.35\linewidth}
 		\includegraphics[width=\linewidth]{chapter5/fail_request}
@@ -342,6 +344,7 @@ A continuación, se detalla como están conformadas las clases.
 \end{table}
 \subsection{Clase A}
 Los componentes que conforman esta clase son \emph{Contactos}, \emph{Calendario} y \emph{Geolocalización}. La característica común entre ellos es que requieren autorización explícita del usuario para interactuar con ellos. Si el usuario deniega el correspondiente permiso, no se puede acceder a ninguna funcionalidad del componente.\\
+
 El primer componente a analizar es \emph{Contactos}. En Android, requiere el permiso \textit{peligroso} llamado Contacto y en iOS requiere el permiso llamado con el mismo nombre. En ambas plataformas, los dos permisos abarcan las mismas funcionales: permiten crear un contacto, borrarlo, editarlo y obtener un listado de todos los contactos presentes en el dispositivo.\\
 
 Luego, se continúa analizando el componente \emph{Calendario}. En Android permite administrar todo lo relacionado con los eventos: crear un evento, modificarlo y eliminarlo. Además, permite administrar varios calendarios, permitiendo por ejemplo, tener un calendario que contenga los eventos laborales y otro con los eventos personales. En iOS, estas funcionalidades están separadas en dos componentes: \emph{Calendarios} y \emph{Recordatorios}. Cada uno de ellos tiene su permiso que lo regula. Sin embargo, el test presente en el \textit{framework} prueba solamente el componente \emph{Recordatorios}. Para poder correrlo, es necesario tener el permiso Recordatorios. Por otra parte, en Android, el permiso \textit{peligroso} que regula las funcionalidades mencionadas anteriormente, se llama Calendario.\\
