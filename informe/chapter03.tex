@@ -1,4 +1,4 @@
-\chapter{Análisis Comparativo}
+\chapter{Análisis Comparativo} \label{analisis-comparativo}
 Android e iOS son dos plataformas muy populares entre los dispositivos móviles, siendo sus aplicaciones utilizadas principalmente para administrar información personal y confidencial. Como consecuencia del uso diario de estas aplicaciones, se pueden filtrar     gran parte de dicha información, por lo que es de vital importancia analizar ambas plataformas con el objetivo de encontrar fortalezas y debilidades de sus respectivos módulos de seguridad. Existen muchos trabajos sobre distintas formas de comparar la seguridad de ambas plataformas, proponiendo cada uno de ellos una medida de comparación que focaliza el análisis en alguna característica particular de Android y/o de iOS.\\
 
 La medida de comparación propuesta en \cite{YA2014} consiste en analizar la seguridad de una aplicación móvil en cada fase del ciclo de vida. Como resultado del análisis, afirma que la seguridad en los dispositivos móviles no es responsabilidad exclusiva del desarrollador. Es responsabilidad de todos los usuarios y las personas que participan desde la fase de desarrollo hasta la fase de ejecución del usuario final. También depende de cómo se usa la aplicación en el dispositivo y de cómo es almacenada en las tiendas de aplicaciones.\\
@@ -40,6 +40,13 @@ Como consecuencia de esta forma de autenticarse, se destacan las \\siguientes ve
 Estas mejoras permiten que los desarrolladores de aplicaciones tengan más opciones de seguridad para sus datos y sus comunicaciones.
 \subsection{Seguro desde el arranque}\label{fig:ch03:verify-boot}
 Android ofrece la funcionalidad de garantizar un arranque seguro del dispositivo, comenzando desde un lugar confiable del \textit{hardware} hasta que se monta la partición. Durante el arranque, el sistema operativo verifica que la versión de Android no se haya alterado respecto a la de fábrica, informando mediante alertas en caso contrario y ofreciendo opciones para resolverlo. Dependiendo de la implementación de la funcionalidad, el sistema operativo puede ofrecer una acción al usuario o evitar el arranque hasta que se haya solucionado el problema \cite{aossec}.\\
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[width=0.52\linewidth]{chapter3/verified_boot}
+		\caption{Diagrama de flujo del \textit{Arranque seguro} \cite{asreview2015}.}
+		\label{fig:ch03:verifyBoot}
+	\end{center}
+\end{figure}
 
 En la figura \ref{fig:ch03:verifyBoot} se observa el diagrama de flujo del \textit{Arranque Seguro}\footnote{Traducción propuesta del término \textit{Verified Boot}.}, el cual termina en cuatro estados posibles:
 \begin{itemize}
@@ -48,13 +55,6 @@ En la figura \ref{fig:ch03:verifyBoot} se observa el diagrama de flujo del \text
 	\item Naranja: indica que el dispositivo pudo ser modificado, ya que no se pudo verificar la partición de arranque. Requiere acción del usuario para continuar.
 	\item Rojo: indica que falló la verificación. Es decir, no pudo validar ninguna partición.
 \end{itemize}
-\begin{figure}[htbp]
-	\begin{center}
-		\includegraphics[width=0.5\linewidth]{chapter3/verified_boot}
-		\caption{Diagrama de flujo del \textit{Arranque seguro} \cite{asreview2015}.}
-		\label{fig:ch03:verifyBoot}
-	\end{center}
-\end{figure}
 \subsection{Cifrado de la partición de datos}
 Mediante una opción de la configuración, Android permite cifrar todos los datos de usuario presentes en un dispositivo, utilizando claves de cifrado simétricas. Una vez cifrado, el proceso es transparente para el usuario. Es decir, todos los datos creados se cifran antes de enviarlos al disco y todas las lecturas descifran los datos antes de devolverlos al proceso que realizó la llamada.\\
 
@@ -92,14 +92,14 @@ En contraposición a lo que ocurría en las versiones previas, en Android Marsma
 Debido a que el usuario puede revocar algunos de los permisos en cualquier momento, una aplicación debe comprobar si dispone de ellos cada vez que se ejecuta. De lo contrario no va a poder acceder a las funciones de las cuales no tiene permiso. Sin embargo, el usuario no puede revocar los permisos \emph{normales}; solamente se eliminan al desinstalar la aplicación.
 \begin{figure}[btp]
     \centering
-    \begin{subfigure}{0.35\linewidth}
+    \begin{subfigure}{0.28\linewidth}
         \includegraphics[width=\linewidth]{imgs/chapter5/allow_contact}
-        \caption{Solicitud de un permiso en tiempo de ejecución.}
+        \caption{Solicitud de un permiso.}
         \label{fig:ch01:permission-request}
     \end{subfigure}
-    \begin{subfigure}{0.35\linewidth}
+    \begin{subfigure}{0.28\linewidth}
         \includegraphics[width=\linewidth]{imgs/chapter1/app-permissions}
-        \caption{Descripción general de los permisos otorgados.}
+        \caption{Listado de los permisos otorgados.}
 	    \label{fig:ch03:app-permissions-overview}
 	\end{subfigure}
 	\caption{Permisos en Android Marsmallow.}
@@ -130,7 +130,7 @@ Las clases que se combinan con la clave única de un archivo son:
 El proceso completo se observa en la Figura \ref{fig:ch02:dataProtection}.
 \begin{figure}[hbtp]
     \centering
-    \includegraphics[width=.7\linewidth]{chapter2/ios_fileDataProtection_architecture}
+    \includegraphics[width=.6\linewidth]{chapter2/ios_fileDataProtection_architecture}
     \caption{Proceso para descifrar un archivo \cite{asg}.}
     \label{fig:ch02:dataProtection}
 \end{figure}
@@ -188,7 +188,7 @@ Teniendo presente el análisis realizado en las secciones anteriores, se realiza
 \subsection{Arranque verificado}
 Desde la primera versión, iOS ofrece la funcionalidad de verificación desde el arranque del dispositivo para ver si fue modificado respecto de la versión de fábrica. Por lo tanto, dicha verificación es transparente para el usuario. En caso de fallar, el dispositivo entra en \emph{modo de recuperación}, teniendo que conectarlo a una computadora para restaurar la configuración de fábrica.\\
 
-En Android, el arranque verificado se agregó en la version 4.4 pero recién en la versión 6.0 se hizo obligatorio para los fabricantes. La principal ventaja respecto de iOS es que tiene cuatro estados finales de verificación en vez de dos. Se identifican por colores: verde, amarillo, naranja y rojo. Los estados verde y rojo son equivalentes a los estados de iOS: válido e inválido, respectivamente. Los estados amarillo y naranja corresponden a una validación parcial\footnote{Ver apartado \ref{fig:ch03:verify-boot}.}. Android deja librado a la decisión del usuario para continuar o suspender el arranque.
+En Android, el arranque verificado se agregó en la version 4.4 pero recién en la versión 6.0 se hizo obligatorio para los fabricantes. A diferencia de iOS, Android propone cuatro estados finales de verificación en vez de dos. Se identifican por colores: verde, amarillo, naranja y rojo. Los estados verde y rojo son equivalentes a los estados de iOS: válido e inválido, respectivamente. Los estados amarillo y naranja corresponden a una validación parcial\footnote{Ver apartado \ref{fig:ch03:verify-boot}.}. Android deja librado a la decisión del usuario para continuar o suspender el arranque.
 \subsection{Cifrado del sistema de archivos}
 Tanto Android con iOS proveen la funcionalidad de cifrar los datos alojados en el sistema de archivos. Sin embargo, tienen una política distinta al momento de aplicarlo: en iOS está siempre habilitada y no se puede deshabilitar; mientras que en Android, se deja esta decisión al usuario.\\
 

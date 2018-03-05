@@ -185,7 +185,7 @@ Finalmente, para correr el test, es necesario tener el permiso \texttt{Localizac
 	\caption{Test de SMS.}
 	\label{alg:chap5_test_sms}
 \end{algorithm}
-El test consiste en enviar un mensaje SMS. En un principio, se diseñó con la capacidad de enviar, leer y recibir mensajes. Al momento de desarrollarlo, se encontró una restricción de seguridad en iOS: a partir de la version 8 no se pueden acceder a los mensajes SMS desde una aplicación instalada por el usuario \cite{foda, foda2}. En cambio, en Android sí se pueden acceder, siempre que se tengan el permiso correspondiente. Dicho permiso permiso es \texttt{SMS}.\\
+El test consiste en enviar un mensaje SMS. En un principio, se diseñó con la capacidad de enviar, leer y recibir mensajes. Al momento de desarrollarlo, se encontró una restricción de seguridad en iOS: a partir de la version 8 no se pueden acceder a los mensajes SMS desde una aplicación instalada por el usuario \cite{foda, foda2}. En cambio, en Android sí se pueden acceder, siempre que se tengan el permiso correspondiente. Dicho permiso es \texttt{SMS}.\\
 \begin{figure}[hbp]
     \centering
 	\begin{subfigure}{.28\linewidth}
@@ -367,7 +367,7 @@ Como se explica en la sección \ref{ch03-permisos}, si una aplicación requiere 
 
 Por ejemplo, supongamos que se tiene instalada una aplicación maliciosa de administración de contactos. Supongamos también, para simplificar, que requiere solamente de dos componentes: Contactos y Acceso a Internet. Según el Cuadro \ref{tab:ch03:permission-classification}, al usuario se le requeriría explícitamente el permiso \emph{Contactos}. Sin embargo, dicha aplicación maliciosa obtiene el permiso correspondiente a Acceso a Internet sin que el usuario sea notificado. Ergo, ¡puede robar todos los contactos!\\
 
-Empecemos el análisis de los miembros de la clase. El primer componente nos brinda datos relacionados al dispositivo en el cual se está corriendo la aplicación. Especifica el modelo del dispositivo, el cual es establecido por el fabricante del dispositivo y puede ser diferente en todas las versiones del mismo producto. También se puede obtener información relacionada a la plataforma del dispositivo: nombre, versión, quién lo manufacturó, su UUID\footnote{Del inglés Universally Unique Identifier. Es un numero de 128 bits que identifica al dispositivo biunívocamente.} y si es emulado o no.\\
+Empecemos el análisis de los miembros de la clase. El primer componente nos brinda datos relacionados al dispositivo en el cual se está corriendo la aplicación. Especifica el modelo del dispositivo, el cual es establecido por el fabricante del dispositivo y puede ser diferente en todas las versiones del mismo producto. También se puede obtener información relacionada a la plataforma del dispositivo: nombre, versión, quién lo manufacturó, su UUID\footnote{Del inglés Universally Unique Identifier. Es un numero de 128 bits que identifica al dispositivo unívocamente.} y si es emulado o no.\\
 
 Luego, se continúa con el componente \emph{Sensores}. Dicho componente controla el acceso a los sensores del dispositivo. El test presente en el \textit{framework} recolecta datos de dos sensores: el acelerómentro y el giroscopio. Con los datos obtenidos, se podrían calcular varios movimientos del dispositivo, tales como inclinación, vibración, rotación o balanceo.\\
 
