@@ -9,10 +9,10 @@
 \usepackage{tablefootnote}
 \usepackage{multirow}
 \usepackage{multicol}
-\usepackage{listings}
 \usepackage{xcolor}
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{datetime}
 
 \makeatletter
 \renewcommand{\ALG@name}{Algoritmo}
@@ -40,6 +40,11 @@
     xleftmargin=10pt,
     xrightmargin=10pt,
     frame=none,
+}
+
+%date without day.
+\newdateformat{monthyeardate}{
+  \monthname[\THEMONTH], \THEYEAR
 }
 
 %document
