@@ -1,0 +1,73 @@
+\documentclass{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{datetime}
+
+%packages customizations
+\graphicspath{ {imgs/} }
+
+%date without day.
+\newdateformat{monthyeardate}{
+  \monthname[\THEMONTH], \THEYEAR
+}
+
+\usetheme{Madrid}
+\title[Seguridad en iOS y Android]{\Large Seguridad en iOS y Android: \\un Análisis Comparativo}
+\institute[UNR]{\Large Tesina de Grado}
+\author[Galuppo,R.]{\footnotesize Autor:\\ \small \textbf{Raúl Ignacio Galuppo}} %<= used the short author name [] for the footline
+\newcommand{\director}{\footnotesize Director:\\ \small \emph{Dr. Carlos Luna}}
+\date[\monthyeardate\today]
+
+% re-definition of the title page
+\setbeamertemplate{title page}{
+\vfill
+\centering
+\begin{beamercolorbox}[rounded=true,shadow=true,sep=8pt,center]{title}
+\inserttitle \par
+\end{beamercolorbox}
+\vfill
+\usebeamerfont{institute}\insertinstitute \par
+\vspace{1cm}
+\begin{beamercolorbox}[leftskip=8cm,center,wd=0.7\textwidth]{author}
+\begin{columns}[T]
+\begin{column}{.49\textwidth}%
+\centering
+\insertauthor
+\end{column}
+\begin{column}{.49\textwidth}%
+\centering
+\director
+\end{column}
+\end{columns}
+\vfill
+\end{beamercolorbox}
+\vfill
+\centering
+\vspace{1cm}
+\monthyeardate\today\par
+\vfill
+}
+
+\begin{document}
+  \begin{frame}
+    \titlepage
+  \end{frame}
+  
+  \begin{frame}
+    \frametitle{Contenidos}
+    \tableofcontents[pausesections]
+  \end{frame}
+  
+  \include{intro}
+  \include{analisis}
+  \include{framework}
+  \include{conclusiones}
+  \include{fin}
+
+\end{document}
