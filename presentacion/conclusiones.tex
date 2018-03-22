@@ -8,34 +8,16 @@
  \frametitle{Conclusiones}
  \begin{footnotesize}
  \begin{exampleblock}{Primer Aporte}
-Se realizó un análisis comparativo entre algunas características presentes en los modelos de seguridad de ambas plataformas.\\ \pause
-Ellas son: verificación del arranque del sistema operativo, \pause cifrado del sistema de archivos, \pause bloqueo del dispositivo \pause y sistemas de permisos.\\ \pause
-Todas ellas se eligieron porque son importantes a la hora de resguardar la privacidad del usuario.
+Un análisis comparativo entre algunas características presentes en los modelos de seguridad de ambas plataformas.
  \end{exampleblock}\pause
  \begin{exampleblock}{\flushright {Segundo Aporte}}
-Como fruto del análisis, se logró establecer una medida de comparación entre los permisos presentes en ambas plataformas. \pause La medida propuesta es la siguiente: \emph{dos permisos son similares si resguardan un componente que provee la misma funcionalidad}.\\ \pause
-Utilizando la medida propuesta, todos los permisos que un usuario puede cambiar en tiempo de ejecución quedan clasificados en tres grupos: \pause \emph{Ambas Plataformas}, \pause \emph{Solo en Android} \pause o \emph{Solo en iOS}.\\ \pause
-Cabe aclarar que los grupos son mutuamente excluyentes.
+Se logró establecer una clasificación de todos los permisos que un usuario puede cambiar en tiempo de ejecución.\\ \pause La medida propuesta es la siguiente: \emph{dos permisos son similares si resguardan un componente que provee la misma funcionalidad}.\\ 
  \end{exampleblock}
- \end{footnotesize}
-\end{frame}
-\begin{frame}
- \frametitle{Conclusiones}
- \begin{footnotesize}
  \begin{exampleblock}{Tercer Aporte}
-Otro aporte es el \emph{Framework para la Comparación de Permisos}. \pause Tiene dos funciones principales: \pause determinar empíricamente los alcances de los sistemas de permisos; \pause y establecer una relación entre los permisos presenten en las dos plataformas.\\ \pause
-El \emph{framework} está compuesto por una batería de tests, teniendo cada uno de ellos la tarea de probar una funcionalidad provista por Android e iOS.
+El \emph{Framework para la Comparación de Permisos} multiplataforma.
  \end{exampleblock} \pause
  \begin{exampleblock}{\flushright {Cuarto Aporte}}
-Como resultado de la utilización del \emph{framework} se determinó una clasificación de permisos. \pause El criterio utilizado fue: \emph{un componente pertenece a una clase según requiera autorización explícita del usuario para utilizarlo}. \pause Utilizando el criterio propuesto, se obtuvieron cuatro clases mutuamente excluyentes:\pause
-  \begin{scriptsize}
-  \begin{itemize}[<+->]
-    \item \underline{Clase A}: componentes que requieren autorización explícita en ambas plataformas para poder utilizar las funcionalidades que proveen;
-    \item \underline{Clase B}: componentes que requieren autorización explícita solamente en Android;
-    \item \underline{Clase C}: componentes que requieren autorización explícita solamente en iOS;
-    \item \underline{Clase D}: componentes que no requieren autorización explícita para poder utilizar las funcionalidades que proveen.
-  \end{itemize}
-  \end{scriptsize}
+Se determinó una clasificación de permisos.\\ \pause El criterio utilizado fue: \emph{un componente pertenece a una clase según requiera autorización explícita del usuario para utilizarlo}.
  \end{exampleblock}
  \end{footnotesize}
 \end{frame}

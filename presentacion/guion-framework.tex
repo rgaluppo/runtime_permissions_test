@@ -1,0 +1,32 @@
+\chapter{Hacia un Framework para la Comparación de Permisos}
+\begin{itemize}
+  \item Android e iOS permiten cambiar ciertos permisos de una aplicación luego de haberla instalado en el dispositivo.
+  \item Es por ello que se ha desarrollado un \textit{framework} para determinar empíricamente el alcance de los sistemas de permisos de ambas plataformas.
+\end{itemize}
+\begin{paragraph}{Objetivo I}
+    {Se busca dejar en evidencia posibles vulnerabilidades presentes en los modelos de seguridad.}
+\end{paragraph}
+\begin{paragraph}{Objetivo II}
+    {Se pone énfasis en la relación existente entre la privacidad del usuario y el sistema de permisos, analizando cuál es la cobertura del sistema respecto de los datos sensibles para la privacidad.}
+\end{paragraph}
+\begin{paragraph}{Aplicación Híbrida}
+Es una aplicación móvil diseñada en un lenguaje de programación web ya sea HTML5, CSS o JavaScript, junto con un \emph{framework} que permite adaptar la vista web a cualquier vista de un dispositivo móvil.
+\end{paragraph}
+\begin{paragraph}{Apache Cordova}
+Es un \emph{framework} que permite crear aplicaciones para dispositivos móviles utilizado HTML5, CSS3, y JavaScript, con el objetivo de lograr un desarrollo multiplataforma.
+\end{paragraph}
+\begin{paragraph}{}
+El \textit{framework} es {una aplicación móvil híbrida} {desarrollada con Apache Cordova} y está compuesto por varios tests.
+\end{paragraph}
+\begin{paragraph}{}
+Cada test pone a prueba a un componente del dispositivo, permitiendo así conocer el alcance de los permisos correspondientes a dicho componente.
+\end{paragraph}
+
+\begin{itemize}
+  \item Para el presente trabajo se decidió utilizar los emuladores oficiales para testear el \emph{framework} propuesto. 
+  \item Los emuladores permiten interactuar de la misma manera que se haría con un dispositivo real, pero con el ratón y el teclado, y mediante los botones y los controles del emulador.
+ \end{itemize}
+
+Para cada uno de los tests se detalla el algoritmo, los plugins de Apache Cordova que se utilizaron para desarrollarlo y una serie de capturas que muestran los casos exitosos y fallidos.
+
+Luego de correr los tests, se puenden clasificar los componentes testeados en cuatro clases mutuamente excluyentes, según requieran autorización del usuario para utilizarlos.

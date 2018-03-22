@@ -8,38 +8,38 @@
  \frametitle{Análisis Comparativo}
  \begin{itemize}[<+->]
   \item Existen muchos trabajos sobre distintas formas de comparar la seguridad de ambas plataformas.
-  \item Cada uno de ellos propone una medida de comparación que focaliza el análisis en alguna característica particular de Android y/o de iOS.
-  \item Esta tesina propone analizar distintas características presentes en ambas plataformas, \pause poniendo foco en \structure{los permisos que se pueden modificar \emph{en tiempo de ejecución}}.
+  \item Esta tesina propone analizar distintas características presentes en ambas plataformas, \pause poniendo foco en \structure{los permisos que se pueden modificar \emph{en tiempo de ejecución}}.\pause
+  \item Se analizaron cuatro características presentes en iOS y Andriod:\pause
+     \begin{itemize}[<+->]
+      \item Arranque verificado
+      \item Cifrado del sistema de archivos
+      \item Bloqueo del dispositivo
+      \item Seguridad de las aplicaciones
+     \end{itemize}
  \end{itemize}
 \end{frame}
 \begin{frame}
  \frametitle{Análisis Comparativo}
- Se analizaron cuatro características presentes en iOS y Andriod:\pause
- \begin{itemize}[<+->]
-  \item Arranque verificado
-  \item Cifrado del sistema de archivos
-  \item Bloqueo del dispositivo
-  \item Seguridad de las aplicaciones
- \end{itemize}
- \vspace*{1.5cm}
- \pause Se pone foco especialmente en los sistemas de permisos:
-\end{frame}
-\begin{frame}
- \frametitle{Análisis Comparativo}
+Se pone foco especialmente en los sistemas de permisos:\pause
  \begin{figure}[btp]
     \centering
     \begin{subfigure}{0.23\linewidth}
         \includegraphics[width=\linewidth]{allow_contact}
+        \caption{Pedido de un permiso en Android.}
     \end{subfigure}
     \begin{subfigure}{0.23\linewidth}
         \includegraphics[width=\linewidth]{app-permissions}
+        \caption{Sistema de permisos de Android.}
 	\end{subfigure}\pause
 	\begin{subfigure}{.23\linewidth}
     	\includegraphics[width=\linewidth]{calendar_request_ios}
+    	\caption{Pedido de un permiso en\\ iOS.}
     \end{subfigure}
     \begin{subfigure}{.23\linewidth}
     	\includegraphics[width=\linewidth]{apps-allow-location}
+    	\caption{Sistema de permisos de\\ iOS.}
 	\end{subfigure}
+	\caption{Permisos modificables en \emph{tiempo de ejecución}.}
 \end{figure}
 \end{frame}
 \begin{frame}
@@ -48,21 +48,18 @@ Al comparar la gestión de permisos de ambas plataformas, encontramos varias sim
  \begin{itemize}[<+->]
   \item A una aplicación se le otorga permisos básicos al momento de instalación, sin posibilidad de revocarlos.
   \item Si una aplicación necesita un permiso no básico, debe requerirlo. El usuario puede otorgarlo o revocarlo.
-  \item Desde la configuración de privacidad, el usuario puede revocar u otorgar permisos a las aplicaciones.
  \end{itemize}
 \end{frame}
 \begin{frame}
  \frametitle{Análisis Comparativo}
-Respecto a cómo se definen los permisos, se observan diferencias de concepto:\\ \pause
+Respecto a cómo se definen los permisos: \pause
  \begin{itemize}[<+->]
   \item En Android están orientados según el riesgo implícito al otorgarlos.
   \item En iOS los permisos están orientados a los componentes.
  \end{itemize} \pause
- 
-Sin embargo, se pueden comparar según los componentes que son afectados por un permiso, \pause resultando la siguiente Tabla:
+ \begin{tiny}
   \begin{table}[H]
     \centering
-    \begin{tiny}
 	\begin{tabular}{c c c}
 		\hline
 		\multicolumn{3}{c}{\textbf{Permisos}} \\
@@ -82,21 +79,21 @@ Sin embargo, se pueden comparar según los componentes que son afectados por un 
 		-			& -				& Diagnóstico \\        			
 		-			& -				& Publicidad \\    			\hline
 	\end{tabular}
-	\end{tiny}
+	\caption{Resultado de la comparación de permisos.}
    \end{table}
+   	\end{tiny}
 \end{frame}
 \begin{frame}
  \frametitle{Análisis Comparativo}
-Respecto del alcance del sistema de permisos, se observó una falta de granularidad de los permisos que se pueden modificar \emph{en tiempo de ejecución}:\pause
+Respecto del alcance del sistema de permisos:\pause
   \begin{itemize}[<+->]
    \item En Android, un permiso es a nivel de grupo. Por lo tanto, el usuario otorga o deniega para todo el grupo.
    \item La misma situación ocurre en iOS: se otorga un permiso de acceso a todas las funcionalidades de un determinado componente.
   \end{itemize}
-\pause Como consecuencia de ello, el usuario está delegando a una aplicación demasiados permisos y no tiene expresividad para decir qué funcionalidades autoriza.
 \end{frame}
 \begin{frame}
  \frametitle{Análisis Comparativo}
-Otra cosa a destacar es la cobertura del sistema de permisos. \pause Las dos plataformas dejan funcionalidades principales del dispositivo sin permisos modificables \emph{en tiempo de ejecución}:\pause
+Si observamos la cobertura del sistema de permisos, \pause las dos plataformas dejan funcionalidades sin permisos modificables \emph{en tiempo de ejecución}:\pause
   \begin{itemize}[<+->]
    \item En Android se destacan: Acceso a Internet, Compartir vía Bluetooth e Información del Dispositivo.
    \item En iOS se destacan: Acceso a Internet y SMS. Tampoco tiene la suficiente granularidad para administrar el acceso a los datos de las llamadas telefónicas.
@@ -104,23 +101,24 @@ Otra cosa a destacar es la cobertura del sistema de permisos. \pause Las dos pla
 \end{frame}
 \begin{frame}
  \frametitle{Análisis Comparativo}
-Para finalizar analizamos cómo se muestran al usuario los permisos adquiridos por una aplicación:\pause
+\small {Para finalizar se analizará la interacción con el usuario:}\pause
 \begin{figure}
 	\centering
-	\begin{subfigure}{.25\linewidth}
+	\begin{subfigure}{.23\linewidth}
 		\includegraphics[width=\linewidth]{permission-classes.png}
 		\caption{Permisos requeridos por una aplicación.}
 		\label{fig:ch05:ios_all_permissions}
 	\end{subfigure}\pause
-	\begin{subfigure}{.25\linewidth}
+	\begin{subfigure}{.23\linewidth}
 		\includegraphics[width=\linewidth]{no_permissions_granted}
 		\caption{La aplicación no tiene ningún permiso.}
 		\label{fig:ch05:without_permissions}
 	\end{subfigure}\pause
-	\begin{subfigure}{.25\linewidth}
+	\begin{subfigure}{.23\linewidth}
 		\includegraphics[width=\linewidth]{always_have_internet}
 		\caption{Sin embargo, tiene todos los permisos \emph{normales}.}
 		\label{fig:ch05:always_have_internet}
 	\end{subfigure}
+	\caption{Interacción con el usuario en iOS y Android.}
 \end{figure}
 \end{frame}

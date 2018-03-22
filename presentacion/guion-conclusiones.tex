@@ -1,0 +1,22 @@
+\chapter{Conclusiones y Trabajos Futuros}
+\begin{paragraph}{Primer Aporte}
+Se realizó un análisis comparativo entre algunas características presentes en los modelos de seguridad de ambas plataformas.
+
+Ellas son: verificación del arranque del sistema operativo,  cifrado del sistema de archivos,  bloqueo del dispositivo  y sistemas de permisos.
+
+Todas ellas se eligieron porque son importantes a la hora de resguardar la privacidad del usuario.
+\end{paragraph}
+\begin{paragraph}{Segundo Aporte}
+Como fruto del análisis, se logró establecer una medida de comparación entre los permisos presentes en ambas plataformas.  La medida propuesta es la siguiente: \emph{dos permisos son similares si resguardan un componente que provee la misma funcionalidad}.
+
+Utilizando la medida propuesta, todos los permisos que un usuario puede cambiar en tiempo de ejecución quedan clasificados en tres grupos:  \emph{Ambas Plataformas},  \emph{Solo en Android}  o \emph{Solo en iOS}. Cabe aclarar que los grupos son mutuamente excluyentes.
+\end{paragraph}
+\begin{paragraph}{Tercer Aporte}
+Otro aporte es el \emph{Framework para la Comparación de Permisos}. Tiene dos funciones principales: determinar empíricamente los alcances de los sistemas de permisos;  y establecer una relación entre los permisos presenten en las dos plataformas.
+
+El \emph{framework} está compuesto por una batería de tests, teniendo cada uno de ellos la tarea de probar una funcionalidad provista por Android e iOS.
+\end{paragraph} 
+\begin{paragraph}{Cuarto Aporte}
+Como resultado de la utilización del \emph{framework} se determinó una clasificación de permisos. El criterio utilizado fue: \emph{un componente pertenece a una clase según requiera autorización explícita del usuario para utilizarlo}.
+\end{paragraph}
+\input{guion-trabajos-futuros}
