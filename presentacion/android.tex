@@ -6,15 +6,21 @@
 \end{frame}
 \begin{frame}
  \frametitle{Modelo de Android}
- {Android es un sistema operativo de código abierto, diseñado para dispositivos móviles y desarrollado por Google junto con la Open Handset Alliance.}\pause
- \begin{figure}[H]
+ \begin{figure}[tH]
+  \begin{subfigure}{0.58\linewidth}
+  \begin{small}
+   \begin{itemize}
+    \item Android es un sistema operativo de código abierto, diseñado para dispositivos móviles y desarrollado por Google junto con la Open Handset Alliance.
+    \item <3->{Cada aplicación corre en un \emph{entorno aislado}, forzando a que solo pueda tener acceso a sus recursos.}
+   \end{itemize}
+     \end{small}
+  \end{subfigure}
+  \begin{subfigure}{0.4\linewidth}\pause
     \centering
-    \begin{subfigure}{0.75\linewidth}
-		\includegraphics[width=\linewidth]{android_security_model}
-	    \label{fig:ch01:sandbox}
-    \end{subfigure}
-    \caption{Aislamiento de las aplicaciones según su UID.}
- \end{figure}
+   		\includegraphics[width=\linewidth]{android-stack}
+  \end{subfigure}
+  \caption{Capas de Android.}
+\end{figure}
 \end{frame}
 \begin{frame}
  \frametitle{Modelo de Android}

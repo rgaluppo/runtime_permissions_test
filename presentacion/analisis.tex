@@ -9,38 +9,15 @@
  \begin{itemize}
   \item Existen muchos trabajos sobre distintas formas de comparar la seguridad de ambas plataformas.\pause
   \item Esta tesina propone analizar distintas características relacionadas a la privacidad del usuario, \pause poniendo foco en \structure{los permisos que se pueden modificar \emph{en tiempo de ejecución}}.\pause
-  \item Se analizaron cuatro características presentes en iOS y Andriod:\pause
+  \item Se analizaron cinco características presentes en iOS y Android:\pause
      \begin{itemize}[<+->]
       \item Arranque verificado
       \item Cifrado del sistema de archivos
       \item Bloqueo del dispositivo
       \item Seguridad de las aplicaciones
+      \item \textbf{Sistema de permisos}
      \end{itemize}
  \end{itemize}
-\end{frame}
-\begin{frame}
- \frametitle{Análisis Comparativo}
-Se pone foco especialmente en los sistemas de permisos:\pause
- \begin{figure}[btp]
-    \centering
-    \begin{subfigure}{0.23\linewidth}
-        \includegraphics[width=\linewidth]{allow_contact}
-        \caption{Pedido de un permiso en Android.}
-    \end{subfigure}
-    \begin{subfigure}{0.23\linewidth}
-        \includegraphics[width=\linewidth]{app-permissions}
-        \caption{Sistema de permisos de Android.}
-	\end{subfigure}\pause
-	\begin{subfigure}{.23\linewidth}
-    	\includegraphics[width=\linewidth]{calendar_request_ios}
-    	\caption{Pedido de un permiso en\\ iOS.}
-    \end{subfigure}
-    \begin{subfigure}{.23\linewidth}
-    	\includegraphics[width=\linewidth]{apps-allow-location}
-    	\caption{Sistema de permisos de\\ iOS.}
-	\end{subfigure}
-	\caption{Permisos modificables en \emph{tiempo de ejecución}.}
-\end{figure}
 \end{frame}
 \begin{frame}
  \frametitle{Análisis Comparativo}
@@ -56,7 +33,12 @@ Respecto a cómo se definen los permisos: \pause
  \begin{itemize}
   \item En Android están orientados según el riesgo implícito al otorgarlos.\pause
   \item En iOS los permisos están orientados a los componentes.\pause
- \end{itemize} 
+ \end{itemize}
+ \begin{block}{}
+\begin{small}
+Medida de comparación:
+\end{small} \emph{dos permisos son similares si resguardan un componente que provee la misma funcionalidad}. 
+ \end{block}\pause
   \begin{tiny}
   \begin{table}[H]
     \centering
@@ -101,7 +83,7 @@ Si observamos la cobertura del sistema de permisos, \pause las dos plataformas d
 \end{frame}
 \begin{frame}
  \frametitle{Análisis Comparativo}
-\small {Para finalizar se analizará la interacción con el usuario:}\pause
+\small {Para finalizar se analiza la interacción con el usuario:}\pause
 \begin{figure}
 	\centering
 	\begin{subfigure}{.23\linewidth}
