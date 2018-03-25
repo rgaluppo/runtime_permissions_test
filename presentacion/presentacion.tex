@@ -1,13 +1,19 @@
 \documentclass{beamer}
-\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage{subcaption}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{datetime}
 \usepackage{smartdiagram}
 \usepackage{multicol}
+
+\makeatletter
+\renewcommand{\ALG@name}{Algoritmo}
+\renewcommand{\listalgorithmname}{Índice de \ALG@name s}
+\makeatother
 
 %packages customizations
 \graphicspath{ {imgs/} }

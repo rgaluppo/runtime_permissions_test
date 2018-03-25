@@ -6,9 +6,9 @@
 \end{frame}
 \begin{frame}
  \frametitle{Análisis Comparativo}
- \begin{itemize}[<+->]
-  \item Existen muchos trabajos sobre distintas formas de comparar la seguridad de ambas plataformas.
-  \item Esta tesina propone analizar distintas características presentes en ambas plataformas, \pause poniendo foco en \structure{los permisos que se pueden modificar \emph{en tiempo de ejecución}}.\pause
+ \begin{itemize}
+  \item Existen muchos trabajos sobre distintas formas de comparar la seguridad de ambas plataformas.\pause
+  \item Esta tesina propone analizar distintas características relacionadas a la privacidad del usuario, \pause poniendo foco en \structure{los permisos que se pueden modificar \emph{en tiempo de ejecución}}.\pause
   \item Se analizaron cuatro características presentes en iOS y Andriod:\pause
      \begin{itemize}[<+->]
       \item Arranque verificado
@@ -53,11 +53,11 @@ Al comparar la gestión de permisos de ambas plataformas, encontramos varias sim
 \begin{frame}
  \frametitle{Análisis Comparativo}
 Respecto a cómo se definen los permisos: \pause
- \begin{itemize}[<+->]
-  \item En Android están orientados según el riesgo implícito al otorgarlos.
-  \item En iOS los permisos están orientados a los componentes.
- \end{itemize} \pause
- \begin{tiny}
+ \begin{itemize}
+  \item En Android están orientados según el riesgo implícito al otorgarlos.\pause
+  \item En iOS los permisos están orientados a los componentes.\pause
+ \end{itemize} 
+  \begin{tiny}
   \begin{table}[H]
     \centering
 	\begin{tabular}{c c c}
@@ -116,7 +116,7 @@ Si observamos la cobertura del sistema de permisos, \pause las dos plataformas d
 	\end{subfigure}\pause
 	\begin{subfigure}{.23\linewidth}
 		\includegraphics[width=\linewidth]{always_have_internet}
-		\caption{Sin embargo, tiene todos los permisos \emph{normales}.}
+		\caption{Tiene todos los permisos \emph{normales}.}
 		\label{fig:ch05:always_have_internet}
 	\end{subfigure}
 	\caption{Interacción con el usuario en iOS y Android.}
